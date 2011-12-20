@@ -1,6 +1,6 @@
 = DESCRIPTION:
 
-{Opscode Chef}[http://www.opscode.com/chef/] cookbook for td-agent (Treasure Data Agent).
+{Opscode Chef}[http://www.opscode.com/chef/] cookbook for td-agent (Treasure Data Agent). The release log of td-agent is available {here}[http://help.treasure-data.com/kb/installing-td-agent-daemon/changelog-of-td-agent].
 
 NOTE: td-agent is open-sourced as {Fluentd project}[http://github.com/fluent/]. If you want to use stable version of Fluentd, using this cookbook is recommended.
 
