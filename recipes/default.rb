@@ -30,21 +30,20 @@ directory '/etc/td-agent/' do
 end
 
 case node['platform']
-  when "ubuntu"
-    dist = 'lucid'
-    dist = 'precise' if node['lsb']['codename'] == 'precise'
-    source = dist == 'lucid' ? "http://packages.treasure-data.com/debian/" : "http://packages.treasure-data.com/precise/"
-    apt_repository "treasure-data" do
-      uri source
-      distribution dist
-      components ["contrib"]
-      action :add
-    end
-  when "centos", "redhat"
-    yum_repository "treasure-data" do
-      url "http://packages.treasure-data.com/redhat/$basearch"
-      action :add
-    end
+when "ubuntu"
+  dist = node['lsb']['codename']
+  source = (dist == 'precise') ? "http://packages.treasure-data.com/precise/" : "http://packages.treasure-data.com/debian/"
+  apt_repository "treasure-data" do
+    uri source
+    distribution dist
+    components ["contrib"]
+    action :add
+  end
+when "centos", "redhat"
+  yum_repository "treasure-data" do
+    url "http://packages.treasure-data.com/redhat/$basearch"
+    action :add
+  end
 end
 
 template "/etc/td-agent/td-agent.conf" do
