@@ -52,7 +52,10 @@ template "/etc/td-agent/td-agent.conf" do
 end
 
 package "td-agent" do
-  options "-f --force-yes"
+  options value_for_platform(
+    ["ubuntu", "debian"] => {"default" => "-f --force-yes"},
+    "default" => nil
+  )
   action :upgrade
 end
 
