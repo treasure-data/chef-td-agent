@@ -80,6 +80,11 @@ This installs the latest version of +aws-sdk+
       plugin false
     end
 
+== includes
+
+Optionally include /etc/td-agent/conf.d/*.conf files (i.e. symlinks, other recipes, etc.)
+
+- node[:td_agent][:includes] = false
 
 = USAGE:
 

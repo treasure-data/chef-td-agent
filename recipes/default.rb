@@ -51,6 +51,12 @@ template "/etc/td-agent/td-agent.conf" do
   source "td-agent.conf.erb"
 end
 
+if node['td_agent']['includes']
+  directory "/etc/td-agent/conf.d" do
+    mode "0644"
+  end
+end
+
 package "td-agent" do
   options value_for_platform(
     ["ubuntu", "debian"] => {"default" => "-f --force-yes"},
