@@ -39,6 +39,16 @@ when "ubuntu"
     components ["contrib"]
     action :add
   end
+when "debian"
+  codename = node['lsb']['codename']
+  dist = (codename == 'squeeze' ) ? "lucid" : "maverick"
+  source = "http://packages.treasure-data.com/debian/"
+  apt_repository "treasure-data" do
+    uri source
+    distribution dist
+    components ["contrib"]
+    action :add
+  end
 when "centos", "redhat"
   yum_repository "treasure-data" do
     url "http://packages.treasure-data.com/redhat/$basearch"
