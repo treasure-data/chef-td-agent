@@ -21,9 +21,65 @@ This cookbook has these external dependencies.
 
 = ATTRIBUTES:
 
+== api_key
+
 API Key, and the Secret Key are required.
 
 - node[:td_agent][:api_key] (required)
+
+== plugins
+
+A list of fluentd plugins to install. The +fluent-plugin-+ prefix is automatically added. Additional variables can be passed.
+
+- node[:td_agent][:plugins]
+
+=== Example
+
+This installs the latest version of +fluent-plugin-flowcounter+ and version 0.0.9 of +fluent-plugin-rewrite+.
+
+    node[:td_agent][:plugins] = [
+      "flowcounter",
+      { "rewrite" => { "version" => "0.0.9" } }
+    ]
+
+= RESOURCES / PROVIDERS:
+
+== td_agent_gem
+
+Installs a gem or fluentd plugin using the embedded +fluent-gem+
+
+=== Actions
+*Action*::  *Description*
+install::   Install the gem, optinally with a specific version. Default.
+upgrade::   Upgrade to the latest gem
+remove::    Remove the gem
+purge::     Purge the gem
+
+=== Attributes
+*Attribute*::   *Description*
+package_name::  Gem name. Defaults to +name+
+version::       Gem version. Installs the latest if none specified
+source::        Local .gem file
+options::       Options passed to the gem command
+gem_binary::    Override path to the gem command
+response_file:: Not supported
+plugin::        If true, no need to prefix the gem name w/ "fluent-plugin-". Defaults to +false+
+
+=== Examples
+
+This installs +fluent-plugin-datacounter+ (v0.1.8)
+
+    td_agent_gem "datacounter" do
+      version "0.1.8"
+      plugin true
+    end
+
+This installs the latest version of +aws-sdk+
+
+    td_agent_gem "aws-sdk" do
+      plugin false
+    end
+
 
 = USAGE:
 
@@ -40,5 +96,8 @@ This is an example role file.
       # for td-agent
       :td_agent => {
         :api_key => 'foo_bar_buz',
+        :plugins => [
+          'rewrite'
+        ]
       }
     )
