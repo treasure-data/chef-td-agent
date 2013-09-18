@@ -39,7 +39,7 @@ when "ubuntu"
     components ["contrib"]
     action :add
   end
-when "centos", "redhat"
+when "centos", "redhat", "amazon"
   yum_repository "treasure-data" do
     url "http://packages.treasure-data.com/redhat/$basearch"
     action :add
