@@ -48,7 +48,7 @@ end
 
 template "/etc/td-agent/td-agent.conf" do
   mode "0644"
-  source "td-agent.conf.erb"
+  source node[:td_agent][:template]
 end
 
 package "td-agent" do
