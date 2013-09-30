@@ -8,22 +8,23 @@
 
 <match OptimisPt.Rails.**>
   type mongo
-  host localhost          # MongoDB hostname
-  port 27017              # MongoDB port
-  user michael            # Authentication
-  password jordan
+  host <%= ['td_agent']['aggregator']['mongo_ip'] %>   # MongoDB hostname
+  port <%= ['td_agent']['aggregator']['mongo_port'] %> # MongoDB port
+  #user michael           # Authentication
+  #password jordan
 
   database OptimisLog   # Database name
   #capped                 # This option enables capped collection
   #capped_size            # Sets the capped collection size
 
-  #tag_mapped                       # Use Fluentd's tag to determine the destination collection
+  #tag_mapped                         # Use Fluentd's tag to determine the destination collection
   #remove_tag_prefix OptimisPt.Rails. # If the tag is "optimis.foo", then the prefix "optimis." is removed
-                                   # The inserted collection name is "foo"
+                                      # The inserted collection name is "foo"
 
-  collection Pt           # Collection name, (required, if not tag_mapped)
-                          # This configuration is used if the tag is not found
-                          # default = 'untagged'
+  # Collection name, (required, if not tag_mapped)
+  # This configuration is used if the tag is not found
+  # default = 'untagged'
+  collection Pt
 
   #buffer_type memory     # memory(default) or file
   #buffer_chunk_limit 8m  # default = 8m
