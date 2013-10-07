@@ -35,7 +35,7 @@ when "ubuntu"
   source = (dist == 'precise') ? "http://packages.treasure-data.com/precise/" : "http://packages.treasure-data.com/debian/"
   apt_repository "treasure-data" do
     uri source
-    distribution dist
+    distribution (dist == 'raring' ? 'lucid' : dist)
     components ["contrib"]
     action :add
   end
