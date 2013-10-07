@@ -8,8 +8,8 @@
 
 <match OptimisPt.Rails.**>
   type mongo
-  host <%= ['td_agent']['aggregator']['mongo_ip'] %>   # MongoDB hostname
-  port <%= ['td_agent']['aggregator']['mongo_port'] %> # MongoDB port
+  host <%= node['td_agent']['aggregator']['mongo_ip'] %>   # MongoDB hostname
+  port <%= node['td_agent']['aggregator']['mongo_port'] %> # MongoDB port
   #user michael           # Authentication
   #password jordan
 
