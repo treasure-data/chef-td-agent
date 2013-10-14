@@ -1,12 +1,16 @@
 # LOG FORWARDER CONFIG
-# Specify input source for td-agent
-# For td-agent on App server, tail Rails' log file
 <source>
   type monitor_agent
-  bind <%= node['td_agent']['forwarder']['monitor_agent_bind_ip'] %>
+  bind 0.0.0.0
   port 24220
 </source>
-      
+
+<source>
+  type debug_agent
+  bind 127.0.0.1
+  port 24230
+</source>
+
 <source>
   type tail
   format json                      # Use json plugin to match log entry
@@ -21,15 +25,6 @@
   # Fluentd will record the position it last read into this file
   pos_file <%= node['td_agent']['forwarder']['pos_file'] %>
 
-  # 'in_tail' actually does a bit more than tail -F itself. When rotating a file,
-  # some data may still need to be written to the old file as opposed to the new
-  # one.
-  # 'in_tail' takes care of this by keeping a reference to the old file (even
-  # after it has been rotated) for some time before transitioning completely to
-  # the new file. This helps prevent data designated for the old file from
-  # getting lost.
-  # The rotate_wait parameter accepts a single integer representing the number
-  # of seconds you want this time interval to be.
   #rotate_wait 5           # default = 5 seconds
 </source>
 
@@ -40,21 +35,21 @@
   #capitalize_regex_backreference yes
   rewriterule1 path ^\/keep_alive ${tag}.clear
   rewriterule2 path ^\/data_transform ${tag}.clear
-  rewriterule3 path (.+) ${tag}.${hostname}
+  rewriterule3 path (.+) ${tag}.Pt
 </match>
 
 <match OptimisPt.Rails.clear>
   type null
 </match>
 
-<match fluent.*>
+<match fluent.**>
   type file
   path <%= node['td_agent']['forwarder']['fluentd_log_file'] %>
   utc
   compress gzip
 </match>
 
-<match OptimisPt.Rails.**>                # Match by tag name
+<match OptimisPt.Rails.Pt>
   type forward            # Forward to another host
   #buffer_type memory     # memory or file
   #buffer_chunk_limit 8m  # Size of each buffer chunk, default = 8m (k=kB, m=MB, g=GB)
@@ -66,29 +61,17 @@
   #hard_timeout           # Hard timeout used to detect server failure, default = send_timeout
   recover_wait 10s        # Wait time before accepting a server fault recovery, default = 10s
 
-  #heartbeat_interval 1s  # Interval of the heartbeat packer, default = 1s
-  #phi_threshold 8        # Threshold parameter used to detect server faults, default = 8
-
-  <server>                # The destination servers, at least one is required
-    name <%= node['td_agent']['forwarder']['aggregator_name'] %>   # Name of the server. This parameter is used in error messages
-    host <%= node['td_agent']['forwarder']['aggregator_ip'] %>         # IP address or host name of the server
-    port 24224            # Port number of the host, default = 24224
-                          # Note that both TCP packets (event stream) and UDP packets (heartbeat message)
-                          # are sent to this port
-    #weight 20            # For load balancing between multiple servers
+  <server> # The destination servers, at least one is required
+    name <%= node['td_agent']['forwarder']['aggregator_name'] %>
+    host <%= node['td_agent']['forwarder']['aggregator_ip'] %>
+    #port 24224            # Port number of the host, default = 24224
   </server>
 
-  <secondary>             # The backup destination that is used when all servers are unavailable
+  <secondary> # The backup destination that is used when all servers are unavailable
     type file
     path <%= node['td_agent']['forwarder']['forward_failed_file'] %>
     utc                   # Uses UTC for path formatting, default = localtime
     compress gzip         # Compresses flushed files using gzip. No compression is performed by default
-
-    #time_slice_format    # Default = %Y%m%d, which creates one file per day
-                          # To create a file every hour, use %Y%m%d%H
-
-    #time_slice_wait      # The amount of time Fluentd will wait for old logs to arrive
-                          # This is used to account for delays in logs arriving to your Fluentd node
   </secondary>
 </match>
 
