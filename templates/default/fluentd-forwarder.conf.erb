@@ -36,7 +36,7 @@
   #capitalize_regex_backreference yes
   rewriterule1 path ^\/keep_alive ${tag}.clear
   rewriterule2 path ^\/data_transform ${tag}.clear
-  rewriterule3 path (.+) ${tag}.audit_log_entries
+  rewriterule3 path (.+) ${tag}.log_entries
 </match>
 
 <match OptimisPt.Rails.clear>
@@ -50,7 +50,7 @@
   compress gzip
 </match>
 
-<match OptimisPt.Rails.audit_log_entries>
+<match OptimisPt.Rails.log_entries>
   type forward            # Forward to another host
   #buffer_type memory     # memory or file
   #buffer_chunk_limit 8m  # Size of each buffer chunk, default = 8m (k=kB, m=MB, g=GB)
