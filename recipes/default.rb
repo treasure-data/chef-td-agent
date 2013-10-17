@@ -29,6 +29,20 @@ directory '/etc/td-agent/' do
   action :create
 end
 
+directory '/var/run/td-agent' do
+  owner  'devel'
+  group  'devel'
+  mode   '0755'
+  action :create
+end
+
+directory '/var/log/td-agent' do
+  owner  'devel'
+  group  'devel'
+  mode   '0755'
+  action :create
+end
+
 case node['platform']
 when "ubuntu"
   dist = node['lsb']['codename']
