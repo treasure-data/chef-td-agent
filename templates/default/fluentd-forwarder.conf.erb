@@ -1,4 +1,5 @@
 # LOG FORWARDER CONFIG
+
 <source>
   type monitor_agent
   bind 0.0.0.0
@@ -35,21 +36,21 @@
   #capitalize_regex_backreference yes
   rewriterule1 path ^\/keep_alive ${tag}.clear
   rewriterule2 path ^\/data_transform ${tag}.clear
-  rewriterule3 path (.+) ${tag}.Pt
+  rewriterule3 path (.+) ${tag}.audit_log_entries
 </match>
 
 <match OptimisPt.Rails.clear>
   type null
 </match>
 
-<match fluent.**>
+<match fluent.*>
   type file
   path <%= node['td_agent']['forwarder']['fluentd_log_file'] %>
   utc
   compress gzip
 </match>
 
-<match OptimisPt.Rails.Pt>
+<match OptimisPt.Rails.audit_log_entries>
   type forward            # Forward to another host
   #buffer_type memory     # memory or file
   #buffer_chunk_limit 8m  # Size of each buffer chunk, default = 8m (k=kB, m=MB, g=GB)
