@@ -27,7 +27,6 @@ directory '/etc/td-agent/' do
   group  'devel'
   mode   '0755'
   action :create
-  recursive true
 end
 
 directory '/var/run/td-agent' do
@@ -35,7 +34,6 @@ directory '/var/run/td-agent' do
   group  'devel'
   mode   '0755'
   action :create
-  recursive true
 end
 
 directory '/var/log/td-agent' do
@@ -43,7 +41,6 @@ directory '/var/log/td-agent' do
   group  'devel'
   mode   '0755'
   action :create
-  recursive true
 end
 
 case node['platform']
