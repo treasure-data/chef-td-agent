@@ -5,40 +5,32 @@
 # Copyright 2011, Treasure Data, Inc.
 #
 
-# group 'td-agent' do
-#   group_name 'td-agent'
-#   gid        403
-#   action     [:create]
-# end
+include_recipe "ulimit"
 
-# user 'td-agent' do
-#   comment  'td-agent'
-#   uid      403
-#   group    'td-agent'
-#   home     '/var/run/td-agent'
-#   shell    '/bin/false'
-#   password nil
-#   supports :manage_home => true
-#   action   [:create, :manage]
-# end
+group 'td-agent' do
+  group_name 'td-agent'
+  gid        403
+  action     [:create]
+end
+
+user 'td-agent' do
+  comment  'td-agent'
+  uid      403
+  group    'td-agent'
+  home     '/var/run/td-agent'
+  shell    '/bin/false'
+  password nil
+  supports :manage_home => true
+  action   [:create, :manage]
+end
+
+user_ulimit "td-agent" do
+  filehandle_limit 8192
+end
 
 directory '/etc/td-agent/' do
-  owner  'devel'
-  group  'devel'
-  mode   '0755'
-  action :create
-end
-
-directory '/var/run/td-agent' do
-  owner  'devel'
-  group  'devel'
-  mode   '0755'
-  action :create
-end
-
-directory '/var/log/td-agent' do
-  owner  'devel'
-  group  'devel'
+  owner  'td-agent'
+  group  'td-agent'
   mode   '0755'
   action :create
 end
@@ -61,15 +53,8 @@ when "centos", "redhat", "amazon"
 end
 
 template "/etc/td-agent/td-agent.conf" do
-  owner 'devel'
-  group 'devel'
   mode "0644"
-  source node[:td_agent][:template]
-end
-
-template "/etc/init.d/td-agent" do
-  mode '755'
-  source "etc_initd_td-agent.erb"
+  source "td-agent.conf.erb"
 end
 
 package "td-agent" do

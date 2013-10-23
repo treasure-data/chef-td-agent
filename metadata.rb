@@ -3,7 +3,7 @@ maintainer_email "k@treasure-data.com"
 license          "All rights reserved"
 description      "Installs/Configures td-agent"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.1.0"
+version          "0.1.2"
 recipe           "td-agent", "td-agent configuration"
 
 %w{redhat centos amazon debian ubuntu}.each do |os|
@@ -12,6 +12,7 @@ end
 
 depends 'apt'
 depends 'yum'
+depends 'ulimit'
 
 attribute "td_agent/api_key",
   :display_name => "Treasure Data ApiKey",
