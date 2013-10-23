@@ -42,8 +42,7 @@
     pattern2 300 ^3\d\d$
     pattern3 400 ^4\d\d$
     pattern4 500 ^5\d\d$
-    outcast_unmatched yes # '*_percentage' fields culculated without 'unmatched' counts, and
-                          # 'unmatched_percentage' field will not be produced
+    outcast_unmatched yes
     output_messages yes
     tag fluentd.counter.status_count
   </store>
@@ -53,8 +52,7 @@
     count_key method
     pattern1 GET ^GET$
     pattern2 POST ^POST$
-    outcast_unmatched yes # '*_percentage' fields culculated without 'unmatched' counts, and
-                          # 'unmatched_percentage' field will not be produced
+    outcast_unmatched yes
     output_messages yes
     tag fluentd.counter.method_count
   </store>
