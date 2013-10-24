@@ -29,26 +29,15 @@
   </store>
   <store>
     type flowcounter
-    unit hour
+    input_tag_remove_prefix OptimisPt.Rails
+    unit <%= node['td_agent']['aggregator']['flowcounter_unit'] %>
     count_keys *
-    aggregate all
     tag fluentd.counter.flow_count
   </store>
   <store>
     type datacounter
-    counter_interval <%= node['td_agent']['aggregator']['datacounter_interval'] %>
-    count_key status
-    pattern1 200 ^2\d\d$
-    pattern2 300 ^3\d\d$
-    pattern3 400 ^4\d\d$
-    pattern4 500 ^5\d\d$
-    outcast_unmatched yes
-    output_messages yes
-    tag fluentd.counter.status_count
-  </store>
-  <store>
-    type datacounter
-    counter_interval <%= node['td_agent']['aggregator']['datacounter_interval'] %>
+    input_tag_remove_prefix OptimisPt.Rails
+    count_interval <%= node['td_agent']['aggregator']['datacounter_interval'] %>
     count_key method
     pattern1 GET ^GET$
     pattern2 POST ^POST$
@@ -59,10 +48,17 @@
 </match>
 
 <match fluentd.counter.*>
-  type mongo
-  host <%= node['td_agent']['aggregator']['mongo_ip'] %>
-  port <%= node['td_agent']['aggregator']['mongo_port'] %>
-  database <%= node['td_agent']['aggregator']['mongo_db_for_counter'] %>
-  tag_mapped
-  remove_tag_prefix fluentd.counter.
+  type copy
+  <store>
+    type mongo
+    host <%= node['td_agent']['aggregator']['mongo_ip'] %>
+    port <%= node['td_agent']['aggregator']['mongo_port'] %>
+    database <%= node['td_agent']['aggregator']['mongo_db_for_counter'] %>
+    tag_mapped
+    remove_tag_prefix fluentd.counter.
+  </store>
+  <store>
+    type file
+    path /var/log/td-agent/fluentd.counter.log
+  </store>
 </match>
