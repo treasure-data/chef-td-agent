@@ -1,0 +1,81 @@
+# LOG FORWARDER CONFIG
+
+<source>
+  type monitor_agent
+  bind 0.0.0.0
+  port 24220
+</source>
+
+<source>
+  type debug_agent
+  bind 127.0.0.1
+  port 24230
+</source>
+
+<source>
+  type tail
+  format json                      # Use json plugin to match log entry
+  time_format %Y-%m-%dT%H:%M:%S%:z # 2013-08-29T15:59:37+08:00
+                                   # Required only if the format includes a 'time capture and
+                                   # it cannot be parsed automatically
+
+  tag OptimisPt.Rails              # tag1.tag2.tag3.**
+
+  path <%= node['td_agent']['forwarder']['log_path'] %>
+
+  # Fluentd will record the position it last read into this file
+  pos_file <%= node['td_agent']['forwarder']['pos_file'] %>
+
+  #rotate_wait 5           # default = 5 seconds
+</source>
+
+# Using plugin rewrite-tag-filter, https://github.com/y-ken/fluent-plugin-rewrite-tag-filter
+# Rewrite tag according to "path" and ignore unneeded logs
+<match OptimisPt.Rails>
+  type rewrite_tag_filter
+  #capitalize_regex_backreference yes
+  rewriterule1 path ^\/keep_alive ${tag}.clear
+  rewriterule2 path ^\/data_transform ${tag}.clear
+  rewriterule3 path (.+) ${tag}.log_entries
+</match>
+
+<match OptimisPt.Rails.clear>
+  type null
+</match>
+
+<match fluent.*>
+  type file
+  path <%= node['td_agent']['forwarder']['fluentd_log_file'] %>
+  utc
+  compress gzip
+</match>
+
+<match OptimisPt.Rails.log_entries>
+  type forward            # Forward to another host
+  #buffer_type memory     # memory or file
+  #buffer_chunk_limit 8m  # Size of each buffer chunk, default = 8m (k=kB, m=MB, g=GB)
+  #buffer_queue_limit 64  # Length limit of the chunk queue, default = 64
+  #flush_interval 60s     # Interval between data flushes, default = 60s (s=second, m=minute, h=hour)
+  retry_wait 1s           # Interval between write retries, default = 1.0
+  retry_limit 10          # Number of retries
+  send_timeout 60s        # Timeout time when sending event logs, default = 60s
+  #hard_timeout           # Hard timeout used to detect server failure, default = send_timeout
+  recover_wait 10s        # Wait time before accepting a server fault recovery, default = 10s
+
+  <server> # The destination servers, at least one is required
+    name <%= node['td_agent']['forwarder']['aggregator_name'] %>
+    host <%= node['td_agent']['forwarder']['aggregator_ip'] %>
+    #port 24224            # Port number of the host, default = 24224
+  </server>
+
+  <secondary> # The backup destination that is used when all servers are unavailable
+    type file
+    path <%= node['td_agent']['forwarder']['forward_failed_file'] %>
+    utc                   # Uses UTC for path formatting, default = localtime
+    compress gzip         # Compresses flushed files using gzip. No compression is performed by default
+  </secondary>
+</match>
+
+<match **>
+  type null
+</match>
