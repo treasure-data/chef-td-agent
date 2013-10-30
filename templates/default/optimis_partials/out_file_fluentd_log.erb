@@ -1,0 +1,6 @@
+<match fluent.*>
+  type file
+  path <%= @path || "/var/log/td-agent/fluentd.log" %>
+  utc
+  compress gzip
+</match>
