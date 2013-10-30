@@ -6,7 +6,7 @@
 
 <%= render "in_forward_pt_log", source: "#{partial_path}/in_forward_pt_log.erb" %>
 
-<%= render "out_mongo_pt_log", source: "#{partial_path}/out_mongo_pt_log.erb", variables: {host: "mongodb.internal", database:"optimis_prism_rc"} %>
+<%= render "out_mongo_pt_log", source: "#{partial_path}/out_mongo_pt_log.erb", variables: {host: "mongo.internal", database:"optimis_prism_rc"} %>
 
 <match **>
   type null
