@@ -1,66 +1,13 @@
 # LOG AGGREGATOR CONFIG
-<source>
-  type forward
-  port 24224    # The port to listen to, default = 24224
-  bind 0.0.0.0  # The bind address to listen to, default = 0.0.0.0 (all addresses)
-</source>
 
-<source>
-  type monitor_agent
-  bind 0.0.0.0
-  port 24220
-</source>
+<% partial_path = "optimis_partials" %>
 
-<source>
-  type debug_agent
-  bind 127.0.0.1
-  port 24230
-</source>
+<%= render "debug", source: "#{partial_path}/debug.erb" %>
 
-<match OptimisPt.Rails.*>
-  type copy
-  <store>
-    type mongo
-    host <%= node['td_agent']['aggregator']['mongo_ip'] %>
-    port <%= node['td_agent']['aggregator']['mongo_port'] %>
-    database <%= node['td_agent']['aggregator']['mongo_db'] %>
-    tag_mapped
-    remove_tag_prefix OptimisPt.Rails.
-  </store>
-  <store>
-    type flowcounter
-    input_tag_remove_prefix OptimisPt.Rails
-    unit <%= node['td_agent']['aggregator']['flowcounter_unit'] %>
-    count_keys *
-    tag fluentd.counter.flow_count
-  </store>
-  <store>
-    type datacounter
-    input_tag_remove_prefix OptimisPt.Rails
-    count_interval <%= node['td_agent']['aggregator']['datacounter_interval'] %>
-    count_key method
-    pattern1 GET ^GET$
-    pattern2 POST ^POST$
-    pattern3 PUT ^PUT$
-    pattern4 DELETE ^DELETE$
-    outcast_unmatched yes
-    output_messages yes
-    tag fluentd.counter.method_count
-  </store>
-</match>
+<%= render "in_forward_pt_log", source: "#{partial_path}/in_forward_pt_log.erb" %>
 
-<match fluentd.counter.*>
-  type copy
-  <store>
-    type mongo
-    host <%= node['td_agent']['aggregator']['mongo_ip'] %>
-    port <%= node['td_agent']['aggregator']['mongo_port'] %>
-    database <%= node['td_agent']['aggregator']['mongo_db_for_counter'] %>
-    tag_mapped
-    remove_tag_prefix fluentd.counter.
-  </store>
-  <store>
-    type file
-    path /var/log/td-agent/fluentd.counter.log
-  </store>
+<%= render "out_mongo_pt_log", source: "#{partial_path}/out_mongo_pt_log.erb" %>
+
+<match **>
+  type null
 </match>
