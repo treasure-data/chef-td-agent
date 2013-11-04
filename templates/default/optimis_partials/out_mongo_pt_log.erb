@@ -4,7 +4,7 @@
     type mongo
     host <%= @host ||= "AuditLogDB.internal" %>
     port <%= @port ||= "27017" %>
-    database <%= @database ||= "optimis_prism" %>
+    database <%= @database ||= "optimis_prism_production" %>
     tag_mapped
     remove_tag_prefix <%= @tag %>.
   </store>
