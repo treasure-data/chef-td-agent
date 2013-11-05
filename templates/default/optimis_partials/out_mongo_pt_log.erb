@@ -49,6 +49,8 @@
     ignore_duplicate_key_error true
     tag_mapped
     remove_tag_prefix audit_log.
+    flush_interval 10s
+    buffer_queue_limit 128
   </store>
   <store>
     type file
