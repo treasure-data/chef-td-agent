@@ -1,29 +1,33 @@
-<match <%= @tag ||= "OptimisPt.Rails" %>.*>
+<% @tag ||= "OptimisPt.Rails" -%>
+<% @host ||= "AuditLogDB.internal" -%>
+<% @port ||= "27017" -%>
+<% @database ||= "optimis_prism_production" -%>
+<% @flowcounter_unit || "minute" -%>
+<% @datacounter_interval || "600" -%>
+
+<match <%= @tag %>.*>
   type copy
   <store>
-    type mongo
-    host <%= @host ||= "AuditLogDB.internal" %>
-    port <%= @port ||= "27017" %>
-    database <%= @database ||= "optimis_prism_production" %>
-    tag_mapped
-    remove_tag_prefix <%= @tag %>.
+    type rewrite
+    remove_prefix <%= @tag %>
+    add_prefix audit_log.log_entries
   </store>
   <store>
     type map
-    map [["log_entries.patients", time, {"practice_id"=>record["practice_id"], "patient_id"=>record["patient_id"], "patient_name"=>record["patient_name"]}],["log_entries.users", time, {"practice_id"=>record["practice_id"].to_i, "user_id"=>record["user_id"], "user_name"=>record["user_name"]}]]
+    map [["audit_log.patients", time, {"practice_id"=>record["practice_id"], "patient_id"=>record["patient_id"], "patient_name"=>record["patient_name"]}],["audit_log.users", time, {"practice_id"=>record["practice_id"].to_i, "user_id"=>record["user_id"], "user_name"=>record["user_name"]}]]
     multi true
   </store>
   <store>
     type flowcounter
     input_tag_remove_prefix <%= @tag %>
-    unit <%= @flowcounter_unit || "minute" %>
+    unit <%= @flowcounter_unit %>
     count_keys *
-    tag log_entries.flow_count
+    tag audit_log.flow_count
   </store>
   <store>
     type datacounter
     input_tag_remove_prefix <%= @tag %>
-    count_interval <%= @datacounter_interval || "600" %>
+    count_interval <%= @datacounter_interval %>
     count_key method
     pattern1 GET ^GET$
     pattern2 POST ^POST$
@@ -31,11 +35,11 @@
     pattern4 DELETE ^DELETE$
     outcast_unmatched yes
     output_messages yes
-    tag log_entries.method_count
+    tag audit_log.method_count
   </store>
 </match>
 
-<match log_entries.*>
+<match audit_log.*>
   type copy
   <store>
     type mongo
@@ -44,10 +48,10 @@
     database <%= @database %>
     ignore_duplicate_key_error true
     tag_mapped
-    remove_tag_prefix log_entries.
+    remove_tag_prefix audit_log.
   </store>
   <store>
     type file
-    path /var/log/td-agent/fluentd.counter.log
+    path /var/log/td-agent/audit_log.log
   </store>
 </match>
