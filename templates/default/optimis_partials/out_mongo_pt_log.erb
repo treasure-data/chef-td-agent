@@ -2,8 +2,8 @@
 <% @host ||= "AuditLogDB.internal" -%>
 <% @port ||= "27017" -%>
 <% @database ||= "optimis_prism_production" -%>
-<% @flowcounter_unit || "minute" -%>
-<% @datacounter_interval || "600" -%>
+<% @flowcounter_unit ||= "minute" -%>
+<% @datacounter_interval ||= "600" -%>
 
 <match <%= @tag %>.*>
   type copy
