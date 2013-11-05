@@ -10,7 +10,7 @@
   </store>
   <store>
     type map
-    map [["log_entries.patients", time, {"practice_id"=>record["practice_id"], "patient_name"=>record["patient_name"]}],["log_entries.users", time, {"practice_id"=>record["practice_id"].to_i, "user_name"=>record["user_name"]}]]
+    map [["log_entries.patients", time, {"practice_id"=>record["practice_id"], "patient_id"=>record["patient_id"], "patient_name"=>record["patient_name"]}],["log_entries.users", time, {"practice_id"=>record["practice_id"].to_i, "user_id"=>record["user_id"], "user_name"=>record["user_name"]}]]
     multi true
   </store>
   <store>
