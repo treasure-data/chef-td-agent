@@ -10,7 +10,7 @@
   <store>
     type rewrite_tag_filter
     remove_tag_prefix <%= @tag %>
-    rewriterule1 user_name \w+ audit_log.log_entries
+    rewriterule1 user_name .+ audit_log.log_entries
   </store>
   <store>
     type map
