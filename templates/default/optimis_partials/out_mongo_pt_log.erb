@@ -8,9 +8,9 @@
 <match <%= @tag %>.*>
   type copy
   <store>
-    type rewrite
-    remove_prefix <%= @tag %>
-    add_prefix audit_log
+    type rewrite_tag_filter
+    remove_tag_prefix <%= @tag %>
+    rewriterule1 user_name \w+ audit_log.log_entries
   </store>
   <store>
     type map
