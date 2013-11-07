@@ -80,4 +80,7 @@
   database <%= @database %>
   tag_mapped
   remove_tag_prefix log_entries.
+  buffer_type file
+  buffer_path /var/log/td-agent/buffer/mongo.log_entries.buffer.*
+  buffer_queue_limit 1024
 </match>
