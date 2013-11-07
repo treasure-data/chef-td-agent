@@ -9,12 +9,23 @@
   type copy
   <store>
     type rewrite_tag_filter
-    remove_tag_prefix <%= @tag %>
-    rewriterule1 user_name .+ audit_log.log_entries
+    rewriterule1 path ^\/keep_alive ignore
+    rewriterule2 path ^\/data_transform ignore
+    rewriterule3 path ^\/api\/ ignore
+    rewriterule4 user_name .+ audit_log
+    rewriterule5 path .+ ignore
   </store>
   <store>
+    type rewrite_tag_filter
+    rewriterule1 path .+ log_entries.raw_data
+  </store>
+</match>
+
+<match audit_log>
+  type copy
+  <store>
     type map
-    map [["audit_log.patients", time, {"practice_id"=>record["practice_id"].to_i, "patient_id"=>record["patient_id"].to_i, "patient_name"=>record["patient_name"]}], ["audit_log.users", time, {"practice_id"=>record["practice_id"].to_i, "user_id"=>record["user_id"].to_i, "user_name"=>record["user_name"]}]]
+    map [["log_entries.patients", record["time"], {"practice_id"=>record["practice_id"].to_i, "patient_id"=>record["patient_id"].to_i, "patient_name"=>record["patient_name"]}], ["log_entries.users", record["time"], {"practice_id"=>record["practice_id"].to_i, "user_id"=>record["user_id"].to_i, "user_name"=>record["user_name"]}], "log_entries.log_entries", record["time"], {"method"=>record["method"], "path"=>record["path"], "format"=>record["format"], "controller"=>record["controller"], "action"=>record["action"], "status"=>record["status"], "params"=>record["params"], "remote_ip"=>record["remote_ip"], "practice_id"=>record["practice_id"], "clinic_id"=>record["clinic_id"], "user_id"=>record["user_id"], "user_name"=>record["user_name"]}]
     multi true
   </store>
   <store>
@@ -22,7 +33,7 @@
     input_tag_remove_prefix <%= @tag %>
     unit <%= @flowcounter_unit %>
     count_keys *
-    tag audit_log.flow_count
+    tag log_entries.flow_count
   </store>
   <store>
     type datacounter
@@ -35,15 +46,15 @@
     pattern4 DELETE ^DELETE$
     outcast_unmatched yes
     output_messages yes
-    tag audit_log.method_count
+    tag log_entries.method_count
   </store>
 </match>
 
-<match audit_log.*>
+<match log_entries.*>
   type mongo
   host <%= @host %>
   port <%= @port %>
   database <%= @database %>
   tag_mapped
-  remove_tag_prefix audit_log.
+  remove_tag_prefix log_entries.
 </match>
