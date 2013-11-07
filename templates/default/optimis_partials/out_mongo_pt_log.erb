@@ -50,6 +50,29 @@
   </store>
 </match>
 
+<match log_entries.raw_data>
+  type copy
+  <store>
+    type file
+    path /var/log/td-agent/log_entries.raw_data
+    time_slice_format %Y%m%d
+    time_slice_wait 10m
+    time_format %Y%m%dT%H%M%S%z
+    compress gzip
+    utc
+  </store>
+  <store>
+    type mongo
+    host <%= @host %>
+    port <%= @port %>
+    database <%= @database %>
+    tag_mapped
+    remove_tag_prefix log_entries.
+    capped
+    capped_size 4096m
+  </store>
+</match>
+
 <match log_entries.*>
   type mongo
   host <%= @host %>
