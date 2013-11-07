@@ -25,7 +25,7 @@
   type copy
   <store>
     type map
-    map [["log_entries.patients", record["time"], {"practice_id"=>record["practice_id"].to_i, "patient_id"=>record["patient_id"].to_i, "patient_name"=>record["patient_name"]}], ["log_entries.users", record["time"], {"practice_id"=>record["practice_id"].to_i, "user_id"=>record["user_id"].to_i, "user_name"=>record["user_name"]}], "log_entries.log_entries", record["time"], {"method"=>record["method"], "path"=>record["path"], "format"=>record["format"], "controller"=>record["controller"], "action"=>record["action"], "status"=>record["status"], "params"=>record["params"], "remote_ip"=>record["remote_ip"], "practice_id"=>record["practice_id"], "clinic_id"=>record["clinic_id"], "user_id"=>record["user_id"], "user_name"=>record["user_name"]}]
+    map [["log_entries.patients", record["time"], {"practice_id"=>record["practice_id"].to_i, "patient_id"=>record["patient_id"].to_i, "patient_name"=>record["patient_name"]}], ["log_entries.users", record["time"], {"practice_id"=>record["practice_id"].to_i, "user_id"=>record["user_id"].to_i, "user_name"=>record["user_name"]}], ["log_entries.log_entries", record["time"], {"method"=>record["method"], "path"=>record["path"], "format"=>record["format"], "controller"=>record["controller"], "action"=>record["action"], "status"=>record["status"], "params"=>record["params"], "remote_ip"=>record["remote_ip"], "practice_id"=>record["practice_id"], "clinic_id"=>record["clinic_id"], "user_id"=>record["user_id"], "user_name"=>record["user_name"]}]]
     multi true
   </store>
   <store>
