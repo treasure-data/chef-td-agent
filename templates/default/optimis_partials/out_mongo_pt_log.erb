@@ -60,7 +60,7 @@
     time_format %Y%m%dT%H%M%S%z
     compress gzip
     utc
-    buffer_chunk_limit 1024m
+    buffer_chunk_limit 2048m
   </store>
   <store>
     type mongo
@@ -83,5 +83,6 @@
   remove_tag_prefix log_entries.
   buffer_type file
   buffer_path /var/log/td-agent/buffer/mongo.*.buffer
+  flush_at_shutdown true
   buffer_queue_limit 1024
 </match>
