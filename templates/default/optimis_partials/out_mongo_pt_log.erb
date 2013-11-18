@@ -30,14 +30,12 @@
   </store>
   <store>
     type flowcounter
-    input_tag_remove_prefix audit_log
     unit <%= @flowcounter_unit %>
     count_keys *
     tag log_entries.flow_count
   </store>
   <store>
     type datacounter
-    input_tag_remove_prefix audit_log
     count_interval <%= @datacounter_interval %>
     count_key method
     pattern1 GET ^GET$
