@@ -1,24 +1,37 @@
 <match <%= @tag || "OptimisPt.Rails" %>>
-  type forward
-  flush_interval <%= @flush_interval || "60s" %>
-  #buffer_type memory     # memory or file
-  #buffer_chunk_limit 8m  # Size of each buffer chunk, default = 8m (k=kB, m=MB, g=GB)
-  #buffer_queue_limit 64  # Length limit of the chunk queue, default = 64
-
-  retry_wait 1s           # Interval between write retries, default = 1.0
-  retry_limit 10          # Number of retries
-  send_timeout 60s        # Timeout time when sending event logs, default = 60s
-  recover_wait 10s        # Wait time before accepting a server fault recovery, default = 10s
-
-  <server> # The destination servers, at least one is required
-    name <%= @name || "AuditLogDB" %>
-    host <%= @host || "AuditLogDB.internal" %>
-    port <%= @port || "24224" %>
-  </server>
-
-  <secondary> # The backup destination that is used when all servers are unavailable
+  type copy
+  <store>
     type file
-    path <%= @secondary_path || "/var/log/td-agent/fluentd_forward_fail.log" %>
+    path /var/log/td-agent/log_entries.raw_data
+    time_slice_format %Y%m%d
+    time_slice_wait 10m
+    time_format %Y%m%dT%H%M%S%z
+    compress gzip
     utc
-  </secondary>
+    buffer_chunk_limit 1024m
+  </store>
+  <store>
+    type forward
+    flush_interval <%= @flush_interval || "60s" %>
+    #buffer_type memory     # memory or file
+    #buffer_chunk_limit 8m  # Size of each buffer chunk, default = 8m (k=kB, m=MB, g=GB)
+    #buffer_queue_limit 64  # Length limit of the chunk queue, default = 64
+
+    retry_wait 1s           # Interval between write retries, default = 1.0
+    retry_limit 10          # Number of retries
+    send_timeout 60s        # Timeout time when sending event logs, default = 60s
+    recover_wait 10s        # Wait time before accepting a server fault recovery, default = 10s
+
+    <server> # The destination servers, at least one is required
+      name <%= @name || "AuditLogDB" %>
+      host <%= @host || "AuditLogDB.internal" %>
+      port <%= @port || "24224" %>
+    </server>
+
+    <secondary> # The backup destination that is used when all servers are unavailable
+      type file
+      path <%= @secondary_path || "/var/log/td-agent/fluentd_forward_fail.log" %>
+      utc
+    </secondary>
+  </store>
 </match>
