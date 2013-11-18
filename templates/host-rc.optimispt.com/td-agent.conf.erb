@@ -6,7 +6,6 @@
 
 <%= render "in_tail_pt_log", source: "#{partial_path}/in_tail_pt_log.erb", variables: {path: "/var/www/optimis/log/rc.log", pos_file: "/var/log/td-agent/rc.log.pos"} %>
 
-<%= render "rewrite_tag_pt_log", source: "#{partial_path}/rewrite_tag_pt_log.erb" %>
 
 <%= render "out_file_fluentd_log", source: "#{partial_path}/out_file_fluentd_log.erb" %>
 
