@@ -8,6 +8,8 @@
 
 <%= render "out_mongo_pt_log", source: "#{partial_path}/out_mongo_pt_log.erb", variables: {host: "mongo.internal", database:"optimis_prism_rc"} %>
 
+<%= render "out_file_fluentd_log", source: "#{partial_path}/out_file_fluentd_log.erb" %>
+
 <match **>
   type null
 </match>
