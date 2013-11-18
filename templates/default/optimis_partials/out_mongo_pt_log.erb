@@ -5,7 +5,7 @@
 <% @flowcounter_unit ||= "minute" -%>
 <% @datacounter_interval ||= "600" -%>
 
-<match <%= @tag %>.*>
+<match <%= @tag %>>
   type copy
   <store>
     type rewrite_tag_filter
@@ -72,6 +72,17 @@
     capped
     capped_size 4096m
   </store>
+</match>
+
+<match log_entries.{users,patients}>
+  type mongo
+  host <%= @host %>
+  port <%= @port %>
+  database <%= @database %>
+  tag_mapped
+  remove_tag_prefix log_entries.
+  flush_at_shutdown true
+  write_concern -1
 </match>
 
 <match log_entries.*>

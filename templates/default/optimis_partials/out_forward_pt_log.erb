@@ -1,4 +1,4 @@
-<match <%= @tag || "OptimisPt.Rails.log_entries" %>>
+<match <%= @tag || "OptimisPt.Rails" %>>
   type forward
   flush_interval <%= @flush_interval || "60s" %>
   #buffer_type memory     # memory or file
