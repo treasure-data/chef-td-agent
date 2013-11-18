@@ -6,6 +6,11 @@
 <% @datacounter_interval ||= "600" -%>
 
 <match <%= @tag %>>
+  type rename_key
+  rename_rule1 ^\$(.+) x$${md[1]}
+</match>
+
+<match <%= @tag %>.key_renamed>
   type copy
   <store>
     type rewrite_tag_filter
@@ -79,7 +84,6 @@
   database <%= @database %>
   tag_mapped
   remove_tag_prefix log_entries.
-  flush_at_shutdown true
   write_concern -1
 </match>
 
