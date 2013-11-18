@@ -1,16 +1,6 @@
 <match <%= @tag || "OptimisPt.Rails" %>>
   type copy
   <store>
-    type file
-    path /var/log/td-agent/log_entries.raw_data
-    time_slice_format %Y%m%d
-    time_slice_wait 10m
-    time_format %Y%m%dT%H%M%S%z
-    compress gzip
-    utc
-    buffer_chunk_limit 1024m
-  </store>
-  <store>
     type forward
     flush_interval <%= @flush_interval || "60s" %>
     #buffer_type memory     # memory or file
@@ -32,6 +22,7 @@
       type file
       path <%= @secondary_path || "/var/log/td-agent/fluentd_forward_fail.log" %>
       utc
+      buffer_chunk_limit 1024m
     </secondary>
   </store>
 </match>
