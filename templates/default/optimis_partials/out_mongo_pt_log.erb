@@ -1,0 +1,91 @@
+<% @tag ||= "OptimisPt.Rails" -%>
+<% @host ||= "AuditLogDB.internal" -%>
+<% @port ||= "27017" -%>
+<% @database ||= "optimis_prism_production" -%>
+<% @flowcounter_unit ||= "minute" -%>
+<% @datacounter_interval ||= "600" -%>
+
+<match <%= @tag %>>
+  type rename_key
+  rename_rule1 ^\$(.+) x$${md[1]}
+</match>
+
+<match <%= @tag %>.key_renamed>
+  type copy
+  <store>
+    type rewrite_tag_filter
+    rewriterule1 path ^\/keep_alive ignore
+    rewriterule2 path ^\/data_transform ignore
+    rewriterule3 path ^\/api\/ ignore
+    rewriterule4 user_name .+ audit_log
+    rewriterule5 path .+ ignore
+  </store>
+  <store>
+    type rewrite_tag_filter
+    rewriterule1 path .+ log_entries.raw_data
+  </store>
+</match>
+
+<match audit_log>
+  type copy
+  <store>
+    type map
+    map [["log_entries.log_entries", time, {"method"=>record["method"], "path"=>record["path"], "format"=>record["format"], "controller"=>record["controller"], "action"=>record["action"], "status"=>record["status"], "params"=>record["params"], "remote_ip"=>record["remote_ip"], "practice_id"=>record["practice_id"], "clinic_id"=>record["clinic_id"], "user_id"=>record["user_id"], "user_name"=>record["user_name"], "patient_id"=>record["patient_id"], "patient_name"=>record["patient_name"]}]]
+    multi true
+  </store>
+  <store>
+    type flowcounter
+    unit <%= @flowcounter_unit %>
+    count_keys *
+    tag log_entries.flow_count
+  </store>
+  <store>
+    type datacounter
+    count_interval <%= @datacounter_interval %>
+    count_key method
+    pattern1 GET ^GET$
+    pattern2 POST ^POST$
+    pattern3 PUT ^PUT$
+    pattern4 DELETE ^DELETE$
+    outcast_unmatched yes
+    output_messages yes
+    tag log_entries.method_count
+  </store>
+</match>
+
+<match log_entries.raw_data>
+  type copy
+  <store>
+    type file
+    path /var/log/td-agent/log_entries.raw_data
+    time_slice_format %Y%m%d
+    time_slice_wait 10m
+    time_format %Y%m%dT%H%M%S%z
+    compress gzip
+    utc
+    buffer_chunk_limit 2048m
+  </store>
+  <store>
+    type mongo
+    host <%= @host %>
+    port <%= @port %>
+    database <%= @database %>
+    tag_mapped
+    remove_tag_prefix log_entries.
+    capped
+    capped_size 2048m
+  </store>
+</match>
+
+<match log_entries.*>
+  type mongo
+  host <%= @host %>
+  port <%= @port %>
+  database <%= @database %>
+  tag_mapped
+  remove_tag_prefix log_entries.
+  buffer_type file
+  buffer_path /var/log/td-agent/buffer/mongo.*.buffer
+  flush_at_shutdown true
+  buffer_queue_limit 1024
+</match>

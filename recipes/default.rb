@@ -5,6 +5,8 @@
 # Copyright 2011, Treasure Data, Inc.
 #
 
+include_recipe "ulimit"
+
 group 'td-agent' do
   group_name 'td-agent'
   gid        403
@@ -22,6 +24,10 @@ user 'td-agent' do
   action   [:create, :manage]
 end
 
+user_ulimit "td-agent" do
+  filehandle_limit 8192
+end
+
 directory '/etc/td-agent/' do
   owner  'td-agent'
   group  'td-agent'
@@ -35,11 +41,11 @@ when "ubuntu"
   source = (dist == 'precise') ? "http://packages.treasure-data.com/precise/" : "http://packages.treasure-data.com/debian/"
   apt_repository "treasure-data" do
     uri source
-    distribution dist
+    distribution (dist == 'raring' ? 'lucid' : dist)
     components ["contrib"]
     action :add
   end
-when "centos", "redhat"
+when "centos", "redhat", "amazon"
   yum_repository "treasure-data" do
     url "http://packages.treasure-data.com/redhat/$basearch"
     action :add
