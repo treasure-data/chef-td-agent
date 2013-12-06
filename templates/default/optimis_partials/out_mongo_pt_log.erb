@@ -30,7 +30,7 @@
   type copy
   <store>
     type map
-    map [["log_entries.patients", time, {"practice_id"=>record["practice_id"], "patient_id"=>record["patient_id"], "patient_name"=>record["patient_name"]}], ["log_entries.users", time, {"practice_id"=>record["practice_id"], "user_id"=>record["user_id"], "user_name"=>record["user_name"]}], ["log_entries.log_entries", time, {"method"=>record["method"], "path"=>record["path"], "format"=>record["format"], "controller"=>record["controller"], "action"=>record["action"], "status"=>record["status"], "params"=>record["params"], "remote_ip"=>record["remote_ip"], "practice_id"=>record["practice_id"], "clinic_id"=>record["clinic_id"], "user_id"=>record["user_id"], "user_name"=>record["user_name"], "patient_id"=>record["patient_id"], "patient_name"=>record["patient_name"]}]]
+    map [["log_entries.log_entries", time, {"method"=>record["method"], "path"=>record["path"], "format"=>record["format"], "controller"=>record["controller"], "action"=>record["action"], "status"=>record["status"], "params"=>record["params"], "remote_ip"=>record["remote_ip"], "practice_id"=>record["practice_id"], "clinic_id"=>record["clinic_id"], "user_id"=>record["user_id"], "user_name"=>record["user_name"], "patient_id"=>record["patient_id"], "patient_name"=>record["patient_name"]}]]
     multi true
   </store>
   <store>
@@ -73,18 +73,8 @@
     tag_mapped
     remove_tag_prefix log_entries.
     capped
-    capped_size 4096m
+    capped_size 2048m
   </store>
-</match>
-
-<match log_entries.{users,patients}>
-  type mongo
-  host <%= @host %>
-  port <%= @port %>
-  database <%= @database %>
-  tag_mapped
-  remove_tag_prefix log_entries.
-  write_concern -1
 </match>
 
 <match log_entries.*>
