@@ -3,7 +3,7 @@ maintainer_email "k@treasure-data.com"
 license          "All rights reserved"
 description      "Installs/Configures td-agent"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.1.4"
+version          "0.1.5"
 recipe           "td-agent", "td-agent configuration"
 
 %w{redhat centos amazon debian ubuntu}.each do |os|

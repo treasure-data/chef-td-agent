@@ -10,6 +10,8 @@
 
 <%= render "out_file_fluentd_log", source: "#{partial_path}/out_file_fluentd_log.erb" %>
 
+<%= render "out_file_hl7_log", source: "#{partial_path}/out_file_hl7_log.erb", variables: {path: "/var/log/td-agent/hl7_rc.log"} %>
+
 <match **>
   type null
 </match>
