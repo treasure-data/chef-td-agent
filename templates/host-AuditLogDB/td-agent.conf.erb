@@ -4,11 +4,13 @@
 
 <%= render "debug", source: "#{partial_path}/debug.erb" %>
 
-<%= render "in_forward_pt_log", source: "#{partial_path}/in_forward_pt_log.erb" %>
+<%= render "in_forward", source: "#{partial_path}/in_forward.erb" %>
 
 <%= render "out_mongo_pt_log", source: "#{partial_path}/out_mongo_pt_log.erb" %>
 
 <%= render "out_file_fluentd_log", source: "#{partial_path}/out_file_fluentd_log.erb" %>
+
+<%= render "out_file_hl7_log", source: "#{partial_path}/out_file_hl7_log.erb"} %>
 
 <match **>
   type null
