@@ -1,4 +1,4 @@
-<match <%= @tag || "OptimisPt.Rails" %>>
+<match <%= @tag || "OptimisPt.Hl7" %>>
   type copy
   <store>
     type forward
@@ -20,7 +20,7 @@
 
     <secondary> # The backup destination that is used when all servers are unavailable
       type file
-      path <%= @secondary_path || "/var/log/td-agent/fluentd_forward_fail.pt.log" %>
+      path <%= @secondary_path || "/var/log/td-agent/fluentd_forward_fail.hl7.log" %>
       utc
       buffer_chunk_limit 1024m
     </secondary>
