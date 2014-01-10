@@ -11,7 +11,7 @@ recipe           "td-agent", "td-agent configuration"
 end
 
 depends 'apt'
-depends 'yum'
+depends 'yum', '~> 3.0'
 
 attribute "td_agent/api_key",
   :display_name => "Treasure Data ApiKey",
