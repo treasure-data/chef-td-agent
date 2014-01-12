@@ -42,6 +42,7 @@ when "ubuntu"
 when "centos", "redhat"
   yum_repository "treasure-data" do
     url "http://packages.treasure-data.com/redhat/$basearch"
+    gpgkey "http://packages.treasure-data.com/redhat/RPM-GPG-KEY-td-agent"
     action :add
   end
 end
