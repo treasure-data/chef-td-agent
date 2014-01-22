@@ -7,3 +7,13 @@
   pos_file <%= @pos_file || "/var/log/td-agent/lograge_production.log.pos" %>
   rotate_wait <%= @rotate_wait || 5 %>
 </source>
+
+<source>
+  type tail
+  format json
+  time_format %Y-%m-%dT%H:%M:%S%:z # 2013-08-29T15:59:37+08:00
+  tag <%= @tag || "OptimisPt.Rails" %>
+  path <%= @path || "/var/www/optimis/log/production.log" %>
+  pos_file <%= @pos_file || "/var/log/td-agent/production.log.pos" %>
+  rotate_wait <%= @rotate_wait || 5 %>
+</source>
