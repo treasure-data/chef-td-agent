@@ -1,9 +1,6 @@
 <match <%= @tag ||= "OptimisPt.Rails" %>>
   type rewrite_tag_filter
-  rewriterule1 path ^\/keep_alive ${tag}.clear
-  rewriterule2 path ^\/data_transform ${tag}.clear
-  rewriterule3 path ^\/api\/ ${tag}.clear
-  rewriterule4 path (.+) ${tag}.log_entries
+  rewriterule1 path (.+) ${tag}.log_entries
 </match>
 
 <match <%= @tag %>.clear>
