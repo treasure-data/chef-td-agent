@@ -66,11 +66,6 @@ package "td-agent" do
   action :upgrade
 end
 
-service "td-agent" do
-  action [ :enable, :start ]
-  subscribes :restart, resources(:template => "/etc/td-agent/td-agent.conf")
-end
-
 node[:td_agent][:plugins].each do |plugin|
   if plugin.is_a?(Hash)
     plugin_name, plugin_attributes = plugin.first
@@ -85,4 +80,9 @@ node[:td_agent][:plugins].each do |plugin|
       plugin true
     end
   end
+end
+
+service "td-agent" do
+  action [ :enable, :start ]
+  subscribes :restart, resources(:template => "/etc/td-agent/td-agent.conf")
 end
