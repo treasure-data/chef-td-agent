@@ -60,9 +60,9 @@ end
 
 package "td-agent" do
   options value_for_platform(
-            ["ubuntu", "debian"] => {"default" => "-f --force-yes"},
-            "default" => nil
-          )
+    ["ubuntu", "debian"] => {"default" => "-f --force-yes"},
+    "default" => nil
+    )
   action :upgrade
   version node[:td_agent][:version] if node[:td_agent][:pinning_version]
 end
