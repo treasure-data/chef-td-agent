@@ -42,6 +42,13 @@ This installs the latest version of +fluent-plugin-flowcounter+ and version 0.0.
       { "rewrite" => { "version" => "0.0.9" } }
     ]
 
+== pinning_version and version
+
+If `pinning_version` is true, then `versoin`s td-agent will be installed. The default `version` is latest version.
+
+- node[:td_agent][:pinning_version]
+- node[:td_agent][:version]
+
 = RESOURCES / PROVIDERS:
 
 == td_agent_gem
