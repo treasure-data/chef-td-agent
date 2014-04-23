@@ -49,6 +49,12 @@ If `pinning_version` is true, then `versoin`s td-agent will be installed. The de
 - node[:td_agent][:pinning_version]
 - node[:td_agent][:version]
 
+=== Limitation
+
+`pinning_version` and `version` attributes are now available for `rpm` package.
+The td-agent repository now use `reprepro` for building Deb repository.
+`reprepro` can not handle multiple versions of the same package.
+
 = RESOURCES / PROVIDERS:
 
 == td_agent_gem
