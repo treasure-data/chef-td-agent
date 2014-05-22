@@ -38,10 +38,11 @@ end
 case node['platform']
 when "ubuntu"
   dist = node['lsb']['codename']
-  source = (dist == 'precise' || dist == 'raring') ? "http://packages.treasure-data.com/precise/" : "http://packages.treasure-data.com/debian/"
+  dist = 'precise' if (dist == 'saucy' || dist == 'raring' )
+  source = (dist == 'precise') ? "http://packages.treasure-data.com/precise/" : "http://packages.treasure-data.com/debian/"
   apt_repository "treasure-data" do
     uri source
-    distribution (dist == 'raring' ? 'precise' : dist)
+    distribution dist
     components ["contrib"]
     action :add
   end
