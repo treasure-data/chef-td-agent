@@ -40,7 +40,7 @@ when "ubuntu"
     key "http://packages.treasure-data.com/debian/RPM-GPG-KEY-td-agent"
     action :add
   end
-when "centos", "redhat"
+when "centos", "redhat", "amazon"
   yum_repository "treasure-data" do
     url "http://packages.treasure-data.com/redhat/$basearch"
     gpgkey "http://packages.treasure-data.com/redhat/RPM-GPG-KEY-td-agent"
