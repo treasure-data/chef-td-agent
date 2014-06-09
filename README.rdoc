@@ -12,6 +12,12 @@ The {knife-github-cookbooks}[https://github.com/websterclay/knife-github-cookboo
     $ cd chef-repo
     $ knife cookbook github install treasure-data/chef-td-agent
 
+== NOTICE
+
+This cookbook can be used on Amazon Linux but we doesn't guarantee td-agent works on Amazon Linux because
+AWS doesn't guarantee the binary compatibility with RHEL (they said "as compatible as possible").
+If Amazon Linux has a compatibility problem, then td-agent may not work on Amazon Linux.
+
 = REQUIREMENTS:
 
 This cookbook has these external dependencies.
