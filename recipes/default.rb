@@ -48,11 +48,6 @@ when "centos", "redhat", "amazon"
   end
 end
 
-template "/etc/td-agent/td-agent.conf" do
-  mode "0644"
-  source "td-agent.conf.erb"
-end
-
 if node['td_agent']['includes']
   directory "/etc/td-agent/conf.d" do
     mode "0755"
@@ -82,5 +77,10 @@ end
 
 service "td-agent" do
   action [ :enable, :start ]
-  subscribes :restart, resources(:template => "/etc/td-agent/td-agent.conf")
+  subscribes :restart, "template[/etc/td-agent/td-agent.conf]"
+end
+
+template "/etc/td-agent/td-agent.conf" do
+  mode "0644"
+  source "td-agent.conf.erb"
 end
