@@ -60,7 +60,7 @@ if node['td_agent']['includes']
 end
 
 package "td-agent" do
-  action :upgrade
+  action :install
   version node[:td_agent][:version] if node[:td_agent][:pinning_version]
 end
 
