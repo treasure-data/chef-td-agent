@@ -86,10 +86,10 @@ plugin::        If true, no need to prefix the gem name w/ "fluent-plugin-". Def
 
 === Examples
 
-This installs +fluent-plugin-datacounter+ (v0.1.8)
+This installs +fluent-plugin-datacounter+ (v0.2.0)
 
     td_agent_gem "datacounter" do
-      version "0.1.8"
+      version "0.2.0"
       plugin true
     end
 
