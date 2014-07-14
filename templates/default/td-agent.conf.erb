@@ -1,5 +1,5 @@
 <% if node['td_agent']['includes'] %>
-include conf.d/*.conf 
+include conf.d/*.conf
 <% end %>
 <% if node['td_agent']['default_config'] %>
 ####
@@ -34,7 +34,8 @@ include conf.d/*.conf
 ## @see http://docs.fluentd.org/articles/in_forward
 <source>
   type forward
-  port 24224
+  port <%= node['td_agent']['in_forward']['port'] %>
+  bind <%= node['td_agent']['in_forward']['bind'] %>
 </source>
 
 ## built-in UNIX socket input
@@ -48,7 +49,8 @@ include conf.d/*.conf
 # @see http://docs.fluentd.org/articles/in_http
 <source>
   type http
-  port 8888
+  port <%= node['td_agent']['in_http']['port'] %>
+  bind <%= node['td_agent']['in_http']['bind'] %>
 </source>
 
 ## live debugging agent
