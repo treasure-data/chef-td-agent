@@ -43,6 +43,9 @@ class Chef
         def td_gem_binary_path
           if node['platform_family'] == "rhel" && node[:kernel][:machine] == "x86_64"
             "/usr/lib64/fluent/ruby/bin/fluent-gem"
+          elsif node['platform'] == 'ubuntu' &&
+              %w(trusty precise lucid).include?(node['lsb']['codename'])
+            '/opt/td-agent/embedded/bin/fluent-gem'
           else
             # Ubuntu/Debian works with /usr/lib
             "/usr/lib/fluent/ruby/bin/fluent-gem"
