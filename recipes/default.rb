@@ -32,7 +32,11 @@ end
 case node['platform']
 when "ubuntu"
   dist = node['lsb']['codename']
-  source = (dist == 'precise') ? "http://packages.treasuredata.com/precise/" : "http://packages.treasuredata.com/debian/"
+  if %w(trusty precise lucid).include? dist
+    source = "http://packages.treasuredata.com/2/ubuntu/#{dist}/"
+  else
+    source = 'http://packages.treasuredata.com/debian/'
+  end
   apt_repository "treasure-data" do
     uri source
     distribution dist
