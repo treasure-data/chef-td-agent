@@ -45,9 +45,10 @@ class Chef
             "/usr/lib64/fluent/ruby/bin/fluent-gem"
           elsif node['platform'] == 'ubuntu' &&
               %w(trusty precise lucid).include?(node['lsb']['codename'])
+            # Ubuntu Trusty/Precise/Lucid works with /opt
             '/opt/td-agent/embedded/bin/fluent-gem'
           else
-            # Ubuntu/Debian works with /usr/lib
+            # older Ubuntu/Debian works with /usr/lib
             "/usr/lib/fluent/ruby/bin/fluent-gem"
           end
         end
