@@ -134,7 +134,7 @@ This is an example role file.
 
 = HTTP API Options
 
-- node[:td_agent][:http_in][:enable_api] = true. 
+- node[:td_agent][:in_http][:enable_api] = true. 
 
 Access to the API may be turend off by setting enable_api to false. This may be of particular use when 
 td-agent is being used on endpoint systems that are forwarding logs to a centralized td-agent server.
