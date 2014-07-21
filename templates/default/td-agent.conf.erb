@@ -43,6 +43,7 @@ include conf.d/*.conf
 #  type unix
 #</source>
 
+<% if node[:td_agent][:in_http][:enable_api] %>
 # HTTP input
 # POST http://localhost:8888/<tag>?json=<json>
 # POST http://localhost:8888/td.myapp.login?json={"user"%3A"me"}
@@ -52,6 +53,7 @@ include conf.d/*.conf
   port <%= node['td_agent']['in_http']['port'] %>
   bind <%= node['td_agent']['in_http']['bind'] %>
 </source>
+<% end %>
 
 ## live debugging agent
 <source>
