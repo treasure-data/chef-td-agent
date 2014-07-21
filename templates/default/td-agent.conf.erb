@@ -43,7 +43,7 @@ include conf.d/*.conf
 #  type unix
 #</source>
 
-<% if node[:td_agent][:http_api] %>
+<% if node[:td_agent][:enable_http_api] %>
 # HTTP input
 # POST http://localhost:8888/<tag>?json=<json>
 # POST http://localhost:8888/td.myapp.login?json={"user"%3A"me"}
