@@ -44,7 +44,7 @@ class Chef
           if node['platform_family'] == "rhel" && node[:kernel][:machine] == "x86_64"
             "/usr/lib64/fluent/ruby/bin/fluent-gem"
           elsif node['platform'] == 'ubuntu' &&
-              node[:td_agent][:version].to_f >= 2
+              node[:td_agent][:version] !~ /^1\./
             # td-agent 2.x or later works with /opt
             '/opt/td-agent/embedded/bin/fluent-gem'
           else
