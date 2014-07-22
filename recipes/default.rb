@@ -34,16 +34,16 @@ when "ubuntu"
   version = node[:td_agent][:version]
   dist = node['lsb']['codename']
   source =
-    if version.to_f >= 2
-      # version 2.x or later
-      "http://packages.treasuredata.com/#{version}/ubuntu/#{dist}/"
-    else
+    if version =~ /^1\./
       # version 1.x
       if dist == 'precise'
         'http://packages.treasuredata.com/precise/'
       else
         'http://packages.treasuredata.com/debian/'
       end
+    else
+      # version 2.x or later
+      "http://packages.treasuredata.com/#{version}/ubuntu/#{dist}/"
     end
 
   apt_repository "treasure-data" do
