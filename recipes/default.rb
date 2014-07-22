@@ -31,12 +31,20 @@ end
 
 case node['platform']
 when "ubuntu"
+  version = node[:td_agent][:version]
   dist = node['lsb']['codename']
-  if %w(trusty precise lucid).include? dist
-    source = "http://packages.treasuredata.com/2/ubuntu/#{dist}/"
+  if version.to_f >= 2
+    # version 2.x or later
+    source = "http://packages.treasuredata.com/#{version}/ubuntu/#{dist}/"
   else
-    source = 'http://packages.treasuredata.com/debian/'
+    # version 1.x
+    if dist == 'precise'
+      'http://packages.treasuredata.com/precise/'
+    else
+      'http://packages.treasuredata.com/debian/'
+    end
   end
+
   apt_repository "treasure-data" do
     uri source
     distribution dist
