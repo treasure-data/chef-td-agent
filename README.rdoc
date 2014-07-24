@@ -15,7 +15,7 @@ The {knife-github-cookbooks}[https://github.com/websterclay/knife-github-cookboo
 == NOTICE
 
 This cookbook may be used on Amazon Linux but we cannot guarantee if td-agent will work properly because
-AWS doesn't guarantee binary compatibility with RHEL (they aim to be "as compatible as possible").
+AWS doesn\'t guarantee binary compatibility with RHEL (they aim to be "as compatible as possible").
 If users encounter any compatibility issues with td-agent on Amazon Linux, they should contact AWS.
 
 = REQUIREMENTS:
@@ -48,12 +48,24 @@ This installs the latest version of +fluent-plugin-flowcounter+ and version 0.0.
       { "rewrite" => { "version" => "0.0.9" } }
     ]
 
+== version
+
+You can install latest td-agent 2 using `version` attribute and major version.
+
+    node[:td_agent][:version] = '2'
+
+You can also specify full version.
+
+    node[:td_agent][:version] = '2.0.4'
+
 == pinning_version and version
 
 If `pinning_version` is true, then `versoin`s td-agent will be installed. The default `version` is latest version.
 
 - node[:td_agent][:pinning_version]
 - node[:td_agent][:version]
+
+In this case, you should set full version to `node[:td_agent][:version]`.
 
 === Limitation
 
