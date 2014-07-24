@@ -5,6 +5,9 @@
 # Copyright 2011, Treasure Data, Inc.
 #
 
+Chef::Recipe.send(:include, TdAgent::Version)
+Chef::Provider.send(:include, TdAgent::Version)
+
 group 'td-agent' do
   group_name 'td-agent'
   gid        403
@@ -32,7 +35,19 @@ end
 case node['platform']
 when "ubuntu"
   dist = node['lsb']['codename']
-  source = (dist == 'precise') ? "http://packages.treasuredata.com/precise/" : "http://packages.treasuredata.com/debian/"
+  source =
+    if major.nil? || major == '1'
+      # version 1.x or no version
+      if dist == 'precise'
+        'http://packages.treasuredata.com/precise/'
+      else
+        'http://packages.treasuredata.com/debian/'
+      end
+    else
+      # version 2.x or later
+      "http://packages.treasuredata.com/#{major}/ubuntu/#{dist}/"
+    end
+
   apt_repository "treasure-data" do
     uri source
     distribution dist
