@@ -1,23 +1,20 @@
 ---
 driver:
-  name: vagrant
+  name: docker
 
 provisioner:
   name: chef_solo
 
 platforms:
-  - name: ubuntu-12.04-chef-latest
-    driver:
-      box: chef/ubuntu-12.04
-      require_chef_omnibus: true
-    run_list:
-      - recipe[apt]
-  - name: ubuntu-12.04-chef-10
-    driver:
-      box: chef/ubuntu-12.04
-      require_chef_omnibus: 10.26.0
-    run_list:
-      - recipe[apt]
+  - name: ubuntu-12.04
+    driver_config:
+      image: ubuntu:12.04
+  - name: ubuntu-14.04
+    driver_config:
+      image: ubuntu:14.04
+    attributes:
+      td_agent:
+        version: 2
 
 suites:
   - name: default
@@ -26,4 +23,5 @@ suites:
     attributes:
       td_agent:
         includes: true
-        plugins: [ { datacounter: { version: '0.2.0' } } ]
+        plugins:
+          - forest
