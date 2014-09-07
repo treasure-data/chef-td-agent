@@ -56,8 +56,16 @@ when "ubuntu"
     action :add
   end
 when "centos", "redhat", "amazon"
+  source =
+    if major.nil? || major == '1'
+      "http://packages.treasuredata.com/redhat/$basearch"
+    else
+      # version 2.x or later
+      "http://packages.treasuredata.com/2/redhat/$releasever/$basearch"
+    end
+
   yum_repository "treasure-data" do
-    url "http://packages.treasuredata.com/redhat/$basearch"
+    url source
     gpgkey "http://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
   end
