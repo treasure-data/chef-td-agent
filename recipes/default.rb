@@ -10,13 +10,15 @@ Chef::Provider.send(:include, TdAgent::Version)
 
 group 'td-agent' do
   group_name 'td-agent'
-  gid        403
+  gid node[:td_agent][:gid] if node[:td_agent][:gid]
+  system true
   action     [:create]
 end
 
 user 'td-agent' do
   comment  'td-agent'
-  uid      403
+  uid node[:td_agent][:uid] if node[:td_agent][:uid]
+  system true
   group    'td-agent'
   home     '/var/run/td-agent'
   shell    '/bin/false'

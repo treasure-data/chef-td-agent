@@ -73,6 +73,14 @@ In this case, you should set full version to `node[:td_agent][:version]`.
 The td-agent repository now use `reprepro` for building Deb repository.
 `reprepro` can not handle multiple versions of the same package.
 
+== uid
+
+UID of td-agent user. Automatically assigned by default.
+
+== gid
+
+GID of td-agent group. Automatically assigned by default.
+
 = RESOURCES / PROVIDERS:
 
 == td_agent_gem
