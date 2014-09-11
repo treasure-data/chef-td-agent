@@ -25,6 +25,13 @@ user 'td-agent' do
   action   [:create, :manage]
 end
 
+directory '/var/run/td-agent/' do
+  owner  'td-agent'
+  group  'td-agent'
+  mode   '0755'
+  action :create
+end
+
 directory '/etc/td-agent/' do
   owner  'td-agent'
   group  'td-agent'
