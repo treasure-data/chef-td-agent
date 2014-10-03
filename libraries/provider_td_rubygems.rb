@@ -41,11 +41,11 @@ class Chef
         end
 
         def td_gem_binary_path
-          if node['platform_family'] == "rhel" && node[:kernel][:machine] == "x86_64"
-            "/usr/lib64/fluent/ruby/bin/fluent-gem"
-          elsif node['platform'] == 'ubuntu' && major && major != '1'
+          if major && major != '1'
             # td-agent 2.x or later works with /opt
-            '/opt/td-agent/embedded/bin/fluent-gem'
+            '/usr/sbin/td-agent-gem'
+          elsif node['platform_family'] == "rhel" && node[:kernel][:machine] == "x86_64"
+            "/usr/lib64/fluent/ruby/bin/fluent-gem"
           else
             # older Ubuntu/Debian works with /usr/lib
             "/usr/lib/fluent/ruby/bin/fluent-gem"
