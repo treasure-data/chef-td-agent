@@ -1,5 +1,6 @@
 <% if node['td_agent']['includes'] %>
-@include conf.d/*.conf
+# Use @include for td-agent version > v1.1.20 (fluentd version > v0.10.49)
+include conf.d/*.conf
 <% end %>
 <% if node['td_agent']['default_config'] %>
 ####
