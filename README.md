@@ -98,7 +98,7 @@ Installs a gem or fluentd plugin using the embedded `fluent-gem`
 ### Actions
 
 | Action  | Description                                                                             |
-|:-------:|:---------------------------------------------------------------------------------------:|
+| ------- | --------------------------------------------------------------------------------------- |
 | install | Install the gem, optinally with a specific version. Default.                            |
 | upgrade | Upgrade to the latest gem                                                               |
 | remove  | Remove the gem                                                                          |
@@ -107,7 +107,7 @@ Installs a gem or fluentd plugin using the embedded `fluent-gem`
 ### Attributes
 
 | Attribute      | Description                                                                      |
-|:--------------:|:--------------------------------------------------------------------------------:|
+| -------------- | -------------------------------------------------------------------------------- |
 | package\_name  |  Gem name. Defaults to `name`                                                    |
 | version        | Gem version. Installs the latest if none specified                               |
 | source         | Local .gem file                                                                  |
