@@ -177,3 +177,8 @@ override_attributes(
 Access to the API may be turend off by setting `enable_api` to `false`. This may be of particular use when 
 td-agent is being used on endpoint systems that are forwarding logs to a centralized td-agent server.
 
+# License
+
+Copyright 2014 Treasure Data, Inc.
+
+The code is licensed under the Apache License 2.0 (see  LICENSE for details).
