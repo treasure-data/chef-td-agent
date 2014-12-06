@@ -34,8 +34,3 @@ end
 describe package('fluent-plugin-time_parser') do
   it { should_not be_installed.by('gem') }
 end
-
-describe package('fluent-plugin-datacounter') do
-  it { should be_installed.by('gem').with_version('0.2.0') }
-end
-
