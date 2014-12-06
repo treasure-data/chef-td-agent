@@ -83,12 +83,12 @@ end
 template "/etc/td-agent/td-agent.conf" do
   mode "0644"
   source "td-agent.conf.erb"
+  notifies :restart, "service[td-agent]"
 end
 
-if node['td_agent']['includes']
-  directory "/etc/td-agent/conf.d" do
-    mode "0755"
-  end
+directory "/etc/td-agent/conf.d" do
+  mode "0755"
+  only_if { node["td_agent"]["includes"] }
 end
 
 package "td-agent" do
@@ -118,5 +118,4 @@ end
 
 service "td-agent" do
   action [ :enable, :start ]
-  subscribes :restart, resources(:template => "/etc/td-agent/td-agent.conf")
 end
