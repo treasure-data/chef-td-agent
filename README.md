@@ -6,6 +6,17 @@ NOTE: td-agent is open-sourced as [Fluentd project](http://github.com/fluent/). 
 
 # INSTALLATION
 
+## Installing with Berkshelf
+
+This cookbook is released on [Chef Supermarket](https://supermarket.chef.io/). You can install the cookbook with using [Berkshelf](http://berkshelf.com/).
+
+```sh
+$ echo 'cookbook "td-agent"' >> Berksfile
+$ berks install
+```
+
+## Installing with knife-github-cookbooks
+
 The [knife-github-cookbooks](https://github.com/websterclay/knife-github-cookbooks) gem is a plugin for knife that supports installing cookbooks directly from a GitHub repository. To install with this plugin, please follow these steps:
 
 ```sh
