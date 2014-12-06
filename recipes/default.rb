@@ -10,14 +10,14 @@ Chef::Provider.send(:include, TdAgent::Version)
 
 group 'td-agent' do
   group_name 'td-agent'
-  gid node[:td_agent][:gid] if node[:td_agent][:gid]
+  gid node["td_agent"]["gid"] if node["td_agent"]["gid"]
   system true
   action     [:create]
 end
 
 user 'td-agent' do
   comment  'td-agent'
-  uid node[:td_agent][:uid] if node[:td_agent][:uid]
+  uid node["td_agent"]["uid"] if node["td_agent"]["uid"]
   system true
   group    'td-agent'
   home     '/var/run/td-agent'
@@ -92,15 +92,15 @@ if node['td_agent']['includes']
 end
 
 package "td-agent" do
-  if node[:td_agent][:pinning_version]
+  if node["td_agent"]["pinning_version"]
     action :install
-    version node[:td_agent][:version]
+    version node["td_agent"]["version"]
   else
     action :upgrade
   end
 end
 
-node[:td_agent][:plugins].each do |plugin|
+node["td_agent"]["plugins"].each do |plugin|
   if plugin.is_a?(Hash)
     plugin_name, plugin_attributes = plugin.first
     td_agent_gem plugin_name do

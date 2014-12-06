@@ -44,7 +44,7 @@ class Chef
           if major && major != '1'
             # td-agent 2.x or later works with /opt
             '/usr/sbin/td-agent-gem'
-          elsif node['platform_family'] == "rhel" && node[:kernel][:machine] == "x86_64"
+          elsif node['platform_family'] == "rhel" && node["kernel"]["machine"] == "x86_64"
             "/usr/lib64/fluent/ruby/bin/fluent-gem"
           else
             # older Ubuntu/Debian works with /usr/lib
