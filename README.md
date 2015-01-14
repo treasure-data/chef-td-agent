@@ -150,6 +150,8 @@ end
 
 Create file with source definition in `/etc/td-agent/conf.d` directory. It works only if `node[:td_agent][:includes]` is `true`
 
+Notice: If you use some plugins in your sources, you should install it before you call lwrp.
+
 ### Actions
 
 | Action | Description |
@@ -182,6 +184,8 @@ end
 ## td_agent_match
 
 Create file with match definition in `/etc/td-agent/conf.d` directory. It works only if `node[:td_agent][:includes]` is `true`
+
+Notice: Notice: If you use some plugins in your matches, you should install it before you call lwrp.
 
 ### Actions
 

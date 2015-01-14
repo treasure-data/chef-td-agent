@@ -55,7 +55,6 @@ end
 
 def params_to_text(params)
   body = ''
-  Chef::Log.info(params)
   params.each do |k,v|
     if v.is_a?(Hash)
       body += "<#{k}>\n"

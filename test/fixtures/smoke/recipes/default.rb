@@ -22,6 +22,12 @@
 node.set['td_agent']['includes'] = true
 include_recipe 'td-agent::default'
 
+td_agent_plugin 'gelf' do
+  url 'https://raw.githubusercontent.com/emsearcy/fluent-plugin-gelf/master/lib/fluent/plugin/out_gelf.rb'
+end
+
+td_agent_gem 'gelf'
+
 td_agent_source 'test_in_tail' do
   type 'tail'
   tag 'syslog'
@@ -47,9 +53,3 @@ td_agent_match 'test_gelf_match' do
                    flush_interval: '5s'},
                    { type: 'stdout' }])
 end
-
-td_agent_plugin 'gelf' do
-  url 'https://raw.githubusercontent.com/emsearcy/fluent-plugin-gelf/master/lib/fluent/plugin/out_gelf.rb'
-end
-
-td_agent_gem 'gelf'
