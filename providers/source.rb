@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 
-use_inline_resources
+use_inline_resources if defined?(use_inline_resources)
 
 action :create do
   fail 'You should set the node[:td_agent][:includes] attribute to true to use this resource.' unless node['td_agent']['includes']

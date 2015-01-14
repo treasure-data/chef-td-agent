@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 
-use_inline_resources
+use_inline_resources if defined?(use_inline_resources)
 
 action :create do
   directory '/etc/td-agent/plugin' do
