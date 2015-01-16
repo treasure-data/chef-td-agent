@@ -146,6 +146,106 @@ td_agent_gem "aws-sdk" do
 end
 ```
 
+## td_agent_source
+
+Create file with source definition in `/etc/td-agent/conf.d` directory. It works only if `node[:td_agent][:includes]` is `true`
+
+Notice: If you use some plugins in your sources, you should install it before you call lwrp.
+
+### Actions
+
+| Action | Description |
+|----------|----------------|
+| :create | Create a file |
+| :delete | Delete a file |
+
+### Attributes
+
+| Attribute | Description |
+|-------------|----------------|
+| source_name | File name. To its value will be added `.conf`. Defaults to `name`  |
+| type | Type of source. This is name of input plugin. |
+| tag | Tag, what uses in fluentd routing. |
+| params | Parameters of source. Hash. | 
+
+### Example
+
+This example creates the source with `tail` type and  `syslog` tag which reads from `/var/log/messages` and parses it as `syslog`.
+
+```ruby
+td_agent_source 'test_in_tail' do
+  type 'tail'
+  tag 'syslog'
+  params(format: 'syslog',
+         path: '/var/log/messages')
+end
+``` 
+
+## td_agent_match
+
+Create file with match definition in `/etc/td-agent/conf.d` directory. It works only if `node[:td_agent][:includes]` is `true`
+
+Notice: Notice: If you use some plugins in your matches, you should install it before you call lwrp.
+
+### Actions
+
+| Action | Description |
+|----------|----------------|
+| :create | Create a file |
+| :delete | Delete a file |
+
+### Attributes
+
+| Attribute | Description |
+|-------------|----------------|
+| match_name | File name. To its value will be added `.conf`. Defaults to `name`  |
+| type | Type of match. This is name of output plugin. |
+| tag | Tag, what uses in fluentd routing. |
+| params | Parameters of match. Hash. | 
+
+### Example
+This example creates the match with type `copy` and tag `webserver.*` which sends log data to local graylog2 server.
+
+```ruby
+td_agent_match 'test_gelf_match' do
+  type 'copy'
+  tag 'webserver.*'
+  params( store: [{ type: 'gelf',
+                   host: '127.0.0.1',
+                   port: 12201,
+                   flush_interval: '5s'},
+                   { type: 'stdout' }])
+end
+```
+
+## td_agent_plugin
+
+Install plugin from url to `/etc/td-agent/plugin` dir.
+
+### Actions
+
+| Action | Description |
+|----------|----------------|
+| :create | Install plugin |
+| :delete | Uninstall plugin |
+
+### Attributes
+
+| Attribute | Description |
+|-------------|----------------|
+| plugin_name | File name. To its value will be added `.rb`. Defaults to `name`  |
+| url | Url what contains plugin file. Value of this attribute may be the same as remote_file resource.  |
+
+### Example
+
+Install plugin `gelf.rb` from url `https://raw.githubusercontent.com/emsearcy/fluent-plugin-gelf/master/lib/fluent/plugin/out_gelf.rb`
+
+```ruby
+td_agent_plugin 'gelf' do
+  url 'https://raw.githubusercontent.com/emsearcy/fluent-plugin-gelf/master/lib/fluent/plugin/out_gelf.rb'
+end
+```
+
 ## includes
 
 Optionally include `/etc/td-agent/conf.d/*.conf` files (i.e. symlinks, other recipes, etc.)

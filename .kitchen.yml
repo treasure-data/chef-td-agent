@@ -16,6 +16,9 @@ platforms:
     attributes:
       td_agent:
         version: 2
+  - name: centos-6.6
+    driver_config:
+      image: centos:centos6
 
 suites:
   - name: default
@@ -26,3 +29,7 @@ suites:
         includes: true
         plugins:
           - forest
+
+  - name: lwrp
+    run_list:
+      - recipe[smoke::default]
