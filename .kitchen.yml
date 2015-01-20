@@ -27,8 +27,8 @@ suites:
     attributes:
       td_agent:
         includes: true
-        plugins:
-          - forest
+#       plugins:
+#         - forest
 
   - name: lwrp
     run_list:
