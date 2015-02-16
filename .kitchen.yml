@@ -30,6 +30,15 @@ suites:
 #       plugins:
 #         - forest
 
+  - name: td-agent-1x
+    run_list:
+      - recipe[td-agent::default]
+    attributes:
+      td_agent:
+        version: 1
+    excludes:
+      - ubuntu-14.04
+
   - name: lwrp
     run_list:
       - recipe[smoke::default]
