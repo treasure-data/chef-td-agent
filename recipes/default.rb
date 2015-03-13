@@ -64,7 +64,7 @@ when "ubuntu"
     key "http://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
   end
-when "centos", "redhat", "amazon"
+when "centos", "redhat", "amazon", "parallels"
   source =
     if major.nil? || major == '1'
       "http://packages.treasuredata.com/redhat/$basearch"
