@@ -41,8 +41,8 @@ directory '/etc/td-agent/' do
   action :create
 end
 
-case node['platform']
-when "ubuntu"
+case node['platform_family']
+when "debian"
   dist = node['lsb']['codename']
   source =
     if major.nil? || major == '1'
@@ -64,7 +64,7 @@ when "ubuntu"
     key "http://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
   end
-when "centos", "redhat", "amazon"
+when "rhel"
   source =
     if major.nil? || major == '1'
       "http://packages.treasuredata.com/redhat/$basearch"
