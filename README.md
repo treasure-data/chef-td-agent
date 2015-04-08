@@ -79,7 +79,7 @@ node[:td_agent][:version] = '2.0.4'
 
 ## pinning\_version and version
 
-If `pinning_version` is true, then `versoin`s td-agent will be installed. The default `version` is latest version.
+If `pinning_version` is true, then `version`s td-agent will be installed. The default `version` is latest version.
 
 * `node[:td_agent][:pinning_version]`
 * `node[:td_agent][:version]`
