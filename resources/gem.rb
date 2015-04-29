@@ -29,9 +29,13 @@ attribute :gem_binary,     :kind_of => String, :default => ""
 attribute :response_file,  :kind_of => String
 attribute :plugin,         :kind_of => [TrueClass, FalseClass], :default => false
 
-
 def initialize(*args)
   super
   @action = :install
   @provider = Chef::Provider::Package::TdRubygems
 end
+
+def clear_sources(arg=nil)
+  set_or_return(:clear_sources, arg, :kind_of => [ TrueClass, FalseClass ])
+end
+
