@@ -4,6 +4,7 @@ group :development do
   gem 'berkshelf'
   gem 'guard-kitchen'
   gem 'foodcritic'
+  gem 'stove'
 end
 
 group :integration do
