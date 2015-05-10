@@ -61,7 +61,7 @@ when "debian"
     uri source
     distribution dist
     components ["contrib"]
-    key "http://packages.treasuredata.com/GPG-KEY-td-agent"
+    key "GPG-KEY-td-agent"
     action :add
   end
 when "rhel"
@@ -73,9 +73,15 @@ when "rhel"
       "http://packages.treasuredata.com/2/redhat/$releasever/$basearch"
     end
 
+  cookbook_file "/etc/pki/rpm-gpg/RPM-GPG-KEY-td-agent" do
+    source "GPG-KEY-td-agent"
+    action :create
+  end
+
   yum_repository "treasure-data" do
     url source
-    gpgkey "http://packages.treasuredata.com/GPG-KEY-td-agent"
+    gpgkey "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-td-agent"
+    gpgcheck true
     action :add
   end
 end
