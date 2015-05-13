@@ -61,7 +61,7 @@ when "debian"
     uri source
     distribution dist
     components ["contrib"]
-    key "http://packages.treasuredata.com/GPG-KEY-td-agent"
+    key "https://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
   end
 when "rhel"
@@ -75,7 +75,7 @@ when "rhel"
 
   yum_repository "treasure-data" do
     url source
-    gpgkey "http://packages.treasuredata.com/GPG-KEY-td-agent"
+    gpgkey "https://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
   end
 end
