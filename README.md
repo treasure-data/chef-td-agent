@@ -1,14 +1,14 @@
 # DESCRIPTION
 
-[Opscode Chef](http://www.opscode.com/chef/) cookbook for td-agent (Treasure Data Agent). The release log of td-agent is available [here](http://help.treasure-data.com/kb/installing-td-agent-daemon/changelog-of-td-agent).
+[Chef](https://www.chef.io/chef/) cookbook for td-agent (Treasure Data Agent). The release log of td-agent is available [here](http://docs.treasure-data.com/articles/td-agent-changelog).
 
-NOTE: td-agent is open-sourced as [Fluentd project](http://github.com/fluent/). If you want to use stable version of Fluentd, using this cookbook is recommended.
+NOTE: td-agent is open-sourced as the [Fluentd project](http://github.com/fluent/). If you want to use a stable version of Fluentd, using this cookbook is recommended.
 
 # INSTALLATION
 
 ## Installing with Berkshelf
 
-This cookbook is released on [Chef Supermarket](https://supermarket.chef.io/). You can install the cookbook with using [Berkshelf](http://berkshelf.com/).
+This cookbook is released on [Chef Supermarket](https://supermarket.chef.io/). You can install the cookbook using [Berkshelf](http://berkshelf.com/).
 
 ```sh
 $ echo 'cookbook "td-agent"' >> Berksfile
@@ -65,13 +65,13 @@ node[:td_agent][:plugins] = [
 
 ## version
 
-You can install latest td-agent 2 using `version` attribute and major version.
+You can install the latest td-agent 2 using the `version` attribute and major version.
 
 ```ruby
 node[:td_agent][:version] = '2'
 ```
 
-You can also specify full version.
+You can also specify the full version.
 
 ```ruby
 node[:td_agent][:version] = '2.0.4'
@@ -79,18 +79,19 @@ node[:td_agent][:version] = '2.0.4'
 
 ## pinning\_version and version
 
-If `pinning_version` is true, then `version`s td-agent will be installed. The default `version` is latest version.
+If `pinning_version` is true, then `version`'s td-agent will be installed. The default `version` is the latest version.
 
 * `node[:td_agent][:pinning_version]`
 * `node[:td_agent][:version]`
 
-In this case, you should set full version to `node[:td_agent][:version]`.
+In this case, you should set the full version in `node[:td_agent][:version]`.
 
 ### Limitation
 
-`pinning_version` and `version` attributes are now available for `rpm` package.
-The td-agent repository now use `reprepro` for building Deb repository.
-`reprepro` can not handle multiple versions of the same package.
+`pinning_version` and `version` attributes are now available for `rpm` packages.
+They are unsupported for `deb` packages because the td-agent repository currently
+uses `reprepro` for building deb repositories, which can not handle multiple versions
+of the same package.
 
 ## uid
 
@@ -285,7 +286,7 @@ override_attributes(
 
 * `node[:td_agent][:in_http][:enable_api] = true`
 
-Access to the API may be turend off by setting `enable_api` to `false`. This may be of particular use when 
+Access to the API may be disabled by setting `enable_api` to `false`. This may be of particular use when 
 td-agent is being used on endpoint systems that are forwarding logs to a centralized td-agent server.
 
 # License
