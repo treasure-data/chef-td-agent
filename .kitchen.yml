@@ -19,6 +19,9 @@ platforms:
   - name: centos-6.6
     driver_config:
       image: centos:centos6
+  - name: debian-7.8
+    driver_config:
+      image: debian:7.8
 
 suites:
   - name: default
