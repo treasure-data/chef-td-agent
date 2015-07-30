@@ -83,7 +83,7 @@ end
 template "/etc/td-agent/td-agent.conf" do
   mode "0644"
   source "td-agent.conf.erb"
-  notifies :restart, "service[td-agent]"
+  notifies :restart, "service[td-agent]", :delayed
 end
 
 directory "/etc/td-agent/conf.d" do
