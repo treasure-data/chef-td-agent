@@ -37,7 +37,7 @@ action :create do
               params: new_resource.params,
               tag: new_resource.tag)
     cookbook 'td-agent'
-    notifies :restart, 'service[td-agent]'
+    notifies :restart, 'service[td-agent]', :delayed
   end
 end
 
@@ -49,6 +49,6 @@ action :delete do
   file "/etc/td-agent/conf.d/#{new_resource.source_name}.conf" do
     action :delete
     only_if { ::File.exist?("/etc/td-agent/conf.d/#{new_resource.source_name}.conf") }
-    notifies :restart, 'service[td-agent]'
+    notifies :restart, 'service[td-agent]', :delayed
   end
 end
