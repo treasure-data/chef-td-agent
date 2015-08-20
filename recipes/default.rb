@@ -70,7 +70,11 @@ when "rhel"
       "http://packages.treasuredata.com/redhat/$basearch"
     else
       # version 2.x or later
-      "http://packages.treasuredata.com/2/redhat/$releasever/$basearch"
+      if node['platform'] == 'amazon'
+        "http://packages.treasuredata.com/2/redhat/6/$basearch"
+      else
+        'http://packages.treasuredata.com/2/redhat/$releasever/$basearch'
+      end
     end
 
   yum_repository "treasure-data" do
