@@ -19,8 +19,6 @@
 # limitations under the License.
 #
 
-use_inline_resources if defined?(use_inline_resources)
-
 action :create do
   directory '/etc/td-agent/plugin' do
     owner "root"
@@ -36,6 +34,8 @@ action :create do
     mode '0644'
     source new_resource.url
   end
+
+  new_resource.updated_by_last_action(true)
 end
 
 action :delete do
@@ -43,4 +43,6 @@ action :delete do
     action :delete
     only_if { ::File.exist?("/etc/td-agent/plugin/#{new_resource.plugin_name}.rb") }
   end
+
+  new_resource.updated_by_last_action(true)
 end
