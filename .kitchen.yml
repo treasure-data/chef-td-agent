@@ -10,35 +10,45 @@ platforms:
   - name: ubuntu-12.04
     driver_config:
       image: ubuntu:12.04
+  - name: ubuntu-12.04-chef-11.x
+    driver_config:
+      require_chef_omnibus: 11.18.12
   - name: ubuntu-14.04
     driver_config:
       image: ubuntu:14.04
     attributes:
       td_agent:
         version: 2
-  - name: centos-6.6
+  - name: ubuntu-14.04-chef-11.x
+    driver_config:
+      image: ubuntu:14.04
+      require_chef_omnibus: 11.18.12
+    attributes:
+      td_agent:
+        version: 2
+  - name: centos-6
     driver_config:
       image: centos:centos6
+  - name: centos-6-chef-11.x
+    driver_config:
+      image: centos:centos6
+      require_chef_omnibus: 11.18.12
 
 suites:
   - name: default
     run_list:
       - recipe[td-agent::default]
+      - recipe[smoke::default]
     attributes:
       td_agent:
         includes: true
-#       plugins:
-#         - forest
-
-  - name: td-agent-1x
+  - name: td-agent-1.x
     run_list:
       - recipe[td-agent::default]
+      - recipe[smoke::default]
     attributes:
       td_agent:
         version: 1
     excludes:
       - ubuntu-14.04
-
-  - name: lwrp
-    run_list:
-      - recipe[smoke::default]
+      - ubuntu-14.04-chef-11.x
