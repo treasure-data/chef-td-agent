@@ -117,5 +117,6 @@ node["td_agent"]["plugins"].each do |plugin|
 end
 
 service "td-agent" do
+  supports :restart => true, :reload => false, :status => true
   action [ :enable, :start ]
 end

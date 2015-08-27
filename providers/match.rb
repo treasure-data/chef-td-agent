@@ -19,14 +19,8 @@
 # limitations under the License.
 #
 
-use_inline_resources if defined?(use_inline_resources)
-
 action :create do
   fail 'You should set the node[:td_agent][:includes] attribute to true to use this resource.' unless node['td_agent']['includes']
-
-  service 'td-agent' do
-    action [ :nothing ]
-  end
 
   template "/etc/td-agent/conf.d/#{new_resource.match_name}.conf" do
     source 'match.conf.erb'
@@ -39,18 +33,18 @@ action :create do
     cookbook 'td-agent'
     notifies :restart, 'service[td-agent]'
   end
+
+  new_resource.updated_by_last_action(true)
 end
 
 action :delete do
-  service 'td-agent' do
-    action [ :nothing ]
-  end
-
   file "/etc/td-agent/conf.d/#{new_resource.match_name}.conf" do
     action :delete
     only_if { ::File.exist?("/etc/td-agent/conf.d/#{new_resource.match_name}.conf") }
     notifies :restart, 'service[td-agent]'
   end
+
+  new_resource.updated_by_last_action(true)
 end
 
 def params_to_text(params)
