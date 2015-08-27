@@ -8,7 +8,7 @@ default["td_agent"]["gid"] = nil
 default["td_agent"]["includes"] = false
 default["td_agent"]["default_config"] = true
 default["td_agent"]["in_http"]["enable_api"] = true
-default["td_agent"]["version"] = "2.1.4"
+default["td_agent"]["version"] = "2.2.0"
 default["td_agent"]["pinning_version"] = false
 default["td_agent"]["in_forward"] = {
   port: 24224,

@@ -80,10 +80,12 @@ when "rhel"
   end
 end
 
+reload_action = (reload_available?) ? :reload : :restart
+
 template "/etc/td-agent/td-agent.conf" do
   mode "0644"
   source "td-agent.conf.erb"
-  notifies :restart, "service[td-agent]"
+  notifies reload_action, "service[td-agent]"
 end
 
 directory "/etc/td-agent/conf.d" do
@@ -117,6 +119,6 @@ node["td_agent"]["plugins"].each do |plugin|
 end
 
 service "td-agent" do
-  supports :restart => true, :reload => false, :status => true
+  supports :restart => true, :reload => (reload_action == :reload), :status => true
   action [ :enable, :start ]
 end

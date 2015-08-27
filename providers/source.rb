@@ -19,6 +19,8 @@
 # limitations under the License.
 #
 
+include ::TdAgent::Version
+
 action :create do
   fail 'You should set the node[:td_agent][:includes] attribute to true to use this resource.' unless node['td_agent']['includes']
 
@@ -31,7 +33,7 @@ action :create do
               params: new_resource.params,
               tag: new_resource.tag)
     cookbook 'td-agent'
-    notifies :restart, 'service[td-agent]'
+    notifies reload_action, 'service[td-agent]'
   end
 
   new_resource.updated_by_last_action(true)
@@ -41,8 +43,16 @@ action :delete do
   file "/etc/td-agent/conf.d/#{new_resource.source_name}.conf" do
     action :delete
     only_if { ::File.exist?("/etc/td-agent/conf.d/#{new_resource.source_name}.conf") }
-    notifies :restart, 'service[td-agent]'
+    notifies reload_action, 'service[td-agent]'
   end
 
   new_resource.updated_by_last_action(true)
+end
+
+def reload_action
+  if reload_available?
+    :reload
+  else
+    :restart
+  end
 end
