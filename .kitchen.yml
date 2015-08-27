@@ -7,11 +7,19 @@ provisioner:
   name: chef_solo
 
 platforms:
+  - name: debian-7
+    driver_config:
+      image: debian:7.8
+  - name: debian-7-chef-11.x
+    driver_config:
+      image: debian:7.8
+      require_chef_omnibus: 11.18.12
   - name: ubuntu-12.04
     driver_config:
       image: ubuntu:12.04
   - name: ubuntu-12.04-chef-11.x
     driver_config:
+      image: ubuntu:12.04
       require_chef_omnibus: 11.18.12
   - name: ubuntu-14.04
     driver_config:
@@ -50,5 +58,7 @@ suites:
       td_agent:
         version: 1
     excludes:
+      - debian-7
+      - debian-7-chef-11.x
       - ubuntu-14.04
       - ubuntu-14.04-chef-11.x
