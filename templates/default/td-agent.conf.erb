@@ -1,5 +1,9 @@
 <% if node['td_agent']['includes'] %>
+<% if @major_version.to_i < 2 %>
 include conf.d/*.conf
+<% else %>
+@include conf.d/*.conf
+<% end %>
 <% end %>
 <% if node['td_agent']['default_config'] %>
 ####

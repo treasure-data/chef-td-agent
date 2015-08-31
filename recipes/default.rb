@@ -83,9 +83,13 @@ end
 
 reload_action = (reload_available?) ? :reload : :restart
 
+major_version = major
 template "/etc/td-agent/td-agent.conf" do
   mode "0644"
   source "td-agent.conf.erb"
+  variables(
+    :major_version => major_version
+  )
   notifies reload_action, "service[td-agent]"
 end
 
