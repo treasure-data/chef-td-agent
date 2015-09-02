@@ -60,6 +60,7 @@ when "debian"
 
   apt_repository "treasure-data" do
     uri source
+    arch node["td_agent"]["apt_arch"]
     distribution dist
     components ["contrib"]
     key "https://packages.treasuredata.com/GPG-KEY-td-agent"
