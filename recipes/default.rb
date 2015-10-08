@@ -69,10 +69,10 @@ when "debian"
 when "rhel"
   source =
     if major.nil? || major == '1'
-      "http://packages.treasuredata.com/redhat/$basearch"
+      "http://packages.treasuredata.com/redhat/\\$basearch"
     else
       # version 2.x or later
-      "http://packages.treasuredata.com/2/redhat/$releasever/$basearch"
+      "http://packages.treasuredata.com/2/redhat/\\$releasever/\\$basearch"
     end
 
   yum_repository "treasure-data" do
