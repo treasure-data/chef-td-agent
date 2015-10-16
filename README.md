@@ -86,6 +86,14 @@ If `pinning_version` is true, then `version`'s td-agent will be installed. The d
 
 In this case, you should set the full version in `node[:td_agent][:version]`.
 
+## multiprocess
+
+Installs the multiprocess plugin and uses round-robin to forward to child instances, allowing multithreading. Additional configuration files are automatically created based on the number of cores found.
+
+```ruby
+node["td_agent"]["multiprocess"] = true
+```
+
 ### Limitation
 
 `pinning_version` and `version` attributes are now available for `rpm` packages.

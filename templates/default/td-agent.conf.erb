@@ -1,6 +1,34 @@
 <% if node['td_agent']['includes'] %>
 include conf.d/*.conf
 <% end %>
+<% if node['td_agent']['multiprocess'] %>
+<source>
+  type multiprocess
+     <% (1..node["cpu"]["total"]).each do |i|
+     padded = sprintf '%02d', i %>
+     <process>
+          cmdline -c /etc/td-agent/td-agent-child<%= padded %>.conf --group td-agent --log /var/log/td-agent/td-agent-child<%= padded %>.log --daemon /var/run/td-agent/td-agent-child<%= padded %>.pid
+     </process>
+     <% end -%>
+</source>
+
+<match *>
+        type roundrobin
+        <% port=24224
+        (1..node["cpu"]["total"]).each do |i| %>
+
+     <store>
+            type forward
+            <server>
+               name fluentd-child<%= sprintf '%02d', i %>
+               host 127.0.0.1
+               port <%= port + i %>
+            </server>
+     </store>
+        <% end -%>
+
+</match>
+<% end %>
 <% if node['td_agent']['default_config'] %>
 ####
 ## Output descriptions:

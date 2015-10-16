@@ -84,6 +84,25 @@ end
 
 reload_action = (reload_available?) ? :reload : :restart
 
+if node["td_agent"]["multiprocess"]
+  (1..node["cpu"]["total"]).each do |i|
+    padded = sprintf '%02d', i
+    template "/etc/td-agent/td-agent-child#{padded}.conf" do
+      mode "0644"
+      source "td-agent-child-master.conf.erb"
+      variables({
+        :portoffset => i
+      })
+    end
+  end
+
+  %w{ fluent-plugin-multiprocess serverengine }.each do |gem|
+    td_agent_gem "#{gem}" do
+      plugin false
+    end
+  end
+end
+
 template "/etc/td-agent/td-agent.conf" do
   mode "0644"
   source "td-agent.conf.erb"
