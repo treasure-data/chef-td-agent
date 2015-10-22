@@ -86,6 +86,7 @@ reload_action = (reload_available?) ? :reload : :restart
 
 template "/etc/td-agent/td-agent.conf" do
   mode "0644"
+  cookbook node['td_agent']['template_cookbook']
   source "td-agent.conf.erb"
   notifies reload_action, "service[td-agent]"
 end
