@@ -7,6 +7,7 @@ default["td_agent"]["gid"] = nil
 
 default["td_agent"]["includes"] = false
 default["td_agent"]["default_config"] = true
+default["td_agent"]["template_cookbook"] = 'td-agent'
 default["td_agent"]["in_http"]["enable_api"] = true
 default["td_agent"]["version"] = "2.2.0"
 default["td_agent"]["pinning_version"] = false
