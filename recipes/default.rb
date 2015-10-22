@@ -79,6 +79,7 @@ when "rhel"
     url source
     gpgkey "https://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
+    not_if { node['platform'] == 'amazon' }
   end
 end
 
