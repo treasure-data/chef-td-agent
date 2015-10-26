@@ -72,7 +72,13 @@ when "rhel"
       "http://packages.treasuredata.com/redhat/$basearch"
     else
       # version 2.x or later
-      "http://packages.treasuredata.com/2/redhat/$releasever/$basearch"
+      case node['platform']
+      when 'amazon'
+        # amazon linux is a fork of CentOS 6, doesn't have systemd used in RHEL7 package
+        "http://packages.treasuredata.com/2/redhat/6/$basearch"
+      else
+        "http://packages.treasuredata.com/2/redhat/$releasever/$basearch"
+      end
     end
 
   yum_repository "treasure-data" do
@@ -86,8 +92,9 @@ reload_action = (reload_available?) ? :reload : :restart
 
 template "/etc/td-agent/td-agent.conf" do
   mode "0644"
+  cookbook node['td_agent']['template_cookbook']
   source "td-agent.conf.erb"
-  notifies reload_action, "service[td-agent]"
+  notifies reload_action, "service[td-agent]", :delayed
 end
 
 directory "/etc/td-agent/conf.d" do
