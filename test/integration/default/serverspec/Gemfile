@@ -1,3 +1,4 @@
 source "https://rubygems.org/"
 
 gem "serverspec", "~> 1.16.0"
+gem "net-ssh", "~> 2.10.0"
