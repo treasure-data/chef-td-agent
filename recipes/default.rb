@@ -74,6 +74,9 @@ when "rhel"
     else
       # version 2.x or later
       if platform == "amazon"
+        if node["td_agent"]["yum_amazon_releasever"] != "$releasever"
+          Chef::Log.warn("Treasure Data doesn't guarantee td-agent works on older Amazon Linux releases. td-agent could be used on such environment at your own risk.")
+        end
         "http://packages.treasuredata.com/2/redhat/#{node["td_agent"]["yum_amazon_releasever"]}/$basearch"
       else
         "http://packages.treasuredata.com/2/redhat/$releasever/$basearch"
