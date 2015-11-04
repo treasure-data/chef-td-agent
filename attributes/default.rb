@@ -20,3 +20,4 @@ default["td_agent"]["in_http"] = {
   port: 8888,
   bind: '0.0.0.0'
 }
+default["td_agent"]["yum_amazon_releasever"] = "$releasever"

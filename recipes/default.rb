@@ -67,12 +67,17 @@ when "debian"
     action :add
   end
 when "rhel"
+  platform = node["platform"]
   source =
     if major.nil? || major == '1'
       "http://packages.treasuredata.com/redhat/$basearch"
     else
       # version 2.x or later
-      "http://packages.treasuredata.com/2/redhat/$releasever/$basearch"
+      if platform == "amazon"
+        "http://packages.treasuredata.com/2/redhat/#{node["td_agent"]["yum_amazon_releasever"]}/$basearch"
+      else
+        "http://packages.treasuredata.com/2/redhat/$releasever/$basearch"
+      end
     end
 
   yum_repository "treasure-data" do
