@@ -19,7 +19,7 @@ module TdAgent
         else
           false
         end
-      when "redhat"
+      when "rhel"
         # td-agent's init script for redhat is supporting reload
         true
       else
