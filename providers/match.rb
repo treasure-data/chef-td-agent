@@ -74,5 +74,6 @@ def params_to_text(params)
       body += "#{k} #{v}\n"
     end
   end
-  body
+  indent = '  '
+  body.each_line.map{|line| "#{indent}#{line}"}.join
 end
