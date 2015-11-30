@@ -44,7 +44,7 @@ end
 describe file('/etc/td-agent/conf.d/test_filter.conf') do
   it { should be_a_file }
   it { should be_mode 644 }
-  it { should contain %|<filter webserver.*>\n  type record_transformer\n  <record>\host_param "#{Socket.gethostname}"\n</record>\n</filter>|
+  it { should contain %|<filter webserver.*>\n  type record_transformer\n  <record>\host_param "#{Socket.gethostname}"\n</record>\n</filter>| }
 end
 
 describe file('/etc/td-agent/plugin/gelf.rb') do

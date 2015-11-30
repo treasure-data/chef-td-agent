@@ -223,7 +223,7 @@ end
 
 Create file with filter definition in `/etc/td-agent/conf.d` directory. It works only if `node[:td_agent][:includes]` is `true`
 
-Notice: Notice: If you use some plugins in your matches, you should install it before you call lwrp.
+Notice: Notice: If you use some plugins for your filters, you should install them before you call lwrp.
 
 ### Actions
 
@@ -242,7 +242,7 @@ Notice: Notice: If you use some plugins in your matches, you should install it b
 | params | Parameters of filter. Hash. |
 
 ### Example
-This example creates the filter with type `record_transformer` and tag `webserver.*` which adds the `hostname` field with the server's hostname `web001.internal.example.com` as its value:
+This example creates the filter with type `record_transformer` and tag `webserver.*` which adds the `hostname` field with the server's hostname as its value:
 
 ```ruby
 td_agent_filter 'filter_webserver' do
