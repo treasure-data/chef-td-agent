@@ -53,3 +53,11 @@ td_agent_match 'test_gelf_match' do
                    flush_interval: '5s'},
                    { type: 'stdout' }])
 end
+
+td_agent_filter 'test_filter' do
+  type 'record_transformer'
+  tag 'webserver.*'
+  params(
+    record: [ { host_param: %q|"#{Socket.gethostname}"| } ]
+  )
+end

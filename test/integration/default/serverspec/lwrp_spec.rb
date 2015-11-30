@@ -38,7 +38,13 @@ end
 describe file('/etc/td-agent/conf.d/test_gelf_match.conf') do
   it { should be_a_file }
   it { should be_mode 644 }
-  it { should contain "<match webserver.*>\n  type copy\n  <store>\ntype gelf\nhost 127.0.0.1\nport 12201\nflush_interval 5s\n</store>\n<store>\ntype stdout\n</store>\n\n</match>" }
+  it { should contain "<match webserver.*>\n  type copy\n  <store>\ntype gelf\nhost 127.0.0.1\nport 12201\nflush_interval 5s\n</store>\n<store>\ntype stdout\n</store>\n</match>" }
+end
+
+describe file('/etc/td-agent/conf.d/test_filter.conf') do
+  it { should be_a_file }
+  it { should be_mode 644 }
+  it { should contain %|<filter webserver.*>\n  type record_transformer\n  <record>\host_param "#{Socket.gethostname}"\n</record>\n</filter>|
 end
 
 describe file('/etc/td-agent/plugin/gelf.rb') do
