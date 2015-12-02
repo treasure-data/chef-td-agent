@@ -167,7 +167,7 @@ Notice: If you use some plugins in your sources, you should install it before yo
 | source_name | File name. To its value will be added `.conf`. Defaults to `name`  |
 | type | Type of source. This is name of input plugin. |
 | tag | Tag, what uses in fluentd routing. |
-| params | Parameters of source. Hash. | 
+| params | Parameters of source. Hash. |
 
 ### Example
 
@@ -180,7 +180,7 @@ td_agent_source 'test_in_tail' do
   params(format: 'syslog',
          path: '/var/log/messages')
 end
-``` 
+```
 
 ## td_agent_match
 
@@ -202,7 +202,7 @@ Notice: Notice: If you use some plugins in your matches, you should install it b
 | match_name | File name. To its value will be added `.conf`. Defaults to `name`  |
 | type | Type of match. This is name of output plugin. |
 | tag | Tag, what uses in fluentd routing. |
-| params | Parameters of match. Hash. | 
+| params | Parameters of match. Hash. |
 
 ### Example
 This example creates the match with type `copy` and tag `webserver.*` which sends log data to local graylog2 server.
@@ -216,6 +216,41 @@ td_agent_match 'test_gelf_match' do
                    port: 12201,
                    flush_interval: '5s'},
                    { type: 'stdout' }])
+end
+```
+
+## td_agent_filter
+
+Create file with filter definition in `/etc/td-agent/conf.d` directory. It works only if `node[:td_agent][:includes]` is `true`
+
+Notice: Notice: If you use some plugins for your filters, you should install them before you call lwrp.
+
+### Actions
+
+| Action | Description |
+|----------|----------------|
+| :create | Create a filter |
+| :delete | Delete a filter |
+
+### Attributes
+
+| Attribute | Description |
+|-------------|----------------|
+| filter_name | File name. To its value will be added `.conf`. Defaults to `name`  |
+| type | Type of filter. This is name of output plugin. |
+| tag | Tag, what uses in fluentd routing. |
+| params | Parameters of filter. Hash. |
+
+### Example
+This example creates the filter with type `record_transformer` and tag `webserver.*` which adds the `hostname` field with the server's hostname as its value:
+
+```ruby
+td_agent_filter 'filter_webserver' do
+  type 'record_transformer'
+  tag 'webserver.*'
+  params(
+    record: [ { host_param: %q|"#{Socket.gethostname}"| } ]
+  )
 end
 ```
 
@@ -286,7 +321,7 @@ override_attributes(
 
 * `node[:td_agent][:in_http][:enable_api] = true`
 
-Access to the API may be disabled by setting `enable_api` to `false`. This may be of particular use when 
+Access to the API may be disabled by setting `enable_api` to `false`. This may be of particular use when
 td-agent is being used on endpoint systems that are forwarding logs to a centralized td-agent server.
 
 # License
