@@ -5,6 +5,9 @@ default["td_agent"]["plugins"] = []
 default["td_agent"]["uid"] = nil
 default["td_agent"]["gid"] = nil
 
+default["td_agent"]["user"] = 'td-agent'
+default["td_agent"]["group"] = 'td-agent'
+
 default["td_agent"]["includes"] = false
 default["td_agent"]["default_config"] = true
 default["td_agent"]["template_cookbook"] = 'td-agent'
