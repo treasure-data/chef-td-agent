@@ -8,18 +8,18 @@
 Chef::Recipe.send(:include, TdAgent::Version)
 Chef::Provider.send(:include, TdAgent::Version)
 
-group 'td-agent' do
-  group_name 'td-agent'
+group node["td_agent"]["group"] do
+  group_name node["td_agent"]["group"]
   gid node["td_agent"]["gid"] if node["td_agent"]["gid"]
   system true
   action     [:create]
 end
 
-user 'td-agent' do
+user node["td_agent"]["user"] do
   comment  'td-agent'
   uid node["td_agent"]["uid"] if node["td_agent"]["uid"]
   system true
-  group    'td-agent'
+  group    node["td_agent"]["group"]
   home     '/var/run/td-agent'
   shell    '/bin/false'
   password nil
@@ -141,3 +141,7 @@ service "td-agent" do
   supports :restart => true, :reload => (reload_action == :reload), :status => true
   action [ :enable, :start ]
 end
+
+
+##### /var/log/td-agent
+##### /var/log/td-agent/buffer
