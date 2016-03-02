@@ -8,18 +8,18 @@
 Chef::Recipe.send(:include, TdAgent::Version)
 Chef::Provider.send(:include, TdAgent::Version)
 
-group 'td-agent' do
-  group_name 'td-agent'
+group node["td_agent"]["group"] do
+  group_name node["td_agent"]["group"]
   gid node["td_agent"]["gid"] if node["td_agent"]["gid"]
   system true
   action     [:create]
 end
 
-user 'td-agent' do
+user node["td_agent"]["user"] do
   comment  'td-agent'
   uid node["td_agent"]["uid"] if node["td_agent"]["uid"]
   system true
-  group    'td-agent'
+  group    node["td_agent"]["group"]
   home     '/var/run/td-agent'
   shell    '/bin/false'
   password nil
@@ -28,15 +28,15 @@ user 'td-agent' do
 end
 
 directory '/var/run/td-agent/' do
-  owner  'td-agent'
-  group  'td-agent'
+  owner  node["td_agent"]["user"]
+  group  node["td_agent"]["group"]
   mode   '0755'
   action :create
 end
 
 directory '/etc/td-agent/' do
-  owner  'td-agent'
-  group  'td-agent'
+  owner  node["td_agent"]["user"]
+  group  node["td_agent"]["group"]
   mode   '0755'
   action :create
 end
@@ -94,6 +94,8 @@ reload_action = (reload_available?) ? :reload : :restart
 
 major_version = major
 template "/etc/td-agent/td-agent.conf" do
+  owner  node["td_agent"]["user"]
+  group  node["td_agent"]["group"]
   mode "0644"
   cookbook node['td_agent']['template_cookbook']
   source "td-agent.conf.erb"
@@ -104,6 +106,8 @@ template "/etc/td-agent/td-agent.conf" do
 end
 
 directory "/etc/td-agent/conf.d" do
+  owner node["td_agent"]["user"]
+  group node["td_agent"]["group"]
   mode "0755"
   only_if { node["td_agent"]["includes"] }
 end
@@ -137,3 +141,7 @@ service "td-agent" do
   supports :restart => true, :reload => (reload_action == :reload), :status => true
   action [ :enable, :start ]
 end
+
+
+##### /var/log/td-agent
+##### /var/log/td-agent/buffer
