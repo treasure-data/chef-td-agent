@@ -26,3 +26,4 @@ attribute :source_name, :kind_of => String, :name_attribute => true, :required =
 attribute :type, :kind_of => String, :required => true
 attribute :tag, :kind_of => String
 attribute :params, :kind_of => Hash
+attribute :template_source, :kind_of => String, default: 'td-agent'
