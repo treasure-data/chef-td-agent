@@ -137,6 +137,12 @@ node["td_agent"]["plugins"].each do |plugin|
   end
 end
 
+link '/etc/init.d/td-agent' do
+  to '/opt/td-agent/etc/init.d/td-agent'
+  link_type :symbolic
+  only_if { node.platform_family?('rhel') }
+end
+
 service "td-agent" do
   supports :restart => true, :reload => (reload_action == :reload), :status => true
   action [ :enable, :start ]
