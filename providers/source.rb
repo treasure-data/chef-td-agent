@@ -32,7 +32,7 @@ action :create do
     variables(type: new_resource.type,
               params: new_resource.params,
               tag: new_resource.tag)
-    cookbook 'td-agent'
+    cookbook new_resource.template_source
     notifies reload_action, 'service[td-agent]'
   end
 
