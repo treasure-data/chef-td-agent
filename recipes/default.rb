@@ -66,6 +66,22 @@ when "debian"
     key "https://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
   end
+when "fedora"
+  platform = node["platform"]
+  source =
+    if major.nil? || major == '1'
+      "http://packages.treasuredata.com/redhat/$basearch"
+    else
+      # version 2.x or later
+        "http://packages.treasuredata.com/2/redhat/7/$basearch"
+    end
+
+  yum_repository "treasure-data" do
+    description "TreasureData"
+    url source
+    gpgkey "https://packages.treasuredata.com/GPG-KEY-td-agent"
+    action :add
+  end
 when "rhel"
   platform = node["platform"]
   source =
@@ -84,6 +100,7 @@ when "rhel"
     end
 
   yum_repository "treasure-data" do
+    description "TreasureData"
     url source
     gpgkey "https://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
