@@ -130,6 +130,8 @@ directory "/etc/td-agent/conf.d" do
 end
 
 package "td-agent" do
+  retries 3
+  retry_delay 10
   if node["td_agent"]["pinning_version"]
     action :install
     version node["td_agent"]["version"]
