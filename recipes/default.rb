@@ -23,7 +23,7 @@ user node["td_agent"]["user"] do
   home     '/var/run/td-agent'
   shell    '/bin/false'
   password nil
-  supports :manage_home => true
+  manage_home true
   action   [:create, :manage]
 end
 
