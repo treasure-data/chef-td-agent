@@ -78,7 +78,7 @@ when "fedora"
 
   yum_repository "treasure-data" do
     description "TreasureData"
-    url source
+    baseurl source
     gpgkey "https://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
   end
@@ -101,7 +101,7 @@ when "rhel"
 
   yum_repository "treasure-data" do
     description "TreasureData"
-    url source
+    baseurl source
     gpgkey "https://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
   end
