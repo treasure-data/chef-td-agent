@@ -25,24 +25,6 @@ template "/etc/td-agent/td-agent.conf" do
   notifies reload_action, "service[td-agent]", :delayed
 end
 
-directory "/etc/td-agent/conf.d" do
-  owner node["td_agent"]["user"]
-  group node["td_agent"]["group"]
-  mode "0755"
-  only_if { node["td_agent"]["includes"] }
-end
-
-package "td-agent" do
-  retries 3
-  retry_delay 10
-  if node["td_agent"]["pinning_version"]
-    action :install
-    version node["td_agent"]["version"]
-  else
-    action :upgrade
-  end
-end
-
 node["td_agent"]["plugins"].each do |plugin|
   if plugin.is_a?(Hash)
     plugin_name, plugin_attributes = plugin.first
