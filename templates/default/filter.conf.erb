@@ -3,5 +3,8 @@
 
 <filter <%= @tag %>>
   type <%= @type %>
+  <% if @enable_ruby -%>
+  enable_ruby
+  <% end -%>
 <%= @params -%>
 </filter>

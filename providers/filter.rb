@@ -30,6 +30,7 @@ action :create do
     group 'root'
     mode '0644'
     variables(type: new_resource.type,
+              enable_ruby: new_resource.enable_ruby,
               params: params_to_text(new_resource.params),
               tag: new_resource.tag)
     cookbook 'td-agent'

@@ -239,6 +239,7 @@ Notice: Notice: If you use some plugins for your filters, you should install the
 | filter_name | File name. To its value will be added `.conf`. Defaults to `name`  |
 | type | Type of filter. This is name of output plugin. |
 | tag | Tag, what uses in fluentd routing. |
+| enable_ruby | When set to true, the full Ruby syntax is enabled in the ${...} expression. |
 | params | Parameters of filter. Hash. |
 
 ### Example

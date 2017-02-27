@@ -25,4 +25,5 @@ default_action :create
 attribute :filter_name, :kind_of => String, :name_attribute => true, :required => true
 attribute :type, :kind_of => String, :required => true
 attribute :tag, :kind_of => String, :required => true
+attribute :enable_ruby, :kind_of => [ TrueClass, FalseClass ], :default => false, :required => false
 attribute :params
