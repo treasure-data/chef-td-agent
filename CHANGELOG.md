@@ -1,5 +1,9 @@
 # Version History
 
+## Unreleased
+
+* none
+
 ## 2.3.0
 
 * Split recipes into multiple pieces to allow wrapper cookbooks to override behavior (#90)
