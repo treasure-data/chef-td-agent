@@ -6,7 +6,7 @@
   <% if @tag %>
   tag <%= @tag %>
   <% end %>
-  <% @params.each do |k,v| %>
+  <% @parameters.each do |k,v| %>
     <% if v.is_a?(Hash) %>
   <%= k %> <%= v.map{ |k,v| "#{k}:#{v}"}.join(',') %>
     <% elsif v.is_a?(Array) %>

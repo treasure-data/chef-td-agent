@@ -30,7 +30,7 @@ action :create do
     group 'root'
     mode '0644'
     variables(type: new_resource.type,
-              params: params_to_text(new_resource.params),
+              parameters: params_to_text(new_resource.parameters),
               tag: new_resource.tag)
     cookbook 'td-agent'
     notifies reload_action, 'service[td-agent]'
@@ -57,9 +57,9 @@ def reload_action
   end
 end
 
-def params_to_text(params)
+def params_to_text(parameters)
   body = ''
-  params.each do |k,v|
+  parameters.each do |k,v|
     if v.is_a?(Hash)
       body += "<#{k}>\n"
       body += params_to_text(v)

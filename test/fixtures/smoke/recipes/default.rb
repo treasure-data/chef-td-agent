@@ -31,14 +31,14 @@ td_agent_gem 'gelf'
 td_agent_source 'test_in_tail' do
   type 'tail'
   tag 'syslog'
-  params(format: 'syslog',
+  parameters(format: 'syslog',
          path: '/var/log/messages')
 end
 
 td_agent_source 'test_in_tail_nginx' do
   type 'tail'
   tag 'webserver.nginx'
-  params(format: '/^(?<remote>[^ ]*) - (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*) "(?<referer>[^\"]*)" "(?<agent>[^\"]*)" "(?<forwarded_for>[^\"]*)"$/',
+  parameters(format: '/^(?<remote>[^ ]*) - (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*) "(?<referer>[^\"]*)" "(?<agent>[^\"]*)" "(?<forwarded_for>[^\"]*)"$/',
          time_format: '%d/%b/%Y:%H:%M:%S',
          types: { code: 'integer', size: 'integer' },
          path: '/var/log/nginx/access.log')
@@ -47,7 +47,7 @@ end
 td_agent_match 'test_gelf_match' do
   type 'copy'
   tag 'webserver.*'
-  params( store: [{ type: 'gelf',
+  parameters( store: [{ type: 'gelf',
                    host: '127.0.0.1',
                    port: 12201,
                    flush_interval: '5s'},
@@ -57,7 +57,7 @@ end
 td_agent_filter 'test_filter' do
   type 'record_transformer'
   tag 'webserver.*'
-  params(
+  parameters(
     record: [ { host_param: %q|"#{Socket.gethostname}"| } ]
   )
 end

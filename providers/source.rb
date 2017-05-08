@@ -30,7 +30,7 @@ action :create do
     group 'root'
     mode '0644'
     variables(type: new_resource.type,
-              params: new_resource.params,
+              parameters: new_resource.parameters,
               tag: new_resource.tag)
     cookbook new_resource.template_source
     notifies reload_action, 'service[td-agent]'
