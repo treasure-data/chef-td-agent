@@ -167,7 +167,7 @@ Notice: If you use some plugins in your sources, you should install it before yo
 | source_name | File name. To its value will be added `.conf`. Defaults to `name`  |
 | type | Type of source. This is name of input plugin. |
 | tag | Tag, what uses in fluentd routing. |
-| params | Parameters of source. Hash. |
+| parameters | Parameters of source. Hash. |
 
 ### Example
 
@@ -177,7 +177,7 @@ This example creates the source with `tail` type and  `syslog` tag which reads f
 td_agent_source 'test_in_tail' do
   type 'tail'
   tag 'syslog'
-  params(format: 'syslog',
+  parameters(format: 'syslog',
          path: '/var/log/messages')
 end
 ```
@@ -202,7 +202,7 @@ Notice: Notice: If you use some plugins in your matches, you should install it b
 | match_name | File name. To its value will be added `.conf`. Defaults to `name`  |
 | type | Type of match. This is name of output plugin. |
 | tag | Tag, what uses in fluentd routing. |
-| params | Parameters of match. Hash. |
+| parameters | Parameters of match. Hash. |
 
 ### Example
 This example creates the match with type `copy` and tag `webserver.*` which sends log data to local graylog2 server.
@@ -211,7 +211,7 @@ This example creates the match with type `copy` and tag `webserver.*` which send
 td_agent_match 'test_gelf_match' do
   type 'copy'
   tag 'webserver.*'
-  params( store: [{ type: 'gelf',
+  parameters( store: [{ type: 'gelf',
                    host: '127.0.0.1',
                    port: 12201,
                    flush_interval: '5s'},
@@ -239,7 +239,7 @@ Notice: Notice: If you use some plugins for your filters, you should install the
 | filter_name | File name. To its value will be added `.conf`. Defaults to `name`  |
 | type | Type of filter. This is name of output plugin. |
 | tag | Tag, what uses in fluentd routing. |
-| params | Parameters of filter. Hash. |
+| parameters | Parameters of filter. Hash. |
 
 ### Example
 This example creates the filter with type `record_transformer` and tag `webserver.*` which adds the `hostname` field with the server's hostname as its value:
@@ -248,7 +248,7 @@ This example creates the filter with type `record_transformer` and tag `webserve
 td_agent_filter 'filter_webserver' do
   type 'record_transformer'
   tag 'webserver.*'
-  params(
+  parameters(
     record: [ { host_param: %q|"#{Socket.gethostname}"| } ]
   )
 end
