@@ -19,7 +19,26 @@
 # limitations under the License.
 #
 
-node.set['td_agent']['includes'] = true
+case node["platform_family"]
+when "rhel"
+  # workaround to let `/etc/init.d/functions` to NOT use systemctl(8)
+  file "/etc/sysconfig/td-agent" do
+    owner "root"
+    group "root"
+    mode "0644"
+    content <<-EOS
+SYSTEMCTL_SKIP_REDIRECT=1
+    EOS
+    only_if {
+      %r|/docker/| =~ (::File.read("/proc/1/cgroup") rescue "") and ::File.exist?("/bin/systemctl")
+    }
+  end.run_action(:create)
+end
+
+unless /^1\./ =~ node["td_agent"]["version"]
+  node.force_default['td_agent']['includes'] = true
+end
+
 include_recipe 'td-agent::default'
 
 td_agent_plugin 'gelf' do
@@ -31,17 +50,23 @@ td_agent_gem 'gelf'
 td_agent_source 'test_in_tail' do
   type 'tail'
   tag 'syslog'
-  parameters(format: 'syslog',
-         path: '/var/log/messages')
+  parameters(
+    format: 'syslog',
+    path: '/var/log/syslog',
+    pos_file: '/tmp/.syslog.pos',
+  )
 end
 
 td_agent_source 'test_in_tail_nginx' do
   type 'tail'
   tag 'webserver.nginx'
-  parameters(format: '/^(?<remote>[^ ]*) - (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*) "(?<referer>[^\"]*)" "(?<agent>[^\"]*)" "(?<forwarded_for>[^\"]*)"$/',
-         time_format: '%d/%b/%Y:%H:%M:%S',
-         types: { code: 'integer', size: 'integer' },
-         path: '/var/log/nginx/access.log')
+  parameters(
+    format: '/^(?<remote>[^ ]*) - (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*) "(?<referer>[^\"]*)" "(?<agent>[^\"]*)" "(?<forwarded_for>[^\"]*)"$/',
+    time_format: '%d/%b/%Y:%H:%M:%S',
+    types: { code: 'integer', size: 'integer' },
+    path: '/tmp/access.log',
+    pos_file: '/tmp/.access.log.pos',
+  )
 end
 
 td_agent_match 'test_gelf_match' do

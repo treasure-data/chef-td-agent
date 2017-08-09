@@ -1,0 +1,30 @@
+sudo: required
+dist: trusty
+language: ruby
+
+services:
+  - docker
+
+rvm:
+  - 2.4.1
+
+cache:
+  bundler: true
+  directories:
+    - /var/lib/docker
+
+env:
+  matrix:
+    - TEST_INSTANCE=2x-chef12-ubuntu-trusty
+    - TEST_INSTANCE=2x-chef12-ubuntu-xenial
+    - TEST_INSTANCE=2x-chef12-centos-centos6
+    - TEST_INSTANCE=2x-chef12-centos-centos7
+    - TEST_INSTANCE=2x-chef13-ubuntu-trusty
+    - TEST_INSTANCE=2x-chef13-ubuntu-xenial
+    - TEST_INSTANCE=2x-chef13-centos-centos6
+    - TEST_INSTANCE=2x-chef13-centos-centos7
+
+script:
+  - |
+    set -ex -o pipefail
+    bundle exec kitchen test "${TEST_INSTANCE}"

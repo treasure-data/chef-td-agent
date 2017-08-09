@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/treasure-data/chef-td-agent.svg?branch=master)](https://travis-ci.org/treasure-data/chef-td-agent)
+
 # DESCRIPTION
 
 [Chef](https://www.chef.io/chef/) cookbook for td-agent (Treasure Data Agent). The release log of td-agent is available [here](http://docs.treasure-data.com/articles/td-agent-changelog).
