@@ -1,11 +1,14 @@
-dist: trusty
-
 sudo: required
-
+dist: trusty
 language: ruby
 
 services:
   - docker
+
+cache:
+  bundler: true
+  directories:
+    - /var/lib/docker
 
 env:
   matrix:

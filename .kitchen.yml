@@ -46,14 +46,12 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[td-agent::default]
       - recipe[smoke::default]
     attributes:
       td_agent:
         includes: true
   - name: td-agent-1.x
     run_list:
-      - recipe[td-agent::default]
       - recipe[smoke::default]
     attributes:
       td_agent:
