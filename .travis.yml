@@ -23,4 +23,6 @@ env:
     - TEST_INSTANCE=td-agent-1x-centos-6-chef-11x
 
 script:
-  - bundle exec kitchen converge "${TEST_INSTANCE}"
+  - |
+    set -ex -o pipefail
+    bundle exec kitchen converge -l debug "${TEST_INSTANCE}"

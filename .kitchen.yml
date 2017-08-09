@@ -4,7 +4,8 @@ driver:
   use_sudo: false
 
 provisioner:
-  name: chef_solo
+  name: chef_zero
+  log_level: debug
 
 platforms:
   - name: debian-7
