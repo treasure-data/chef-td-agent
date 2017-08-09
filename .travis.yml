@@ -12,18 +12,12 @@ cache:
 
 env:
   matrix:
-    - TEST_INSTANCE=default-debian-7
-    - TEST_INSTANCE=default-debian-7-chef-11x
-    - TEST_INSTANCE=default-ubuntu-1204
-    - TEST_INSTANCE=default-ubuntu-1204-chef-11x
-    - TEST_INSTANCE=default-ubuntu-1404
-    - TEST_INSTANCE=default-ubuntu-1404-chef-11x
-    - TEST_INSTANCE=default-centos-6
-    - TEST_INSTANCE=default-centos-6-chef-11x
-    - TEST_INSTANCE=td-agent-1x-ubuntu-1204
-    - TEST_INSTANCE=td-agent-1x-ubuntu-1204-chef-11x
-    - TEST_INSTANCE=td-agent-1x-centos-6
-    - TEST_INSTANCE=td-agent-1x-centos-6-chef-11x
+    - TEST_INSTANCE=default-debian7-chef12
+    - TEST_INSTANCE=default-ubuntu12-chef12
+    - TEST_INSTANCE=default-ubuntu14-chef12
+    - TEST_INSTANCE=default-centos6-chef12
+    - TEST_INSTANCE=td-agent1-ubuntu12-chef12
+    - TEST_INSTANCE=td-agent1-centos6-chef12
 
 script:
   - |
