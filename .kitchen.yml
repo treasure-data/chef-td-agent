@@ -8,40 +8,52 @@ provisioner:
   log_level: info
 
 platforms:
-  - name: debian7-chef12
-    driver_config:
-      platform: debian
-      image: debian:7.8
-      require_chef_omnibus: 12.21.3
-  - name: ubuntu12-chef12
+  - name: ubuntu-precise
     driver_config:
       platform: ubuntu
       image: ubuntu:12.04
-      require_chef_omnibus: 12.21.3
-  - name: ubuntu14-chef12
+  - name: ubuntu-trusty
     driver_config:
       platform: ubuntu
       image: ubuntu:14.04
-      require_chef_omnibus: 12.21.3
-  - name: centos6-chef12
+  - name: ubuntu-xenial
+    driver_config:
+      platform: ubuntu
+      image: ubuntu:16.04
+  - name: centos-centos6
     driver_config:
       platform: centos
       image: centos:centos6
-      require_chef_omnibus: 12.21.3
+  - name: centos-centos7
+    driver_config:
+      platform: centos
+      image: centos:centos7
 
 suites:
-  - name: default
-    run_list:
-      - recipe[smoke::default]
+# - name: 1x-chef12
+#   attributes:
+#     td_agent:
+#       version: 1
+#   driver_config:
+#     require_chef_omnibus: 12.21.3
+#   excludes:
+#     - ubuntu-trusty-chef12
+#     - ubuntu-xenial-chef12
+#   run_list:
+#     - recipe[smoke::default]
+  - name: 2x-chef12
     attributes:
       td_agent:
-        includes: true
-  - name: td-agent1
+        version: 2.2.0
+    driver_config:
+      require_chef_omnibus: 12.21.3
     run_list:
       - recipe[smoke::default]
+  - name: 2x-chef13
     attributes:
       td_agent:
-        version: 1
-    excludes:
-      - debian7-chef12
-      - ubuntu14-chef12
+        version: 2.2.0
+    driver_config:
+      require_chef_omnibus: 13.2.20
+    run_list:
+      - recipe[smoke::default]

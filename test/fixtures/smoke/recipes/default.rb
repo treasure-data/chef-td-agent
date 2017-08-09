@@ -19,7 +19,26 @@
 # limitations under the License.
 #
 
-node.set['td_agent']['includes'] = true
+case node["platform_family"]
+when "rhel"
+  # workaround to let `/etc/init.d/functions` to NOT use systemctl(8)
+  file "/etc/sysconfig/td-agent" do
+    owner "root"
+    group "root"
+    mode "0644"
+    content <<-EOS
+SYSTEMCTL_SKIP_REDIRECT=1
+    EOS
+    only_if {
+      %r|/docker/| =~ (::File.read("/proc/1/cgroup") rescue "") and ::File.exist?("/bin/systemctl")
+    }
+  end.run_action(:create)
+end
+
+unless /^1\./ =~ node["td_agent"]["version"]
+  node.force_default['td_agent']['includes'] = true
+end
+
 include_recipe 'td-agent::default'
 
 td_agent_plugin 'gelf' do
