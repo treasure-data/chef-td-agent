@@ -5,6 +5,9 @@ language: ruby
 services:
   - docker
 
+rvm:
+  - 2.4.1
+
 cache:
   bundler: true
   directories:
