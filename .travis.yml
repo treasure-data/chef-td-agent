@@ -28,4 +28,4 @@ env:
 script:
   - |
     set -ex -o pipefail
-    bundle exec kitchen converge -l debug "${TEST_INSTANCE}"
+    bundle exec kitchen converge "${TEST_INSTANCE}"

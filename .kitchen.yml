@@ -5,7 +5,7 @@ driver:
 
 provisioner:
   name: chef_zero
-  log_level: debug
+  log_level: info
 
 platforms:
   - name: debian-7
