@@ -8,10 +8,6 @@ provisioner:
   log_level: info
 
 platforms:
-  - name: ubuntu-precise
-    driver_config:
-      platform: ubuntu
-      image: ubuntu:12.04
   - name: ubuntu-trusty
     driver_config:
       platform: ubuntu
