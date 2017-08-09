@@ -4,6 +4,10 @@
 
 * none
 
+## 2.4.0
+
+* Renamed params to parameters to support chef v13 (#93)
+
 ## 2.3.0
 
 * Split recipes into multiple pieces to allow wrapper cookbooks to override behavior (#90)
