@@ -81,7 +81,9 @@ when "fedora"
     gpgkey "https://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
   end
-when "rhel"
+when "rhel", "amazon"
+  # platform_family of Amazon Linux is judged as amazon in new version of ohai: https://github.com/chef/ohai/pull/971
+
   platform = node["platform"]
   source =
     if major.nil? || major == '1'
