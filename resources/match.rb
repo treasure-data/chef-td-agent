@@ -26,3 +26,9 @@ attribute :match_name, :kind_of => String, :name_attribute => true, :required =>
 attribute :type, :kind_of => String, :required => true
 attribute :tag, :kind_of => String, :required => true
 attribute :parameters
+
+# Workaround for backward compatibility for Chef pre-13 (#99)
+chef_major_version = ::Chef::VERSION.split(".").first
+if chef_major_version < 13
+  attribute :params
+end
