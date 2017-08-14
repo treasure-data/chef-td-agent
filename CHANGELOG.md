@@ -4,6 +4,10 @@
 
 * none
 
+## 2.4.1
+
+* Restored support of `params` property for Chef pre-13.x to keep backward compatibility with previous releases (#93, #99)
+
 ## 2.4.0
 
 * Renamed params to parameters to support chef v13 (#93)
