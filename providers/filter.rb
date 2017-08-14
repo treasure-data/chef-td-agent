@@ -62,8 +62,7 @@ end
 def reload_action
   if reload_available?
     :reload
-  else
-    :restart
+  else :restart
   end
 end
 
