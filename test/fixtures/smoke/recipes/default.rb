@@ -60,29 +60,62 @@ end
 td_agent_source 'test_in_tail_nginx' do
   type 'tail'
   tag 'webserver.nginx'
-  parameters(
-    format: '/^(?<remote>[^ ]*) - (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*) "(?<referer>[^\"]*)" "(?<agent>[^\"]*)" "(?<forwarded_for>[^\"]*)"$/',
-    time_format: '%d/%b/%Y:%H:%M:%S',
-    types: { code: 'integer', size: 'integer' },
-    path: '/tmp/access.log',
-    pos_file: '/tmp/.access.log.pos',
-  )
+  case ::Chef::VERSION
+  when /\A12\./
+    params(
+      format: '/^(?<remote>[^ ]*) - (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*) "(?<referer>[^\"]*)" "(?<agent>[^\"]*)" "(?<forwarded_for>[^\"]*)"$/',
+      time_format: '%d/%b/%Y:%H:%M:%S',
+      types: { code: 'integer', size: 'integer' },
+      path: '/tmp/access.log',
+      pos_file: '/tmp/.access.log.pos',
+    )
+  else
+    parameters(
+      format: '/^(?<remote>[^ ]*) - (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*) "(?<referer>[^\"]*)" "(?<agent>[^\"]*)" "(?<forwarded_for>[^\"]*)"$/',
+      time_format: '%d/%b/%Y:%H:%M:%S',
+      types: { code: 'integer', size: 'integer' },
+      path: '/tmp/access.log',
+      pos_file: '/tmp/.access.log.pos',
+    )
+  end
 end
 
 td_agent_match 'test_gelf_match' do
   type 'copy'
   tag 'webserver.*'
-  parameters( store: [{ type: 'gelf',
-                   host: '127.0.0.1',
-                   port: 12201,
-                   flush_interval: '5s'},
-                   { type: 'stdout' }])
+  case ::Chef::VERSION
+  when /\A12\./
+    params(
+      store: [
+        {type: 'gelf', host: '127.0.0.1', port: 12201, flush_interval: '5s'},
+        {type: 'stdout'},
+      ]
+    )
+  else
+    parameters(
+      store: [
+        {type: 'gelf', host: '127.0.0.1', port: 12201, flush_interval: '5s'},
+        {type: 'stdout'},
+      ]
+    )
+  end
 end
 
 td_agent_filter 'test_filter' do
   type 'record_transformer'
   tag 'webserver.*'
-  parameters(
-    record: [ { host_param: %q|"#{Socket.gethostname}"| } ]
-  )
+  case ::Chef::VERSION
+  when /\A12\./
+    params(
+      record: [
+        {host_param: %q|"#{Socket.gethostname}"|},
+      ]
+    )
+  else
+    parameters(
+      record: [
+        {host_param: %q|"#{Socket.gethostname}"|},
+      ]
+    )
+  end
 end
