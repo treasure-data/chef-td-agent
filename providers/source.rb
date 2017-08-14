@@ -31,7 +31,7 @@ action :create do
     mode '0644'
 
     # Workaround for backward compatibility for Chef pre-13 (#99)
-    chef_major_version = ::Chef::VERSION.split(".").first
+    chef_major_version = ::Chef::VERSION.split(".").first.to_i
     if chef_major_version < 13 and new_resource.respond_to?(:params)
       ::Chef::Log.warn("chef-td-agent: property `params` has been renamed to `parameters` since `params` is reserved in Chef 13+. The `params` will not be supported anymore with future release of chef-td-agent")
       parameters = Hash(new_resource.params).merge(Hash(new_resource.parameters))

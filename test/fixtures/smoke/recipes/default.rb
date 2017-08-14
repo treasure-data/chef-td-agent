@@ -19,6 +19,8 @@
 # limitations under the License.
 #
 
+chef_major_version = ::Chef::VERSION.split(".").first.to_i
+
 case node["platform_family"]
 when "rhel"
   # workaround to let `/etc/init.d/functions` to NOT use systemctl(8)
@@ -60,8 +62,7 @@ end
 td_agent_source 'test_in_tail_nginx' do
   type 'tail'
   tag 'webserver.nginx'
-  case ::Chef::VERSION
-  when /\A12\./
+  if chef_major_version < 13
     params(
       format: '/^(?<remote>[^ ]*) - (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*) "(?<referer>[^\"]*)" "(?<agent>[^\"]*)" "(?<forwarded_for>[^\"]*)"$/',
       time_format: '%d/%b/%Y:%H:%M:%S',
@@ -83,8 +84,7 @@ end
 td_agent_match 'test_gelf_match' do
   type 'copy'
   tag 'webserver.*'
-  case ::Chef::VERSION
-  when /\A12\./
+  if chef_major_version < 13
     params(
       store: [
         {type: 'gelf', host: '127.0.0.1', port: 12201, flush_interval: '5s'},
@@ -104,8 +104,7 @@ end
 td_agent_filter 'test_filter' do
   type 'record_transformer'
   tag 'webserver.*'
-  case ::Chef::VERSION
-  when /\A12\./
+  if chef_major_version < 13
     params(
       record: [
         {host_param: %q|"#{Socket.gethostname}"|},
