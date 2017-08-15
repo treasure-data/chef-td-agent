@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+* none
+
+## 2.5.0
+
 * Fix support for Amazon Linux with Chef 13.x (#95)
 
 ## 2.4.1
