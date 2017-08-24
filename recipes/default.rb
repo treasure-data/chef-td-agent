@@ -33,10 +33,12 @@ node["td_agent"]["plugins"].each do |plugin|
       %w{action version source options gem_binary}.each do |attr|
         send(attr, plugin_attributes[attr]) if plugin_attributes[attr]
       end
+      notifies :restart, "service[td-agent]", :delayed
     end
   elsif plugin.is_a?(String)
     td_agent_gem plugin do
       plugin true
+      notifies :restart, "service[td-agent]", :delayed
     end
   end
 end
