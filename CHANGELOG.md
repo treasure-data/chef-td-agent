@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-* none
+* Allow deb package to be specified instead of using repo.
+* Support `@type` in configuration files to stop warnings.
 
 ## 2.5.0
 

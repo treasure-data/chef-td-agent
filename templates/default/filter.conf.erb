@@ -2,6 +2,6 @@
 # Do NOT modify this file by hand!
 
 <filter <%= @tag %>>
-  type <%= @type %>
+  <%= @node['td_agent']['template_type_string'] %> <%= @type %>
 <%= @parameters -%>
 </filter>

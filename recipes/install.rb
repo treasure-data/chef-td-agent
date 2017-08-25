@@ -115,10 +115,34 @@ directory "/etc/td-agent/conf.d" do
   only_if { node["td_agent"]["includes"] }
 end
 
-package "td-agent" do
+# Fetch the source package if selected.
+if node["td_agent"]["install_url"]
+  remote_name = ::File.basename(
+    ::URI.parse(node["td_agent"]["install_url"]).path
+  )
+  remote_file 'td-agent install source' do
+    path ::File.join(Chef::Config[:file_cache_path], remote_name)
+    source node["td_agent"]["install_url"]
+  end
+end
+
+# To support URL installs on .deb systems we need to use the dpkg_package
+# See https://docs.chef.io/resource_package.html#providers
+pkg_resource = :package
+if node["td_agent"]["install_resource"]
+  pkg_resource = node["td_agent"]["install_resource"]
+end
+declare_resource(pkg_resource, "td-agent") do
   retries 3
   retry_delay 10
-  if node["td_agent"]["pinning_version"]
+  if node["td_agent"]["install_url"]
+    action :install
+    remote_name = ::File.basename(
+      ::URI.parse(node["td_agent"]["install_url"]).path
+    )
+    local_path = ::File.join(Chef::Config[:file_cache_path], remote_name)
+    source local_path
+  elsif node["td_agent"]["pinning_version"]
     action :install
     version node["td_agent"]["version"]
   else

@@ -24,3 +24,8 @@ default["td_agent"]["in_http"] = {
   bind: '0.0.0.0'
 }
 default["td_agent"]["yum_amazon_releasever"] = "$releasever"
+
+default["td_agent"]["install_url"] = nil
+default["td_agent"]["install_resource"] = nil
+
+default["td_agent"]["template_type_string"] = "type"

@@ -2,7 +2,7 @@
 # Do NOT modify this file by hand!
 
 <source>
-  type <%= @type %>
+  <%= @node['td_agent']['template_type_string'] %> <%= @type %>
   <% if @tag %>
   tag <%= @tag %>
   <% end %>
