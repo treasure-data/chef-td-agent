@@ -28,4 +28,9 @@ default["td_agent"]["yum_amazon_releasever"] = "$releasever"
 default["td_agent"]["install_url"] = nil
 default["td_agent"]["install_resource"] = nil
 
-default["td_agent"]["template_type_string"] = "type"
+# Determine the constant value of the `type` parameter.
+# Possible values are:
+#   - @type (for fluentd 0.14+)
+#   - type  (for fluentd 0.12)
+#   - nil   (auto detect based on node["td_agent"]["version"])
+default["td_agent"]["template_type_string"] = nil

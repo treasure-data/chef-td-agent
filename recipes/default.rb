@@ -13,6 +13,7 @@ include_recipe 'td-agent::install'
 reload_action = (reload_available?) ? :reload : :restart
 
 major_version = major
+type_string = template_type_string
 template "/etc/td-agent/td-agent.conf" do
   owner  node["td_agent"]["user"]
   group  node["td_agent"]["group"]
@@ -20,7 +21,8 @@ template "/etc/td-agent/td-agent.conf" do
   cookbook node['td_agent']['template_cookbook']
   source "td-agent.conf.erb"
   variables(
-    :major_version => major_version
+    :major_version => major_version,
+    :type_string => type_string
   )
   notifies reload_action, "service[td-agent]", :delayed
 end

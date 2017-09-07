@@ -40,6 +40,7 @@ action :create do
     end
 
     variables(type: new_resource.type,
+              type_string: template_type_string,
               parameters: params_to_text(parameters),
               tag: new_resource.tag)
     cookbook 'td-agent'
