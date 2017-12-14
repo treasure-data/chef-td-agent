@@ -88,13 +88,6 @@ If `pinning_version` is true, then `version`'s td-agent will be installed. The d
 
 In this case, you should set the full version in `node[:td_agent][:version]`.
 
-### Limitation
-
-`pinning_version` and `version` attributes are now available for `rpm` packages.
-They are unsupported for `deb` packages because the td-agent repository currently
-uses `reprepro` for building deb repositories, which can not handle multiple versions
-of the same package.
-
 ## uid
 
 UID of td-agent user. Automatically assigned by default.
@@ -328,6 +321,6 @@ td-agent is being used on endpoint systems that are forwarding logs to a central
 
 # License
 
-Copyright 2014 Treasure Data, Inc.
+Copyright 2014-today Treasure Data, Inc.
 
 The code is licensed under the Apache License 2.0 (see  LICENSE for details).
