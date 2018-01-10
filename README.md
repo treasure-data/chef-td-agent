@@ -244,7 +244,7 @@ td_agent_filter 'filter_webserver' do
   type 'record_transformer'
   tag 'webserver.*'
   parameters(
-    record: [ { host_param: %q|"#{Socket.gethostname}"| } ]
+    record: [ { host_param: %Q|"#{Socket.gethostname}"| } ]
   )
 end
 ```
