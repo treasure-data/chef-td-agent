@@ -2,6 +2,10 @@
 # Do NOT modify this file by hand!
 
 <match <%= @tag %>>
+  <% if node['td_agent']['version'].to_i < 3 %>
   type <%= @type %>
+  <% else %>
+  @type <%= @type %>
+  <% end %>
 <%= @parameters -%>
 </match>
