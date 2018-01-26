@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 group :development do
   gem 'berkshelf'
+  gem 'chefspec', '~> 7'
   gem 'guard-kitchen'
   gem 'foodcritic'
   gem 'stove'
