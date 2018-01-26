@@ -64,6 +64,7 @@ when "debian"
     components ["contrib"]
     key "https://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
+    not_if { node['td_agent']['internal_repository'] }
   end
 when "fedora"
   platform = node["platform"]
@@ -80,6 +81,7 @@ when "fedora"
     url source
     gpgkey "https://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
+    not_if { node['td_agent']['internal_repository'] }
   end
 when "rhel", "amazon"
   # platform_family of Amazon Linux is judged as amazon in new version of ohai: https://github.com/chef/ohai/pull/971
@@ -105,6 +107,7 @@ when "rhel", "amazon"
     url source
     gpgkey "https://packages.treasuredata.com/GPG-KEY-td-agent"
     action :add
+    not_if { node['td_agent']['internal_repository'] }
   end
 end
 
