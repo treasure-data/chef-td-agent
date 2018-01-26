@@ -47,7 +47,7 @@ td_agent_plugin 'gelf' do
   url 'https://raw.githubusercontent.com/emsearcy/fluent-plugin-gelf/master/lib/fluent/plugin/out_gelf.rb'
 end
 
-td_agent_gem 'gelf'
+td_agent_gem 'fluent-plugin-gelf-hs'
 
 td_agent_source 'test_in_tail' do
   type 'tail'
