@@ -12,7 +12,9 @@ shared_context 'converged recipe' do
   let(:chef_run) do
     runner = ChefSpec::SoloRunner.new(platform) do |node|
       node_attributes.each do |k, v|
-        node.default[k] = v
+        # Normal is a high enough precedence to override
+        # the cookbook defaults
+        node.normal[k] = v
       end
     end
     runner.converge(described_recipe)
