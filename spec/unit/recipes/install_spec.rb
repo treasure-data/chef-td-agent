@@ -10,7 +10,7 @@ describe 'td-agent::install' do
   let(:node_attributes) do
     {
       'td_agent' => {
-        'internal_repository' => true,
+        'skip_repository' => true,
         'pinning_version' => true,
         'version' => '3.1.0'
       }

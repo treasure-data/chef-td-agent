@@ -24,4 +24,4 @@ default["td_agent"]["in_http"] = {
   bind: '0.0.0.0'
 }
 default["td_agent"]["yum_amazon_releasever"] = "$releasever"
-default['td_agent']['internal_repository'] = false
+default['td_agent']['skip_repository'] = false
