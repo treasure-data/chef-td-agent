@@ -22,6 +22,14 @@ env:
     - TEST_INSTANCE=2x-chef13-ubuntu-xenial
     - TEST_INSTANCE=2x-chef13-centos-centos6
     - TEST_INSTANCE=2x-chef13-centos-centos7
+    - TEST_INSTANCE=3x-chef12-ubuntu-trusty
+    - TEST_INSTANCE=3x-chef12-ubuntu-xenial
+    - TEST_INSTANCE=3x-chef12-centos-centos6
+    - TEST_INSTANCE=3x-chef12-centos-centos7
+    - TEST_INSTANCE=3x-chef13-ubuntu-trusty
+    - TEST_INSTANCE=3x-chef13-ubuntu-xenial
+    - TEST_INSTANCE=3x-chef13-centos-centos6
+    - TEST_INSTANCE=3x-chef13-centos-centos7
 
 script:
   - |

@@ -61,3 +61,11 @@ suites:
       require_chef_omnibus: 13.2.20
     run_list:
       - recipe[smoke::default]
+  - name: 3x-chef13
+    attributes:
+      td_agent:
+        version: 3.1.0
+    driver_config:
+      require_chef_omnibus: 13.2.20
+    run_list:
+      - recipe[smoke::default]

@@ -10,13 +10,5 @@
   <% if @tag %>
   tag <%= @tag %>
   <% end %>
-  <% @parameters.each do |k,v| %>
-    <% if v.is_a?(Hash) %>
-  <%= k %> <%= v.map{ |k,v| "#{k}:#{v}"}.join(',') %>
-    <% elsif v.is_a?(Array) %>
-  <%= k %> <%= v.join(',') %>
-    <% else %>
-  <%= k %> <%= v %>
-    <% end %>
-  <% end %>
+  <%= @parameters -%>
 </source>
