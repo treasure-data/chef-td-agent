@@ -40,7 +40,7 @@ action :create do
     end
 
     variables(type: new_resource.type,
-              parameters: params_to_text(parameters),
+              parameters: TdAgent::Helpers.params_to_text(parameters),
               tag: new_resource.tag)
     cookbook 'td-agent'
     notifies reload_action, 'service[td-agent]'
@@ -62,27 +62,7 @@ end
 def reload_action
   if reload_available?
     :reload
-  else :restart
+  else 
+    :restart
   end
-end
-
-def params_to_text(parameters)
-  body = ''
-  parameters.each do |k,v|
-    if v.is_a?(Hash)
-      body += "<#{k}>\n"
-      body += params_to_text(v)
-      body += "</#{k}>\n"
-    elsif v.is_a?(Array)
-      v.each do |v|
-        body += "<#{k}>\n"
-        body += params_to_text(v)
-        body += "</#{k}>\n"
-      end
-    else
-      body += "#{k} #{v}\n"
-    end
-  end
-  indent = '  '
-  body.each_line.map{|line| "#{indent}#{line}"}.join
 end

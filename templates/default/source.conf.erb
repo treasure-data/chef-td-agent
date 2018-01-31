@@ -2,17 +2,13 @@
 # Do NOT modify this file by hand!
 
 <source>
+  <% if node['td_agent']['version'].to_i < 3 %>
   type <%= @type %>
+  <% else %>
+  @type <%= @type %>
+  <% end %>
   <% if @tag %>
   tag <%= @tag %>
   <% end %>
-  <% @parameters.each do |k,v| %>
-    <% if v.is_a?(Hash) %>
-  <%= k %> <%= v.map{ |k,v| "#{k}:#{v}"}.join(',') %>
-    <% elsif v.is_a?(Array) %>
-  <%= k %> <%= v.join(',') %>
-    <% else %>
-  <%= k %> <%= v %>
-    <% end %>
-  <% end %>
+  <%= @parameters -%>
 </source>
