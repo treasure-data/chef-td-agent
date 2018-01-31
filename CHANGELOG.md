@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* none
+* Support td-agent 3.x (#108)
 
 ## 2.5.0
 
