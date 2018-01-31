@@ -9,8 +9,6 @@ rvm:
 
 cache:
   bundler: true
-  directories:
-    - /var/lib/docker
 
 env:
   matrix:
