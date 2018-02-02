@@ -11,12 +11,8 @@ describe 'td-agent::default' do
     expect { chef_run }.not_to raise_error
   end
 
-  it 'creates td-agent.conf' do
-    expect(chef_run).to create_template('/etc/td-agent/td-agent.conf')
-  end
-  
-  it 'starts and enables the td-agent service' do
-    expect(chef_run).to start_service('td-agent')
-    expect(chef_run).to enable_service('td-agent')
+  it 'includes configure and install recipes' do
+    expect(chef_run).to include_recipe('td-agent::install')
+    expect(chef_run).to include_recipe('td-agent::configure')
   end
 end
