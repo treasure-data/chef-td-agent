@@ -6,6 +6,7 @@ driver:
 provisioner:
   name: chef_zero
   log_level: info
+  deprecations_as_errors: true
 
 platforms:
   - name: ubuntu-trusty

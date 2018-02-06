@@ -28,7 +28,6 @@ attribute :tag, :kind_of => String, :required => true
 attribute :parameters, :default => {}
 
 # Workaround for backward compatibility for Chef pre-13 (#99)
-chef_major_version = ::Chef::VERSION.split(".").first.to_i
-if chef_major_version < 13
+if TdAgent::Helpers.apply_params_kludge?
   attribute :params, :default => {}
 end
