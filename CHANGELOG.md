@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* Moved out agent configuration code from `recipe[td-agent::default]` to `recipe[td-agent::configure]`  (#110, #111)
+* none
 
 ## 3.0.1
 
