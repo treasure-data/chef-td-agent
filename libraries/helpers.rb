@@ -21,5 +21,16 @@ module TdAgent
       indent = '  '
       body.each_line.map { |line| "#{indent}#{line}" }.join
     end
+
+    def self.apply_params_kludge?()
+      if ::Chef::Config[:treat_deprecation_warnings_as_errors]
+        # Skip setting up backward compatibility code for `params` (#112)
+        false
+      else
+        # Workaround for backward compatibility for Chef pre-13 (#99)
+        chef_major_version = ::Chef::VERSION.split(".").first.to_i
+        chef_major_version < 13
+      end
+    end
   end
 end
