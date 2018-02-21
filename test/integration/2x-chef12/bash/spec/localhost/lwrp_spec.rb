@@ -33,6 +33,11 @@ end
 describe file('/etc/td-agent/conf.d/test_in_tail_nginx.conf') do
   it { should be_a_file }
   it { should be_mode 644 }
+  its(:content) { should match %r|^\s*type\s+tail$| }
+  its(:content) { should match %r|^\s*tag\s+webserver\.nginx$| }
+  its(:content) { should match %r|^\s*path\s+/tmp/access\.log$| }
+  its(:content) { should match %r|^\s*pos_file\s+/tmp/.access\.log\.pos$| }
+  its(:content) { should match %r|^\s*exclude_path\s+\["/tmp/access\.log\.\*\.gz",\s+"/tmp/access\.log\.\*\.bz2"\]$| }
 end
 
 describe file('/etc/td-agent/conf.d/test_gelf_match.conf') do
