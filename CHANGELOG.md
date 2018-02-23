@@ -4,6 +4,11 @@
 
 * none
 
+## 3.0.2
+
+* Added workarounds for chef-client with `treat_deprecation_warnings_as_errors` enabled (#112, #113)
+* Fixed a bug in `td_agent_source` with list type parameters (#108, #115)
+
 ## 3.0.1
 
 * Moved out agent configuration code from `recipe[td-agent::default]` to `recipe[td-agent::configure]`  (#110, #111)
