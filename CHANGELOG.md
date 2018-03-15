@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* none
+* Removed unnecessary leading spaces from `parameters` of source template (#116)
 
 ## 3.0.2
 
