@@ -87,16 +87,21 @@ when "rhel", "amazon"
   # platform_family of Amazon Linux is judged as amazon in new version of ohai: https://github.com/chef/ohai/pull/971
 
   platform = node["platform"]
+  platform_version = node["platform_version"]
+  
+  case platform_version
+  when '2017.03', '2017.09'
+    amazon_release_ver = 1
+  when '2017.12'
+    amazon_release_ver = 2
+  end
+    
   source =
     if major.nil? || major == '1'
       "http://packages.treasuredata.com/redhat/$basearch"
     else
-      # version 2.x or later
       if platform == "amazon"
-        if node["td_agent"]["yum_amazon_releasever"] != "$releasever"
-          Chef::Log.warn("Treasure Data doesn't guarantee td-agent works on older Amazon Linux releases. td-agent could be used on such environment at your own risk.")
-        end
-        "http://packages.treasuredata.com/#{major}/redhat/#{node["td_agent"]["yum_amazon_releasever"]}/$basearch"
+        "http://packages.treasuredata.com/#{major}/amazon/#{amazon_release_ver}/#{platform_version}/$basearch"
       else
         "http://packages.treasuredata.com/#{major}/redhat/$releasever/$basearch"
       end
