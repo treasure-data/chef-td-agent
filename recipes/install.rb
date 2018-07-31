@@ -103,7 +103,11 @@ when "rhel", "amazon"
       end
     when '3'
       if platform == "amazon"
-        amazon_version = node['platform_version'] == '2' ? '2' : '1'
+        if node['kernel']['release'].include?('amzn2')
+          amazon_version = '2'
+        else
+          amazon_version = '1'
+        end
         "https://packages.treasuredata.com/#{major}/amazon/#{amazon_version}/#{node["td_agent"]["yum_amazon_releasever"]}/$basearch"
       else
         "http://packages.treasuredata.com/#{major}/redhat/$releasever/$basearch"

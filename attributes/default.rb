@@ -25,7 +25,3 @@ default["td_agent"]["in_http"] = {
 }
 default["td_agent"]["yum_amazon_releasever"] = "$releasever"
 default['td_agent']['skip_repository'] = false
-default['td_agent']['yum']['amazon'] = {
-  '1' => [ '2017.03', '2017.09', '2018.03'],
-  '2' => [ '2017.12', '2'],
-}
