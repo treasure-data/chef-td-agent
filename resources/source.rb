@@ -26,6 +26,7 @@ attribute :source_name, :kind_of => String, :name_attribute => true, :required =
 attribute :type, :kind_of => String, :required => true
 attribute :tag, :kind_of => String
 attribute :parameters, :kind_of => Hash, :default => {}
+attribute :_raw_options, :kind_of => Array, :default => []
 
 # Workaround for backward compatibility for Chef pre-13 (#99)
 if TdAgent::Helpers.apply_params_kludge?

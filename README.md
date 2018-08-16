@@ -163,6 +163,7 @@ Notice: If you use some plugins in your sources, you should install it before yo
 | type | Type of source. This is name of input plugin. |
 | tag | Tag, what uses in fluentd routing. |
 | parameters | Parameters of source. Hash. |
+| _raw_options | Use attribute value as is. |
 
 ### Example
 
@@ -174,6 +175,20 @@ td_agent_source 'test_in_tail' do
   tag 'syslog'
   parameters(format: 'syslog',
          path: '/var/log/messages')
+end
+```
+
+Use attribute `_raw_options` for attribute that using value such as `Array` or `Hash`. For example when you using [FluentD systemd plugin](https://github.com/reevoo/fluent-plugin-systemd).
+Just add the attribute name as an array item of `_raw_options`
+
+```ruby
+td_agent_source 'tail_journalctl' do
+  type 'systemd'
+  tag 'journalctl'
+  parameters(
+    matches: [{"_SYSTEMD_UNIT": "syslog.service"}]
+  )
+  _raw_options ["matches"]
 end
 ```
 
