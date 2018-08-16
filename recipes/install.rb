@@ -88,9 +88,10 @@ when "rhel", "amazon"
 
   platform = node["platform"]
   source =
-    if major.nil? || major == '1'
+    case major
+    when nil?,'1'
       "http://packages.treasuredata.com/redhat/$basearch"
-    else
+    when '2'
       # version 2.x or later
       if platform == "amazon"
         if node["td_agent"]["yum_amazon_releasever"] != "$releasever"
@@ -100,8 +101,14 @@ when "rhel", "amazon"
       else
         "http://packages.treasuredata.com/#{major}/redhat/$releasever/$basearch"
       end
+    when '3'
+      if platform == "amazon"
+      amazon_version = node['kernel']['release'].match(/\.amzn([[:digit:]]+)\./)[1]
+        "https://packages.treasuredata.com/#{major}/amazon/#{amazon_version}/#{node["td_agent"]["yum_amazon_releasever"]}/$basearch"
+      else
+        "http://packages.treasuredata.com/#{major}/redhat/$releasever/$basearch"
+      end
     end
-
   yum_repository "treasure-data" do
     description "TreasureData"
     url source
