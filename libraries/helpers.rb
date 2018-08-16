@@ -19,7 +19,11 @@ module TdAgent
             body += "#{param_key} [#{param_value.map { |array_value| array_value.to_s.dump }.join(", ")}]\n"
           end
         else
-          body += "#{param_key} #{param_value}\n"
+          if param_value.is_a?(Hash) || param_value.is_a?(Array)
+            body += "#{param_key} #{param_value.to_json}\n"
+          else
+            body += "#{param_key} #{param_value}\n"
+          end
         end
       end
       indent = '  '

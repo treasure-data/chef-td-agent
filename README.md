@@ -187,6 +187,7 @@ td_agent_source 'tail_journalctl' do
   tag 'journalctl'
   parameters(
     matches: [{"_SYSTEMD_UNIT": "syslog.service"}]
+    read_from_head: true
   )
   _raw_options ["matches"]
 end
