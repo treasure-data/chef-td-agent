@@ -178,7 +178,7 @@ td_agent_source 'test_in_tail' do
 end
 ```
 
-Use attribute `_raw_options` for attribute that using value such as `Array` or `Hash`. For example when you using [FluentD systemd plugin](https://github.com/reevoo/fluent-plugin-systemd).
+Use attribute `_raw_options` for attribute that using value such as `Array` or `Hash`. For example when you using [fluentd systemd plugin](https://github.com/reevoo/fluent-plugin-systemd).
 Just add the attribute name as an array item of `_raw_options`
 
 ```ruby
