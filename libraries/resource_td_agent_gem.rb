@@ -9,15 +9,15 @@ class Chef
         @provider = Chef::Provider::Package::TdRubygems
 
         @plugin = false
-        @gem_binary = ""
+        @gem_binary = ''
       end
 
-      def response_file(arg=nil)
-        set_or_return(:response_file, arg, :kind_of => String)
+      def response_file(arg = nil)
+        set_or_return(:response_file, arg, kind_of: String)
       end
 
-      def plugin(arg=nil)
-        set_or_return(:plugin, arg, :kind_of => [ TrueClass, FalseClass ])
+      def plugin(arg = nil)
+        set_or_return(:plugin, arg, kind_of: [TrueClass, FalseClass])
       end
     end
   end

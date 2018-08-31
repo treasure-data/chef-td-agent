@@ -17,17 +17,19 @@ include conf.d/*.conf
 #
 # This section matches events whose tag is td.DATABASE.TABLE
 <match td.*.*>
-  type tdlog
+  @type tdlog
   apikey <%= node['td_agent']['api_key'] %>
 
   auto_create_table
-  buffer_type file
-  buffer_path /var/log/td-agent/buffer/td
+  <buffer>
+    @type file
+    path /var/log/td-agent/buffer/td
+  </buffer>
 </match>
 
 ## match tag=debug.** and dump to console
 <match debug.**>
-  type stdout
+  @type stdout
 </match>
 
 ####
@@ -37,7 +39,7 @@ include conf.d/*.conf
 ## built-in TCP input
 ## @see http://docs.fluentd.org/articles/in_forward
 <source>
-  type forward
+  @type forward
   port <%= node['td_agent']['in_forward']['port'] %>
   bind <%= node['td_agent']['in_forward']['bind'] %>
 </source>
@@ -53,7 +55,7 @@ include conf.d/*.conf
 # POST http://localhost:8888/td.myapp.login?json={"user"%3A"me"}
 # @see http://docs.fluentd.org/articles/in_http
 <source>
-  type http
+  @type http
   port <%= node['td_agent']['in_http']['port'] %>
   bind <%= node['td_agent']['in_http']['bind'] %>
 </source>
@@ -61,7 +63,7 @@ include conf.d/*.conf
 
 ## live debugging agent
 <source>
-  type debug_agent
+  @type debug_agent
   bind 127.0.0.1
   port 24230
 </source>

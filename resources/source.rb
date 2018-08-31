@@ -21,15 +21,14 @@
 
 actions :create, :delete
 default_action :create
+provides :fluentd_source
 
-attribute :source_name, :kind_of => String, :name_attribute => true, :required => true
-attribute :type, :kind_of => String, :required => true
-attribute :tag, :kind_of => String
-attribute :parameters, :kind_of => Hash, :default => {}
+attribute :source_name, kind_of: String, name_attribute: true, required: true
+attribute :type, kind_of: String, required: true
+attribute :tag, kind_of: String
+attribute :parameters, kind_of: Hash, default: {}
 
 # Workaround for backward compatibility for Chef pre-13 (#99)
-if TdAgent::Helpers.apply_params_kludge?
-  attribute :params, :default => {}
-end
+attribute :params, default: {} if TdAgent::Helpers.apply_params_kludge?
 
-attribute :template_source, :kind_of => String, default: 'td-agent'
+attribute :template_source, kind_of: String, default: 'td-agent'

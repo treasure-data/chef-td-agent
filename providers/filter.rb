@@ -21,8 +21,12 @@
 
 include ::TdAgent::Version
 
+provides :fluentd_filter
+
+use_inline_resources
+
 action :create do
-  fail 'You should set the node[:td_agent][:includes] attribute to true to use this resource.' unless node['td_agent']['includes']
+  raise 'You should set the node[:td_agent][:includes] attribute to true to use this resource.' unless node['td_agent']['includes']
 
   template "/etc/td-agent/conf.d/#{new_resource.filter_name}.conf" do
     source 'filter.conf.erb'
@@ -32,7 +36,7 @@ action :create do
 
     # Workaround for backward compatibility for Chef pre-13 (#99)
     if TdAgent::Helpers.apply_params_kludge?
-      ::Chef::Log.warn("chef-td-agent: property `params` has been renamed to `parameters` since `params` is reserved in Chef 13+. The `params` will not be supported anymore with future release of chef-td-agent")
+      ::Chef::Log.warn('chef-td-agent: property `params` has been renamed to `parameters` since `params` is reserved in Chef 13+. The `params` will not be supported anymore with future release of chef-td-agent')
       parameters = Hash(new_resource.params).merge(Hash(new_resource.parameters))
     else
       parameters = new_resource.parameters
@@ -42,10 +46,10 @@ action :create do
               parameters: TdAgent::Helpers.params_to_text(parameters),
               tag: new_resource.tag)
     cookbook 'td-agent'
-    notifies reload_action, 'service[td-agent]'
+    notifies reload_action, 'service[td-agent]', :delayed
   end
 
-  new_resource.updated_by_last_action(true)
+  converge_by('created') {}
 end
 
 action :delete do
@@ -55,13 +59,13 @@ action :delete do
     notifies reload_action, 'service[td-agent]'
   end
 
-  new_resource.updated_by_last_action(true)
+  converge_by('deleted') {}
 end
 
 def reload_action
   if reload_available?
     :reload
-  else 
+  else
     :restart
   end
 end
