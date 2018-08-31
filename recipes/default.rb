@@ -5,5 +5,5 @@
 # Copyright 2011, Treasure Data, Inc.
 #
 
-include_recipe 'td-agent::install'
-include_recipe 'td-agent::configure'
+include_recipe "#{cookbook_name}::install"
+include_recipe "#{cookbook_name}::configure"

@@ -1,3 +1,5 @@
+<% _type = node['td_agent']['version'].to_i < 3 ? 'type' : '@type' %>
+
 <% if node['td_agent']['includes'] %>
 <% if @major_version.to_i < 2 %>
 include conf.d/*.conf
@@ -17,17 +19,24 @@ include conf.d/*.conf
 #
 # This section matches events whose tag is td.DATABASE.TABLE
 <match td.*.*>
-  type tdlog
+  <%= _type %> tdlog
   apikey <%= node['td_agent']['api_key'] %>
 
   auto_create_table
+<% if @major_version.to_i < 3 %>
   buffer_type file
   buffer_path /var/log/td-agent/buffer/td
+<% else %>  
+  <buffer>
+    <%= _type %> file
+    path /var/log/td-agent/buffer/td
+  </buffer>
+<% end %>
 </match>
 
 ## match tag=debug.** and dump to console
 <match debug.**>
-  type stdout
+  <%= _type %> stdout
 </match>
 
 ####
@@ -37,7 +46,7 @@ include conf.d/*.conf
 ## built-in TCP input
 ## @see http://docs.fluentd.org/articles/in_forward
 <source>
-  type forward
+  <%= _type %> forward
   port <%= node['td_agent']['in_forward']['port'] %>
   bind <%= node['td_agent']['in_forward']['bind'] %>
 </source>
@@ -53,7 +62,7 @@ include conf.d/*.conf
 # POST http://localhost:8888/td.myapp.login?json={"user"%3A"me"}
 # @see http://docs.fluentd.org/articles/in_http
 <source>
-  type http
+  <%= _type %> http
   port <%= node['td_agent']['in_http']['port'] %>
   bind <%= node['td_agent']['in_http']['bind'] %>
 </source>
@@ -61,7 +70,7 @@ include conf.d/*.conf
 
 ## live debugging agent
 <source>
-  type debug_agent
+  <%= _type %> debug_agent
   bind 127.0.0.1
   port 24230
 </source>
