@@ -3,9 +3,7 @@ default['td_agent']['api_key'] = ''
 # Enable td-agent Prometheus monitoring
 default['td_agent']['enable_prometheus'] = false
 
-default['td_agent']['plugins'] = [
-  'elasticsearch',
-]
+default['td_agent']['plugins'] = []
 
 default['td_agent']['uid'] = nil
 default['td_agent']['gid'] = nil
