@@ -23,7 +23,7 @@ include conf.d/*.conf
   apikey <%= node['td_agent']['api_key'] %>
 
   auto_create_table
-<% if @major_version < 3 %>
+<% if @major_version.to_i < 3 %>
   buffer_type file
   buffer_path /var/log/td-agent/buffer/td
 <% else %>  
