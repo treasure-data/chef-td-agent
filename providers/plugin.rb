@@ -20,14 +20,16 @@
 #
 
 action :create do
-  directory '/etc/td-agent/plugin' do
+  d = directory '/etc/td-agent/plugin' do
     owner "root"
     group "root"
     mode "0755"
     action :create
   end
 
-  remote_file "/etc/td-agent/plugin/#{new_resource.plugin_name}.rb" do
+  new_resource.updated_by_last_action(true) if d.updated_by_last_action?
+
+  r = remote_file "/etc/td-agent/plugin/#{new_resource.plugin_name}.rb" do
     action :create_if_missing
     owner 'root'
     group 'root'
@@ -36,15 +38,15 @@ action :create do
     notifies :restart, "service[td-agent]"
   end
 
-  new_resource.updated_by_last_action(true)
+  new_resource.updated_by_last_action(true) if r.updated_by_last_action?
 end
 
 action :delete do
-  file "/etc/td-agent/plugin/#{new_resource.plugin_name}.rb" do
+  f = file "/etc/td-agent/plugin/#{new_resource.plugin_name}.rb" do
     action :delete
     only_if { ::File.exist?("/etc/td-agent/plugin/#{new_resource.plugin_name}.rb") }
     notifies :restart, "service[td-agent]"
   end
 
-  new_resource.updated_by_last_action(true)
+  new_resource.updated_by_last_action(true) if f.updated_by_last_action?
 end
