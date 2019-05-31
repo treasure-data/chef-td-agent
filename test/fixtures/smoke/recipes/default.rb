@@ -62,21 +62,21 @@ td_agent_source 'test_in_tail_nginx' do
   tag 'webserver.nginx'
   if TdAgent::Helpers.apply_params_kludge?
     params(
-      format: '/^(?<remote>[^ ]*) - (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*) "(?<referer>[^\"]*)" "(?<agent>[^\"]*)" "(?<forwarded_for>[^\"]*)"$/',
+      format: 'apache2',
       time_format: '%d/%b/%Y:%H:%M:%S',
       types: { code: 'integer', size: 'integer' },
       path: '/tmp/access.log',
       pos_file: '/tmp/.access.log.pos',
-      exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
+#     exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
     )
   else
     parameters(
-      format: '/^(?<remote>[^ ]*) - (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*) "(?<referer>[^\"]*)" "(?<agent>[^\"]*)" "(?<forwarded_for>[^\"]*)"$/',
+      format: 'apache2',
       time_format: '%d/%b/%Y:%H:%M:%S',
       types: { code: 'integer', size: 'integer' },
       path: '/tmp/access.log',
       pos_file: '/tmp/.access.log.pos',
-      exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
+#     exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
     )
   end
 end
