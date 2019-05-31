@@ -67,7 +67,7 @@ td_agent_source 'test_in_tail_nginx' do
       types: { code: 'integer', size: 'integer' },
       path: '/tmp/access.log',
       pos_file: '/tmp/.access.log.pos',
-      exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
+#     exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
     )
   else
     parameters(
@@ -76,7 +76,7 @@ td_agent_source 'test_in_tail_nginx' do
       types: { code: 'integer', size: 'integer' },
       path: '/tmp/access.log',
       pos_file: '/tmp/.access.log.pos',
-      exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
+#     exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
     )
   end
 end
