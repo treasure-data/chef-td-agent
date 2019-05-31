@@ -4,6 +4,12 @@
 
 * none
 
+## 3.1.0
+
+* Move resources from default into configure recipe (#111)
+* Remove leading space for params (#116)
+* Fixed td-agent version 3 issue on Amazon Linux (#122)
+
 ## 3.0.3
 
 * Removed unnecessary leading spaces from `parameters` of source template (#116)
