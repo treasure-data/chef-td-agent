@@ -20,3 +20,5 @@ bin/*
 .kitchen/
 .kitchen.local.yml
 
+/.ruby-version
+/vendor
