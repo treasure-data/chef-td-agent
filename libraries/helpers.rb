@@ -4,6 +4,7 @@ module TdAgent
     def self.params_to_text(parameters)
       body = ''
       parameters.each do |param_key, param_value|
+        param_key = param_key.split('_').first if param_key.start_with?('store_')
         if param_value.is_a?(Hash)
           body += "<#{param_key}>\n"
           body += params_to_text(param_value)
