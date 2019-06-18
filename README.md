@@ -214,6 +214,24 @@ td_agent_match 'test_gelf_match' do
 end
 ```
 
+If you need to pass multiple `store`, you can use `store_X` and it'll be stored correctly:
+
+```ruby
+td_agent_match 'test_multi_tags_match' do
+  type 'copy'
+  tag 'webserver.*'
+  parameters(
+    store_1: [{ type: 'gelf',
+                   host: '127.0.0.1',
+                   port: 12201,
+                   flush_interval: '5s'},
+                   { type: 'stdout' }],
+    store_2: {
+      type: 'syslog'
+    }
+  )
+```
+
 ## td_agent_filter
 
 Create file with filter definition in `/etc/td-agent/conf.d` directory. It works only if `node[:td_agent][:includes]` is `true`
