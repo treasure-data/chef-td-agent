@@ -4,6 +4,10 @@
 
 * none
 
+## 3.2.0
+
+* Suppress update resource on why-run (#126)
+
 ## 3.1.0
 
 * Move resources from default into configure recipe (#111)
