@@ -40,6 +40,14 @@ describe file('/etc/td-agent/conf.d/test_in_tail_nginx.conf') do
 # its(:content) { should match %r|^\s*exclude_path\s+\["/tmp/access\.log\.\*\.gz",\s+"/tmp/access\.log\.\*\.bz2"\]$| }
 end
 
+describe file('/etc/td-agent/conf.d/test_section_attributes.conf') do
+  it { should be_a_file }
+  it { should be_mode 644 }
+  its(:content) { should match %r|^\s*.type null$| }
+  its(:content) { should match %r|^\s*<buffer tag, argument1, argument2>$| }
+  its(:content) { should match %r|^\s*</buffer>$| }
+end
+
 describe file('/etc/td-agent/conf.d/test_gelf_match.conf') do
   it { should be_a_file }
   it { should be_mode 644 }

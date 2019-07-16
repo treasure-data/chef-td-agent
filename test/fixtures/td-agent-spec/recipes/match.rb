@@ -14,3 +14,14 @@ td_agent_match '01_out_file' do
     }
   )
 end
+
+td_agent_match '02_buffer_with_arguments' do
+  action :create
+  type 'null'
+  tag 'output.null'
+  parameters(
+    'buffer tag, argument1, argument2' => {
+      timekey: '1d'
+    }
+  )
+end

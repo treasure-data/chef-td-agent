@@ -32,9 +32,11 @@ describe 'td-agent-spec::match' do
 
   it 'creates unit test output' do
     expect(chef_run).to create_td_agent_match('01_out_file')
+    expect(chef_run).to create_td_agent_match('02_buffer_with_arguments')
   end
 
   it 'creates the output config file' do
     expect(chef_run).to create_template('/etc/td-agent/conf.d/01_out_file.conf')
+    expect(chef_run).to create_template('/etc/td-agent/conf.d/02_buffer_with_arguments.conf')
   end
 end
