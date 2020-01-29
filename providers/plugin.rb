@@ -30,7 +30,9 @@ action :create do
   new_resource.updated_by_last_action(true) if d.updated_by_last_action?
 
   r = remote_file "/etc/td-agent/plugin/#{new_resource.plugin_name}.rb" do
-    action :create_if_missing
+    action :create_if_missing unless new_resource.checksum
+    action :create if new_resource.checksum
+    checksum new_resource.checksum if new_resource.checksum
     owner 'root'
     group 'root'
     mode '0644'
