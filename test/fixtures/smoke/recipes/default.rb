@@ -43,6 +43,7 @@ include_recipe 'td-agent::default'
 
 td_agent_plugin 'gelf' do
   url 'https://raw.githubusercontent.com/emsearcy/fluent-plugin-gelf/master/lib/fluent/plugin/out_gelf.rb'
+  checksum '225837bcb6b0ae35c60fd782284942557a402135a05e4bd31844f1e3301342e5'
 end
 
 td_agent_gem 'fluent-plugin-gelf-hs'
