@@ -19,6 +19,7 @@
 # limitations under the License.
 #
 
+use_inline_resources
 include ::TdAgent::Version
 
 action :create do
@@ -61,7 +62,7 @@ end
 def reload_action
   if reload_available?
     :reload
-  else 
+  else
     :restart
   end
 end

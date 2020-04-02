@@ -19,6 +19,7 @@
 # limitations under the License.
 #
 
+use_inline_resources
 include ::TdAgent::Version
 
 action :create do
