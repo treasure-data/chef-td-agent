@@ -21,16 +21,14 @@
 use_inline_resources
 
 action :create do
-  d = directory '/etc/td-agent/plugin' do
+  directory '/etc/td-agent/plugin' do
     owner "root"
     group "root"
     mode "0755"
     action :create
   end
 
-  new_resource.updated_by_last_action(true) if d.updated_by_last_action?
-
-  r = remote_file "/etc/td-agent/plugin/#{new_resource.plugin_name}.rb" do
+  remote_file "/etc/td-agent/plugin/#{new_resource.plugin_name}.rb" do
     action :create_if_missing unless new_resource.checksum
     action :create if new_resource.checksum
     checksum new_resource.checksum if new_resource.checksum
@@ -40,16 +38,12 @@ action :create do
     source new_resource.url
     notifies :restart, "service[td-agent]"
   end
-
-  new_resource.updated_by_last_action(true) if r.updated_by_last_action?
 end
 
 action :delete do
-  f = file "/etc/td-agent/plugin/#{new_resource.plugin_name}.rb" do
+  file "/etc/td-agent/plugin/#{new_resource.plugin_name}.rb" do
     action :delete
     only_if { ::File.exist?("/etc/td-agent/plugin/#{new_resource.plugin_name}.rb") }
     notifies :restart, "service[td-agent]"
   end
-
-  new_resource.updated_by_last_action(true) if f.updated_by_last_action?
 end
