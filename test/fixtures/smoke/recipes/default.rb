@@ -101,6 +101,24 @@ td_agent_match 'test_gelf_match' do
   end
 end
 
+td_agent_match 'test_section_attributes' do
+  type 'null'
+  tag 'null.*'
+  if TdAgent::Helpers.apply_params_kludge?
+    params(
+      'buffer tag, argument1, argument2' => {
+        timekey: '1d'
+      }
+    )
+  else
+    parameters(
+      'buffer tag, argument1, argument2' => {
+        timekey: '1d'
+      }
+    )
+  end
+end
+
 td_agent_filter 'test_filter' do
   type 'record_transformer'
   tag 'webserver.*'

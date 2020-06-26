@@ -4,14 +4,15 @@ module TdAgent
     def self.params_to_text(parameters)
       body = ''
       parameters.each do |param_key, param_value|
+        param_key_closing_tag = param_key.to_s.split.first
         if param_value.is_a?(Hash)
           body += "<#{param_key}>\n"
           body += params_to_text(param_value)
-          body += "</#{param_key}>\n"
+          body += "</#{param_key_closing_tag}>\n"
         elsif param_value.is_a?(Array)
           if param_value.all? { |array_value| array_value.is_a?(Hash) }
             body += param_value.map { |array_value|
-              "<#{param_key}>\n#{params_to_text(array_value)}</#{param_key}>\n"
+              "<#{param_key}>\n#{params_to_text(array_value)}</#{param_key_closing_tag}>\n"
             }.join
           else
             body += "#{param_key} [#{param_value.map { |array_value| array_value.to_s.dump }.join(", ")}]\n"
