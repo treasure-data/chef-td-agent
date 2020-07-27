@@ -121,7 +121,7 @@ GEM
     httpclient (2.8.3)
     iniparse (1.4.4)
     ipaddress (0.8.3)
-    json (2.2.0)
+    json (2.3.1)
     kitchen-docker (2.9.0)
       test-kitchen (>= 1.0.0)
     libyajl2 (1.2.0)
