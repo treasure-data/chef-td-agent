@@ -14,12 +14,7 @@ services:
 
 env:
   matrix:
-    - INSTANCE=default-amazon-2
-    - INSTANCE=default-centos-7
-    - INSTANCE=default-centos-8
-    - INSTANCE=default-centos-7 CHEF_VERSION=13
-    - INSTANCE=default-centos-7 CHEF_VERSION=14
-    - INSTANCE=default-debian-9
+    - INSTANCE=default-amazonlinux-2
     - INSTANCE=default-debian-10
     - INSTANCE=default-ubuntu-1804
     - INSTANCE=default-ubuntu-2004
