@@ -5,25 +5,14 @@ addons:
       - chef-stable-bionic
     packages:
       - chef-workstation
-      - jsonlint
 
-install: gem install yaml-lint mdl
+install: skip
 
 env:
   - CHEF_LICENSE=accept
 
 services:
   - docker
-
-matrix:
-  include:
-    - script:
-        - yaml-lint -i ./
-        - cookstyle .
-        - find . -not -path "*/\.*" -type f -iname "*.md" -exec mdl \{\} \+
-        - find . -not -path "*/\.*" -type f -iname "*.json" -exec jsonlint-php \{\} \+
-      env:
-        - CHEF_LICENSE=accept
 
 env:
   matrix:
@@ -40,3 +29,17 @@ before_script:
   - chef --version
 
 script: CHEF_LICENSE=accept-no-persist KITCHEN_LOCAL_YAML=kitchen.dokken.yml kitchen verify ${INSTANCE}
+
+matrix:
+  include:
+    - before_script:
+        - sudo apt-get update
+        - sudo apt-get install jsonlint -y
+        - sudo gem install yaml-lint mdl
+    - script:
+        - yaml-lint -i ./
+        - cookstyle .
+        - find . -not -path "*/\.*" -type f -iname "*.md" -exec mdl \{\} \+
+        - find . -not -path "*/\.*" -type f -iname "*.json" -exec jsonlint-php \{\} \+
+      env:
+        - CHEF_LICENSE=accept
