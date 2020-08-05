@@ -3,14 +3,8 @@ addons:
   apt:
     sources:
       - chef-stable-bionic
-      - docker-bionic
     packages:
       - chef-workstation
-      - docker
-
-before_install:
-  - sudo apt-get udpate
-  - sudo apt-get upgrade -y -o Dpkg::Options::="--force-confnew"
 
 env:
   - CHEF_LICENSE=accept
