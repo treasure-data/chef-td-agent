@@ -1,1 +1,1 @@
-require "serverspec"
+require 'serverspec'

@@ -7,7 +7,7 @@ describe 'td-agent-spec::match' do
     {
       platform: 'ubuntu',
       version: '14.04',
-      step_into: %w(td_agent_match)
+      step_into: %w(td_agent_match),
     }
   end
 
@@ -21,8 +21,8 @@ describe 'td-agent-spec::match' do
         'skip_repository' => true,
         'user' => 'td-agent',
         'uid' => 2000,
-        'version' => '3.1.0'
-      }
+        'version' => '3.1.0',
+      },
     }
   end
 

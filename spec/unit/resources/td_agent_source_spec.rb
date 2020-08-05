@@ -7,7 +7,7 @@ describe 'td-agent-spec::source' do
     {
       platform: 'ubuntu',
       version: '14.04',
-      step_into: %w(td_agent_source)
+      step_into: %w(td_agent_source),
     }
   end
 
@@ -21,8 +21,8 @@ describe 'td-agent-spec::source' do
         'skip_repository' => true,
         'user' => 'td-agent',
         'uid' => 2000,
-        'version' => '3.1.0'
-      }
+        'version' => '3.1.0',
+      },
     }
   end
 

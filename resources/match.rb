@@ -1,10 +1,9 @@
+# To learn more about Custom Resources, see https://docs.chef.io/custom_resources/
 #
 # Cookbok Name:: td-agent
-# Resource:: match
+# Resource:: td_agent_match
 #
-# Author:: Pavel Yudin <pyudin@parallels.com>
-#
-#
+# Author:: Corey Hemminger <hemminger@hotmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,15 +18,71 @@
 # limitations under the License.
 #
 
-actions :create, :delete
-default_action :create
+provides :td_agent_match
+resource_name :td_agent_match
 
-attribute :match_name, :kind_of => String, :name_attribute => true, :required => true
-attribute :type, :kind_of => String, :required => true
-attribute :tag, :kind_of => String, :required => true
-attribute :parameters, :default => {}
+description 'Creates matcher configuration files'
 
-# Workaround for backward compatibility for Chef pre-13 (#99)
-if TdAgent::Helpers.apply_params_kludge?
-  attribute :params, :default => {}
+property :match_name, String,
+         name_property: true,
+         description: 'Name of matcher'
+
+property :type, String,
+         required: true,
+         description: 'Type of matcher being created'
+
+property :tag, String,
+         required: true,
+         description: 'Tag to add to the data'
+
+property :parameters,
+         default: {},
+         description: 'Additional parameters to pass to the matcher'
+
+property :template_source, String,
+         default: 'td-agent',
+         description: 'Which cookbook to use for the template source'
+
+action :create do
+  description 'Creates matcher configuration files'
+
+  parameters = new_resource.parameters
+
+  template "/etc/td-agent/conf.d/#{new_resource.match_name}.conf" do
+    source 'match.conf.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+    variables(
+      type: new_resource.type,
+      parameters: TdAgent::Helpers.params_to_text(parameters),
+      tag: new_resource.tag
+    )
+    cookbook new_resource.template_source
+    notifies :reload, 'service[td-agent]'
+  end
+
+  service 'td-agent' do
+    supports restart: true, reload: true, status: true
+    action [:enable, :start]
+  end
+end
+
+action :delete do
+  description 'Removes matcher configuration files'
+
+  file "/etc/td-agent/conf.d/#{new_resource.match_name}.conf" do
+    action :delete
+    only_if { ::File.exist?("/etc/td-agent/conf.d/#{new_resource.match_name}.conf") }
+    notifies :reload, 'service[td-agent]'
+  end
+
+  service 'td-agent' do
+    supports restart: true, reload: true, status: true
+    action [:enable, :start]
+  end
+end
+
+action_class do
+  include ::TdAgent::Helpers
 end

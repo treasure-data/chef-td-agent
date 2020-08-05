@@ -1,4 +1,6 @@
-include_recipe 'td-agent::default'
+td_agent_install '4' do
+  action [:install, :configure]
+end
 
 td_agent_filter '01_filter' do
   action :create
@@ -6,8 +8,8 @@ td_agent_filter '01_filter' do
   tag 'test'
   parameters(
     record: {
-      hostname: '"#{Socket.gethostname}"',
-      tag: '${tag}'
+      hostname: "#{Socket.gethostname}",
+      tag: '${tag}',
     }
   )
 end

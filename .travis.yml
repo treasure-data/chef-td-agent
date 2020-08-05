@@ -12,18 +12,18 @@ cache:
 
 env:
   matrix:
-#   - TEST_INSTANCE=2x-chef12-ubuntu-xenial
-#   - TEST_INSTANCE=2x-chef12-centos-centos6
-#   - TEST_INSTANCE=2x-chef12-centos-centos7
-    - TEST_INSTANCE=2x-chef13-ubuntu-xenial
-    - TEST_INSTANCE=2x-chef13-centos-centos6
-    - TEST_INSTANCE=2x-chef13-centos-centos7
-#   - TEST_INSTANCE=3x-chef12-ubuntu-xenial
-#   - TEST_INSTANCE=3x-chef12-centos-centos6
-#   - TEST_INSTANCE=3x-chef12-centos-centos7
-    - TEST_INSTANCE=3x-chef13-ubuntu-xenial
-    - TEST_INSTANCE=3x-chef13-centos-centos6
-    - TEST_INSTANCE=3x-chef13-centos-centos7
+#   - TEST_INSTANCE=2x-chef13-ubuntu-xenial
+#   - TEST_INSTANCE=2x-chef13-centos-centos6
+#   - TEST_INSTANCE=2x-chef13-centos-centos7
+    - TEST_INSTANCE=2x-chef14-ubuntu-xenial
+    - TEST_INSTANCE=2x-chef14-centos-centos6
+    - TEST_INSTANCE=2x-chef14-centos-centos7
+#   - TEST_INSTANCE=3x-chef15-ubuntu-xenial
+#   - TEST_INSTANCE=3x-chef15-centos-centos6
+#   - TEST_INSTANCE=3x-chef15-centos-centos7
+    - TEST_INSTANCE=3x-chef16-ubuntu-xenial
+    - TEST_INSTANCE=3x-chef16-centos-centos6
+    - TEST_INSTANCE=3x-chef16-centos-centos7
 
 script:
   - |

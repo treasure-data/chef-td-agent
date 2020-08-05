@@ -6,7 +6,7 @@ describe 'td-agent::install' do
   let(:platform) do
     { platform: 'ubuntu', version: '14.04' }
   end
-  
+
   let(:node_attributes) do
     {
       'td_agent' => {
@@ -16,8 +16,8 @@ describe 'td-agent::install' do
         'skip_repository' => true,
         'user' => 'td-agent',
         'uid' => 2000,
-        'version' => '3.1.0'
-      }
+        'version' => '3.1.0',
+      },
     }
   end
 

@@ -1,10 +1,9 @@
+# To learn more about Custom Resources, see https://docs.chef.io/custom_resources/
 #
 # Cookbok Name:: td-agent
-# Resource:: plugin
+# Resource:: td_agent_plugin
 #
-# Author:: Pavel Yudin <pyudin@parallels.com>
-#
-#
+# Author:: Corey Hemminger <hemminger@hotmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,8 +18,44 @@
 # limitations under the License.
 #
 
-actions :create, :delete
-default_action :create
+provides :td_agent_plugin
+resource_name :td_agent_plugin
 
-attribute :plugin_name, :kind_of => String, :name_attribute => true, :required => true
-attribute :url, :kind_of => String, :required => true
+description 'Downloads plugin files locally'
+
+property :plugin_name, String,
+         name_property: true,
+         description: 'Name of plugin'
+
+property :url, String,
+         required: true,
+         description: 'Url to download the plugin from'
+
+action :create do
+  description 'Downloads plugin files locally'
+
+  directory '/etc/td-agent/plugin' do
+    recursive true
+    owner 'root'
+    group 'root'
+    mode '0755'
+    action :create
+  end
+
+  remote_file "/etc/td-agent/plugin/#{new_resource.plugin_name}.rb" do
+    action :create_if_missing
+    owner 'root'
+    group 'root'
+    mode '0644'
+    source new_resource.url
+  end
+end
+
+action :delete do
+  description 'Removes local plugin files'
+
+  file "/etc/td-agent/plugin/#{new_resource.plugin_name}.rb" do
+    action :delete
+    only_if { ::File.exist?("/etc/td-agent/plugin/#{new_resource.plugin_name}.rb") }
+  end
+end

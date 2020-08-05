@@ -1,4 +1,6 @@
-include_recipe 'td-agent::default'
+td_agent_install '4' do
+  action [:install, :configure]
+end
 
 td_agent_match '01_out_file' do
   action :create
@@ -10,7 +12,7 @@ td_agent_match '01_out_file' do
     buffer: {
       timekey: '1d',
       timekey_use_utc: true,
-      timekey_wait: '10m'
+      timekey_wait: '10m',
     }
   )
 end

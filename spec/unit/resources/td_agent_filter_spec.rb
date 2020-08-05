@@ -7,7 +7,7 @@ describe 'td-agent-spec::filter' do
     {
       platform: 'ubuntu',
       version: '14.04',
-      step_into: %w(td_agent_filter)
+      step_into: %w(td_agent_filter),
     }
   end
 
@@ -21,8 +21,8 @@ describe 'td-agent-spec::filter' do
         'skip_repository' => true,
         'user' => 'td-agent',
         'uid' => 2000,
-        'version' => '3.1.0'
-      }
+        'version' => '3.1.0',
+      },
     }
   end
 
@@ -39,7 +39,7 @@ describe 'td-agent-spec::filter' do
       .with(variables: {
         type: 'record_transformer',
         parameters: "  <record>\n    hostname \"\#{Socket.gethostname}\"\n    tag ${tag}\n  </record>\n",
-        tag: 'test'
+        tag: 'test',
       })
   end
 end

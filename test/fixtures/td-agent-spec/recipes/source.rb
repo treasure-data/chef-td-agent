@@ -1,4 +1,6 @@
-include_recipe 'td-agent::default'
+td_agent_install '4' do
+  action [:install, :configure]
+end
 
 td_agent_source '01_input' do
   action :create
