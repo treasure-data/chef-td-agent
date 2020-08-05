@@ -1,7 +1,8 @@
----
 driver:
   name: dokken
   privileged: true # because Docker and SystemD/Upstart
+  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
+  chef_license: accept-no-persist
 
 transport:
   name: dokken
@@ -9,14 +10,42 @@ transport:
 provisioner:
   name: dokken
   deprecations_as_errors: true
-  chef_license: accept-no-persist
-  clean_dokken_sandbox: false
+  client_rb:
+    silence_deprecation_warnings:
+      - chef-25
+
+verifier:
+  name: inspec
 
 platforms:
+  - name: amazonlinux
+    driver:
+      image: dokken/amazonlinux
+      pid_one_command: /sbin/init
+
   - name: amazonlinux-2
     driver:
       image: dokken/amazonlinux-2
       pid_one_command: /usr/lib/systemd/systemd
+
+  - name: debian-9
+    driver:
+      image: dokken/debian-9
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+
+  - name: debian-10
+    driver:
+      image: dokken/debian-10
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+
+  - name: centos-6
+    driver:
+      image: dokken/centos-6
+      pid_one_command: /sbin/init
 
   - name: centos-7
     driver:
@@ -28,22 +57,26 @@ platforms:
       image: dokken/centos-8
       pid_one_command: /usr/lib/systemd/systemd
 
-  - name: debian-9
+  - name: fedora-latest
     driver:
-      image: dokken/debian-9
-      pid_one_command: /usr/lib/systemd/systemd
-
-  - name: debian-10
-    driver:
-      image: dokken/debian-10
+      image: dokken/fedora-latest
       pid_one_command: /usr/lib/systemd/systemd
 
   - name: ubuntu-18.04
     driver:
       image: dokken/ubuntu-18.04
-      pid_one_command: /usr/lib/systemd/systemd
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
 
   - name: ubuntu-20.04
     driver:
       image: dokken/ubuntu-20.04
-      pid_one_command: /usr/lib/systemd/systemd
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+
+  - name: opensuse-leap-15
+    driver:
+      image: dokken/opensuse-leap-15
+      pid_one_command: /bin/systemd
