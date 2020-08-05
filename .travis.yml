@@ -1,11 +1,16 @@
+dist: bionic
 addons:
   apt:
     sources:
-      - chef-current-xenial
+      - chef-stable-bionic
+      - docker-bionic
     packages:
       - chef-workstation
+      - docker
 
-install: echo "skip bundle install"
+before_install:
+  - sudo apt-get udpate
+  - sudo apt-get upgrade -y -o Dpkg::Options::="--force-confnew"
 
 env:
   - CHEF_LICENSE=accept
@@ -13,24 +18,19 @@ env:
 services:
   - docker
 
-rvm:
-  - 2.5.5
-
-cache:
-  bundler: true
-
 env:
   matrix:
-    - INSTANCE=chefdk-debian-9
-    - INSTANCE=chefdk-debian-10
-    - INSTANCE=chefdk-centos-7
-    - INSTANCE=chefdk-centos-8
-    - INSTANCE=chefdk-centos-7 CHEF_VERSION=14
-    - INSTANCE=chefdk-centos-7 CHEF_VERSION=16
-    - INSTANCE=chefdk-ubuntu-1804
-    - INSTANCE=chefdk-ubuntu-2004
-    - INSTANCE=chefdk-ubuntu-1804 CHEF_VERSION=14
-    - INSTANCE=chefdk-ubuntu-1804 CHEF_VERSION=16
+    - INSTANCE=default-amazon-2
+    - INSTANCE=default-centos-7
+    - INSTANCE=default-centos-8
+    - INSTANCE=default-centos-7 CHEF_VERSION=13
+    - INSTANCE=default-centos-7 CHEF_VERSION=14
+    - INSTANCE=default-debian-9
+    - INSTANCE=default-debian-10
+    - INSTANCE=default-ubuntu-1804
+    - INSTANCE=default-ubuntu-2004
+    - INSTANCE=default-ubuntu-1804 CHEF_VERSION=13
+    - INSTANCE=default-ubuntu-1804 CHEF_VERSION=14
 
 before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
