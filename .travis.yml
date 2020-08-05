@@ -26,12 +26,17 @@ before_script:
   - export CHEF_LICENSE=accept
   - chef --version
 
-script: KITCHEN_LOCAL_YAML=kitchen.dokken.yml kitchen verify ${INSTANCE}
+script: CHEF_LICENSE=accept-no-persist KITCHEN_LOCAL_YAML=kitchen.dokken.yml kitchen verify ${INSTANCE}
 
 matrix:
   include:
     - script:
-        - delivery local all
+        - apt-get update
+        - apt-get install jsonlint
+        - gem install mdl yaml-lint
+        - cookstyle .
+        - yaml-lint -i ./
+        - find . -not -path "*/\.*" -type f -iname "*.md" -exec mdl \{\} \+
+        - find . -not -path "*/\.*" -type f -iname "*.json" -exec jsonlint-php \{\} \+
       env:
-        - UNIT_AND_LINT=1
         - CHEF_LICENSE=accept
