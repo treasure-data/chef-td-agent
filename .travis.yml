@@ -18,7 +18,6 @@ env:
     - INSTANCE=default-debian-10
     - INSTANCE=default-ubuntu-1804
     - INSTANCE=default-ubuntu-2004
-    - INSTANCE=default-ubuntu-1804 CHEF_VERSION=13
     - INSTANCE=default-ubuntu-1804 CHEF_VERSION=14
 
 before_script:
