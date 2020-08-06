@@ -32,6 +32,7 @@ script: CHEF_LICENSE=accept-no-persist KITCHEN_LOCAL_YAML=kitchen.dokken.yml kit
 matrix:
   include:
     - script:
+        - sudo apt-get install build-essential -y
         - sudo gem install yaml-lint mdl
         - yaml-lint -i ./
         - cookstyle .
