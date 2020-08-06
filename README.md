@@ -32,5 +32,5 @@ If users encounter any compatibility issues with td-agent on Amazon Linux, they 
 
 Copyright 2014-today Treasure Data, Inc.
 
-The code is licensed under the Apache License 2.0 (see  LICENSE for details). 
+The code is licensed under the Apache License 2.0 (see  LICENSE for details).
 
