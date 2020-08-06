@@ -25,21 +25,16 @@ env:
 before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(chef shell-init bash)"
-  - export CHEF_LICENSE=accept
   - chef --version
 
 script: CHEF_LICENSE=accept-no-persist KITCHEN_LOCAL_YAML=kitchen.dokken.yml kitchen verify ${INSTANCE}
 
 matrix:
   include:
-    - before_script:
-        - sudo apt-get update
-        - sudo apt-get install jsonlint -y
-        - sudo gem install yaml-lint mdl
     - script:
+        - sudo gem install yaml-lint mdl
         - yaml-lint -i ./
         - cookstyle .
         - find . -not -path "*/\.*" -type f -iname "*.md" -exec mdl \{\} \+
-        - find . -not -path "*/\.*" -type f -iname "*.json" -exec jsonlint-php \{\} \+
       env:
         - CHEF_LICENSE=accept
