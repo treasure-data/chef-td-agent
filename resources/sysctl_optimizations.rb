@@ -23,7 +23,7 @@ resource_name :td_agent_sysctl_optimizations
 
 description 'Creates sysctl files'
 
-property :sysctl_optimization, Hash,
+property :sysctl_optimizations, Hash,
          default: {
            'net.core.somaxconn' => 1024,
            'net.core.netdev_max_backlog' => 5000,
