@@ -1,5 +1,5 @@
 # Tests
-#td_agent_sysctl_optimizations 'default'
+# td_agent_sysctl_optimizations 'default'
 
 td_agent_plugin 'gelf' do
   url 'https://raw.githubusercontent.com/emsearcy/fluent-plugin-gelf/master/lib/fluent/plugin/out_gelf.rb'
