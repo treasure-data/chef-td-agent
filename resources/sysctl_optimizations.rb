@@ -45,7 +45,6 @@ action :create do
     sysctl key do
       value value
     end
-    notifies :run, 'execute[sysctl -p]', :delayed
   end
 end
 
@@ -57,6 +56,5 @@ action :remove do
       value value
       action :remove
     end
-    notifies :run, 'execute[sysctl -p]', :delayed
   end
 end
