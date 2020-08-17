@@ -6,7 +6,7 @@ describe 'td-agent::install' do
   let(:platform) do
     { platform: 'ubuntu', version: '14.04' }
   end
-  
+
   let(:node_attributes) do
     {
       'td_agent' => {
