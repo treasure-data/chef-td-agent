@@ -67,7 +67,7 @@ action :install do
   else
     yum_repository 'treasure-data' do
       description 'TreasureData'
-      baseurl "http://packages.treasuredata.com/#{new_resource.major_version}/#{platform?('amazon') ? 'amazon' : 'redhat'}/$releasever/$basearch"
+      baseurl "http://packages.treasuredata.com/#{new_resource.major_version}/#{platform?('amazon') ? 'amazon' : 'redhat'}/#{node['platform_version'].to_i}/$basearch"
       gpgkey 'https://packages.treasuredata.com/GPG-KEY-td-agent'
     end
   end
