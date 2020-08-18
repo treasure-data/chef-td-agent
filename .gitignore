@@ -1,24 +1,22 @@
-.idea/
-
+.vagrant
 *~
 *#
 .#*
 \#*#
 .*.sw[a-z]
 *.un~
-pkg/
-
-# Berkshelf
-.vagrant
-/cookbooks
-Berksfile.lock
 
 # Bundler
+Gemfile.lock
+gems.locked
 bin/*
 .bundle/*
 
+# test kitchen
 .kitchen/
-.kitchen.local.yml
+kitchen.local.yml
 
-/.ruby-version
-/vendor
+# Chef
+Berksfile.lock
+.zero-knife.rb
+Policyfile.lock.json

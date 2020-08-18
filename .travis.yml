@@ -1,31 +1,40 @@
-dist: xenial
-language: ruby
+dist: bionic
+addons:
+  apt:
+    sources:
+      - chef-stable-bionic
+    packages:
+      - chef-workstation
+
+install: skip
+
+env:
+  - CHEF_LICENSE=accept
 
 services:
   - docker
 
-rvm:
-  - 2.5.5
-
-cache:
-  bundler: true
-
 env:
   matrix:
-#   - TEST_INSTANCE=2x-chef12-ubuntu-xenial
-#   - TEST_INSTANCE=2x-chef12-centos-centos6
-#   - TEST_INSTANCE=2x-chef12-centos-centos7
-    - TEST_INSTANCE=2x-chef13-ubuntu-xenial
-    - TEST_INSTANCE=2x-chef13-centos-centos6
-    - TEST_INSTANCE=2x-chef13-centos-centos7
-#   - TEST_INSTANCE=3x-chef12-ubuntu-xenial
-#   - TEST_INSTANCE=3x-chef12-centos-centos6
-#   - TEST_INSTANCE=3x-chef12-centos-centos7
-    - TEST_INSTANCE=3x-chef13-ubuntu-xenial
-    - TEST_INSTANCE=3x-chef13-centos-centos6
-    - TEST_INSTANCE=3x-chef13-centos-centos7
+    - INSTANCE=default-amazonlinux-2
+    - INSTANCE=default-debian-10
+    - INSTANCE=default-ubuntu-1804
+    - INSTANCE=default-ubuntu-2004
+    - INSTANCE=default-ubuntu-1804 CHEF_VERSION=14
 
-script:
-  - |
-    set -ex -o pipefail
-    bundle exec kitchen test "${TEST_INSTANCE}"
+before_script:
+  - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
+  - eval "$(chef shell-init bash)"
+  - chef --version
+
+script: CHEF_LICENSE=accept-no-persist KITCHEN_LOCAL_YAML=kitchen.dokken.yml kitchen verify ${INSTANCE}
+
+matrix:
+  include:
+    - script:
+        - sudo gem install yaml-lint mdl
+        - yaml-lint -i ./
+        - cookstyle .
+        - find . -not -path "*/\.*" -type f -iname "*.md" -exec mdl \{\} \+
+      env:
+        - CHEF_LICENSE=accept

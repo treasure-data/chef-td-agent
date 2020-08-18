@@ -1,0 +1,30 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  retry_on_exit_code:
+    - 35 # 35 is the exit code signaling that the node is rebooting
+  product_name: chef
+  product_version: 16
+  deprecations_as_errors: true
+  chef_license: accept-no-persist
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: amazonlinux-2
+  - name: centos-7
+  - name: centos-8
+  - name: debian-10
+  - name: ubuntu-18.04
+  - name: ubuntu-20.04
+
+suites:
+  - name: default
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:

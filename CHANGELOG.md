@@ -53,7 +53,7 @@
 * Add `retry` to `package` resource (#86)
 * Fix a deprecation warning of usage of `manage_home` of `user` resource (#89)
 
-## 2.2.1 
+## 2.2.1
 
 * Make system user & group as attributes (#80)
 * Allow using custom template for `source` provider (#83)
@@ -73,7 +73,7 @@
 
 ## 2.1.2
 
-* Use `@include` when configuring td-agent 2.x 
+* Use `@include` when configuring td-agent 2.x
 * Delay the reload in case a wrapper cookbook has other `conf.d` files to change (#69)
 * Specify arch='amd64' to the `apt_repository` resource (#53, #69)
 * Use `@include` directive when using td-agent 2.x (#62)

@@ -19,33 +19,14 @@
 # limitations under the License.
 #
 
-case node["platform_family"]
-when "rhel"
-  # workaround to let `/etc/init.d/functions` to NOT use systemctl(8)
-  file "/etc/sysconfig/td-agent" do
-    owner "root"
-    group "root"
-    mode "0644"
-    content <<-EOS
-SYSTEMCTL_SKIP_REDIRECT=1
-    EOS
-    only_if {
-      %r|/docker/| =~ (::File.read("/proc/1/cgroup") rescue "") and ::File.exist?("/bin/systemctl")
-    }
-  end.run_action(:create)
-end
-
-unless /^1\./ =~ node["td_agent"]["version"]
-  node.force_default['td_agent']['includes'] = true
-end
-
-include_recipe 'td-agent::default'
-
 td_agent_plugin 'gelf' do
   url 'https://raw.githubusercontent.com/emsearcy/fluent-plugin-gelf/master/lib/fluent/plugin/out_gelf.rb'
 end
 
-td_agent_gem 'fluent-plugin-gelf-hs'
+td_agent_install '4' do
+  plugins 'gelf-hs'
+  action [:install, :configure]
+end
 
 td_agent_source 'test_in_tail' do
   type 'tail'
@@ -53,7 +34,7 @@ td_agent_source 'test_in_tail' do
   parameters(
     format: 'syslog',
     path: '/var/log/syslog',
-    pos_file: '/tmp/.syslog.pos',
+    pos_file: '/tmp/.syslog.pos'
   )
 end
 
@@ -66,8 +47,8 @@ td_agent_source 'test_in_tail_nginx' do
       time_format: '%d/%b/%Y:%H:%M:%S',
       types: { code: 'integer', size: 'integer' },
       path: '/tmp/access.log',
-      pos_file: '/tmp/.access.log.pos',
-#     exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
+      pos_file: '/tmp/.access.log.pos'
+      #     exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
     )
   else
     parameters(
@@ -75,8 +56,8 @@ td_agent_source 'test_in_tail_nginx' do
       time_format: '%d/%b/%Y:%H:%M:%S',
       types: { code: 'integer', size: 'integer' },
       path: '/tmp/access.log',
-      pos_file: '/tmp/.access.log.pos',
-#     exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
+      pos_file: '/tmp/.access.log.pos'
+      #     exclude_path: ["/tmp/access.log.*.gz", "/tmp/access.log.*.bz2"],
     )
   end
 end
@@ -87,15 +68,15 @@ td_agent_match 'test_gelf_match' do
   if TdAgent::Helpers.apply_params_kludge?
     params(
       store: [
-        {type: 'gelf', host: '127.0.0.1', port: 12201, flush_interval: '5s'},
-        {type: 'stdout'},
+        { type: 'gelf', host: '127.0.0.1', port: 12201, flush_interval: '5s' },
+        { type: 'stdout' },
       ]
     )
   else
     parameters(
       store: [
-        {type: 'gelf', host: '127.0.0.1', port: 12201, flush_interval: '5s'},
-        {type: 'stdout'},
+        { type: 'gelf', host: '127.0.0.1', port: 12201, flush_interval: '5s' },
+        { type: 'stdout' },
       ]
     )
   end
@@ -107,13 +88,13 @@ td_agent_filter 'test_filter' do
   if TdAgent::Helpers.apply_params_kludge?
     params(
       record: [
-        {host_param: %q|"#{Socket.gethostname}"|},
+        { host_param: "#{Socket.gethostname}" },
       ]
     )
   else
     parameters(
       record: [
-        {host_param: %q|"#{Socket.gethostname}"|},
+        { host_param: "#{Socket.gethostname}" },
       ]
     )
   end

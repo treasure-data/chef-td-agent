@@ -3,24 +3,12 @@ driver:
   name: docker
   use_sudo: false
 
-provisioner:
-  name: chef_zero
-  log_level: info
-  deprecations_as_errors: true
+transport:
+  name: docker
 
 platforms:
-  - name: ubuntu-xenial
-    driver_config:
-      platform: ubuntu
-      image: ubuntu:16.04
-  - name: centos-centos6
-    driver_config:
-      platform: centos
-      image: centos:centos6
-  - name: centos-centos7
-    driver_config:
-      platform: centos
-      image: centos:centos7
+  - name: ubuntu-18.04
+  - name: centos-7
 
 suites:
 # - name: 1x-chef12
@@ -49,19 +37,19 @@ suites:
 #     require_chef_omnibus: 12.21.3
 #   run_list:
 #     - recipe[smoke::default]
-  - name: 2x-chef13
-    attributes:
-      td_agent:
-        version: 2.2.0
-    driver_config:
-      require_chef_omnibus: 13.2.20
+  - name: 2x-chef14
+    verifier:
+      inspec_tests:
+        - test/integration/default
     run_list:
-      - recipe[smoke::default]
-  - name: 3x-chef13
+      - recipe[test::default]
     attributes:
-      td_agent:
-        version: 3.1.0
-    driver_config:
-      require_chef_omnibus: 13.2.20
+
+  - name: 3x-chef16
+    verifier:
+      inspec_tests:
+        - test/integration/default
     run_list:
-      - recipe[smoke::default]
+      - recipe[test::default]
+    attributes:
+
