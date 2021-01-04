@@ -163,6 +163,7 @@ Notice: If you use some plugins in your sources, you should install it before yo
 | type | Type of source. This is name of input plugin. |
 | tag | Tag, what uses in fluentd routing. |
 | parameters | Parameters of source. Hash. |
+| worker | Pin plugin to certain woker. It is a zero-based worker index. |
 
 ### Example
 
@@ -198,6 +199,7 @@ Notice: Notice: If you use some plugins in your matches, you should install it b
 | type | Type of match. This is name of output plugin. |
 | tag | Tag, what uses in fluentd routing. |
 | parameters | Parameters of match. Hash. |
+| worker | Pin plugin to certain woker. It is a zero-based worker index. |
 
 ### Example
 This example creates the match with type `copy` and tag `webserver.*` which sends log data to local graylog2 server.
@@ -235,6 +237,7 @@ Notice: Notice: If you use some plugins for your filters, you should install the
 | type | Type of filter. This is name of output plugin. |
 | tag | Tag, what uses in fluentd routing. |
 | parameters | Parameters of filter. Hash. |
+| worker | Pin plugin to certain woker. It is a zero-based worker index. |
 
 ### Example
 This example creates the filter with type `record_transformer` and tag `webserver.*` which adds the `hostname` field with the server's hostname as its value:

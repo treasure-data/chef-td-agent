@@ -25,6 +25,7 @@ default_action :create
 attribute :match_name, :kind_of => String, :name_attribute => true, :required => true
 attribute :type, :kind_of => String, :required => true
 attribute :tag, :kind_of => String, :required => true
+attribute :worker, :kind_of => Integer
 attribute :parameters, :default => {}
 
 # Workaround for backward compatibility for Chef pre-13 (#99)

@@ -41,7 +41,8 @@ action :create do
 
     variables(type: new_resource.type,
               parameters: TdAgent::Helpers.params_to_text(parameters),
-              tag: new_resource.tag)
+              tag: new_resource.tag,
+              worker: new_resource.worker)
     cookbook 'td-agent'
     notifies reload_action, 'service[td-agent]'
   end
