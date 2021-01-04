@@ -43,7 +43,7 @@ include_recipe 'td-agent::default'
 
 td_agent_plugin 'gelf' do
   url 'https://raw.githubusercontent.com/emsearcy/fluent-plugin-gelf/master/lib/fluent/plugin/out_gelf.rb'
-  checksum '225837bcb6b0ae35c60fd782284942557a402135a05e4bd31844f1e3301342e5'
+  checksum '3da75ac9020ae7ce0bee10aafbb8e80df4d4e39ea99199292af21e9cb4a71a1b'
 end
 
 td_agent_gem 'fluent-plugin-gelf-hs'
@@ -55,6 +55,16 @@ td_agent_source 'test_in_tail' do
     format: 'syslog',
     path: '/var/log/syslog',
     pos_file: '/tmp/.syslog.pos',
+  )
+end
+
+td_agent_source 'test_in_tail_worker' do
+  type 'tail'
+  tag 'syslog'
+  worker 0
+  parameters(
+    format: 'syslog',
+    path: '/var/log/syslog1',
   )
 end
 
