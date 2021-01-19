@@ -42,7 +42,7 @@ end
 
 service "td-agent" do
   supports :restart => true, :reload => (reload_action == :reload), :status => true
-  restart_command "/etc/init.d/td-agent restart || /etc/init.d/td-agent start"
+  restart_command "/etc/init.d/td-agent restart || /etc/init.d/td-agent start" if major_version.to_i < 4
   action [ :enable, :start ]
 end
 
