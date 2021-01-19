@@ -51,6 +51,37 @@ class Chef
             "/usr/lib/fluent/ruby/bin/fluent-gem"
           end
         end
+
+        def gem_sources
+          srcs = [ new_resource.source ]
+          srcs << Chef::Config[:rubygems_url] if new_resource.include_default_source
+          srcs.flatten.compact
+        end
+
+        def rdoc_string
+          if major.to_i > 3
+            '--no-document'
+          else
+            '--no-rdoc --no-ri'
+          end
+        end
+
+        def install_via_gem_command(name, version)
+          src = []
+          if new_resource.source.is_a?(String) && new_resource.source =~ /\.gem$/i
+            name = new_resource.source
+          else
+            src << '--clear-sources' if new_resource.clear_sources
+            src += gem_sources.map { |s| "--source=#{s}" }
+          end
+          src_str = src.empty? ? '' : " #{src.join(' ')}"
+          if !version.nil? && !version.empty?
+            shell_out!("#{gem_binary_path} install #{name} -q #{rdoc_string} -v \"#{version}\"#{src_str}#{opts}", env: nil)
+          else
+            shell_out!("#{gem_binary_path} install \"#{name}\" -q #{rdoc_string} #{src_str}#{opts}", env: nil)
+          end
+        end
+        
       end
     end
   end
