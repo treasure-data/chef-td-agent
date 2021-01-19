@@ -134,4 +134,11 @@ package "td-agent" do
   else
     action :upgrade
   end
+  notifies :run, 'execute[td-agent-systemctl-daemon-reload]', :immediately
+  notifies :restart, 'service[td-agent]', :delayed
+end
+
+execute 'td-agent-systemctl-daemon-reload' do
+  command '/bin/systemctl daemon-reload'
+  action :nothing
 end
