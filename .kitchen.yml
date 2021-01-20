@@ -2,6 +2,11 @@
 driver:
   name: docker
   use_sudo: false
+  run_command: /lib/systemd/systemd
+  cap_add:
+    - SYS_ADMIN
+  volume:
+    - /sys/fs/cgroup
 
 provisioner:
   name: chef_zero
@@ -61,6 +66,14 @@ suites:
     attributes:
       td_agent:
         version: 3.1.0
+    driver_config:
+      require_chef_omnibus: 13.2.20
+    run_list:
+      - recipe[smoke::default]
+  - name: 4x-chef13
+    attributes:
+      td_agent:
+        version: 4.0.1
     driver_config:
       require_chef_omnibus: 13.2.20
     run_list:

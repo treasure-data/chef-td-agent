@@ -101,7 +101,7 @@ when "rhel", "amazon"
       else
         "http://packages.treasuredata.com/#{major}/redhat/$releasever/$basearch"
       end
-    when '3'
+    when '3', '4'
       if platform == "amazon"
       amazon_version = node['kernel']['release'].match(/\.amzn([[:digit:]]+)\./)[1]
         "https://packages.treasuredata.com/#{major}/amazon/#{amazon_version}/#{node["td_agent"]["yum_amazon_releasever"]}/$basearch"
@@ -134,4 +134,11 @@ package "td-agent" do
   else
     action :upgrade
   end
+  notifies :run, 'execute[td-agent-systemctl-daemon-reload]', :immediately
+  notifies :restart, 'service[td-agent]', :delayed
+end
+
+execute 'td-agent-systemctl-daemon-reload' do
+  command '/bin/systemctl daemon-reload'
+  action :nothing
 end
