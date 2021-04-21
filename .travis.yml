@@ -25,6 +25,7 @@ env:
 #   - TEST_INSTANCE=3x-chef13-centos-centos6
     - TEST_INSTANCE=3x-chef13-centos-centos7
     - TEST_INSTANCE=4x-chef13-centos-centos7
+    - TEST_INSTANCE=4x-chef16-centos-centos7
 
 script:
   - |
