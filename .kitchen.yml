@@ -10,6 +10,7 @@ driver:
 
 provisioner:
   name: chef_zero
+  product_name: chef
   log_level: info
   deprecations_as_errors: true
 
@@ -59,22 +60,38 @@ suites:
       td_agent:
         version: 2.2.0
     driver_config:
-      require_chef_omnibus: 13.2.20
+      require_chef_omnibus: false
+      chef_omnibus_root: /opt/chef
+      provision_command: curl -L https://omnitruck.chef.io/install.sh | bash -s -- -v 13.12.14
+    provisioner:
+      install_strategy: skip
     run_list:
       - recipe[smoke::default]
+
   - name: 3x-chef13
     attributes:
       td_agent:
         version: 3.1.0
     driver_config:
-      require_chef_omnibus: 13.2.20
+      require_chef_omnibus: false
+      chef_omnibus_root: /opt/chef
+      provision_command: curl -L https://omnitruck.chef.io/install.sh | bash -s -- -v 13.12.14
+    provisioner:
+      install_strategy: skip
     run_list:
       - recipe[smoke::default]
+
   - name: 4x-chef13
     attributes:
       td_agent:
         version: 4.0.1
     driver_config:
-      require_chef_omnibus: 13.2.20
+      require_chef_omnibus: false
+      chef_omnibus_root: /opt/chef
+      provision_command:
+        - curl -L https://omnitruck.chef.io/install.sh | bash -s -- -v 13.12.14
+        - /opt/chef/embedded/bin/gem install bundler:2.1.4
+    provisioner:
+      install_strategy: skip
     run_list:
       - recipe[smoke::default]
