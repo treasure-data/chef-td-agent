@@ -27,7 +27,7 @@ platforms:
   - name: centos-centos7
     driver_config:
       platform: centos
-      image: centos:centos7
+      image: mirror.gcr.io/library/centos:7
 
 suites:
 # - name: 1x-chef12
