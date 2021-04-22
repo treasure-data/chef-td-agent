@@ -66,6 +66,10 @@ describe file('/etc/td-agent/plugin/gelf.rb') do
   it { should be_mode 644 }
 end
 
+describe command('/opt/td-agent/bin/gem list -i -e -q --silent fluent-plugin-secure-forward') do
+  its(:exit_status) { should eq 0 }
+end
+
 describe command('td-agent --dry-run') do
   its(:exit_status) { should eq 0 }
 end
