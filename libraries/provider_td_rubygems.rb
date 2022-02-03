@@ -25,6 +25,9 @@ class Chef
       class TdRubygems < Chef::Provider::Package::Rubygems
 
         class TdGemEnvironment < AlternateGemEnvironment
+          def rubygems_version
+            Gem::VERSION
+          end
         end
 
         def initialize(new_resource, run_context = nil)
@@ -38,6 +41,39 @@ class Chef
 
         def td_plugin_name
           "fluent-plugin-#{@new_resource.package_name}" 
+        end
+
+        def rubygems_version
+            shell_out!("#{gem_binary_path} --version").stdout.chomp
+        end
+
+        def install_via_gem_command(name, version)
+          Chef::Log.debug("Using #{rdoc_string}")
+          if @new_resource.source =~ /\.gem$/i
+            name = @new_resource.source
+          elsif @new_resource.clear_sources
+            src = " --clear-sources"
+            src << (@new_resource.source && " --source=#{@new_resource.source}" || "")
+          else
+            src = @new_resource.source && " --source=#{@new_resource.source} --source=#{Chef::Config[:rubygems_url]}"
+          end
+          if !version.nil? && version.length > 0
+            shell_out_with_timeout!("#{gem_binary_path} install #{name} -q #{rdoc_string} -v \"#{version}\"#{src}#{opts}", :env => nil)
+          else
+            shell_out_with_timeout!("#{gem_binary_path} install \"#{name}\" -q #{rdoc_string} #{src}#{opts}", :env => nil)
+          end
+        end
+
+        def rdoc_string
+          if needs_nodocument?
+            "--no-document"
+          else
+            "--no-rdoc --no-ri"
+          end
+        end
+
+        def needs_nodocument?
+          Gem::Requirement.new(">= 3.0.0.beta1").satisfied_by?(Gem::Version.new(rubygems_version))
         end
 
         def td_gem_binary_path
