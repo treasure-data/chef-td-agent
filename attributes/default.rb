@@ -25,3 +25,6 @@ default["td_agent"]["in_http"] = {
 }
 default["td_agent"]["yum_amazon_releasever"] = "$releasever"
 default['td_agent']['skip_repository'] = false
+if node["td_agent"]["version"].to_i < 4
+  default["td_agent"]["restart_command"] = "sudo /etc/init.d/td-agent restart || sudo /etc/init.d/td-agent start"
+end
